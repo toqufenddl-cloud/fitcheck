@@ -1,0 +1,14 @@
+# Python 3.12 / 가상환경 C:/Users/1/.venvs/aba-finance
+# 직접 사용하는 패키지만 현재 버전으로 고정 (2026-11-10)
+pandas==3.1.1
+numpy==2.5.4
+matplotlib==3.11.2
+seaborn==0.13.2
+scikit-learn==1.9.1
+jupyter==1.1.1
+ipykernel==7.4.0
+nbformat==5.11.1
+nbclient==0.11.0
+nbconvert==7.17.2
+olefile==0.47
+nbstripout==0.9.1
