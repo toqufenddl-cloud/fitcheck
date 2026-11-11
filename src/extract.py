@@ -149,13 +149,14 @@ def _has_grade_word(seg: str, suffix: bool) -> bool:
     return bool(_GRADE_ANY.search(seg) or (suffix and re.search(r"등급\s*(?:은|는|이|:)?\s*[1-6](?![\d개년월%.])", seg)))
 
 
-def parse_allowed_grades(cot2: str):
+def parse_allowed_grades(cot2: str, with_text: bool = False):
     """cot2에서 '허용 위험등급' 집합을 뽑는다.
 
-    반환: (등급 집합 또는 None, 근거 종류)
+    반환: (등급 집합 또는 None, 근거 종류). with_text=True이면 (집합, 근거 종류, 근거 원문 리스트).
     근거 종류 (우선순위 순서):
     - '범위·목록': 2개 이상 등급을 나타내는 표현이 있음. 예) 2~6등급, 2,~6등급, 2～6, 2등급부터 6등급까지,
-      1에서 6까지, 2·3·4·5·6등급, 허용 위험등급: 3, 4, 5, 6
+      1에서 6까지, 2·3·4·5·6등급, 허용 위험등급: 3, 4, 5, 6,
+      보통 위험(4등급), 낮은 위험(5등급), 매우 낮은 위험(6등급)  <- 'N등급'이 쉼표로 이어지는 목록 (2026-11-11 추가)
     - '까지 해석': 범위·목록이 없고 'N등급(…)까지'만 있음 → N~6으로 펼친다
       (등급 숫자가 클수록 위험이 낮으므로 'N등급까지 허용'을 N보다 낮은 위험 전체로 읽은 것. 해석이 들어간다)
     - '이상·이하 해석': 'N등급 이상/이하'만 있음 → 숫자 기준 N~6 / 1~N (방향 해석이 들어간다)
@@ -163,6 +164,9 @@ def parse_allowed_grades(cot2: str):
     - '실패': 숫자 등급 표현이 없음 → None
     애매한 경우 처리:
     - 범위·목록 표현은 숫자 앞뒤 12자 안에 '등급'이 있을 때만 인정한다 (수익률·기간 숫자 제외).
+    - 'N등급' 쉼표 목록은 원소 사이에 12자 이하의 짧은 말(괄호, '낮은 위험' 등)만 허용한다.
+      따옴표가 끼면 상품명 사이로 보고 목록으로 잇지 않는다. 그래도 "A는 2등급, B는 3등급"처럼
+      상품별 등급 나열이 목록으로 잡힐 수 있다.
     - 범위·목록 표현이 여러 개면 합집합으로 둔다. 서로 다르면 근거 종류에 '(여러 개 다름)'을 붙인다.
     - 범위·목록이 있으면 같은 cot2의 단일 등급(예: '2등급 상품을 추천')은 허용 집합에 넣지 않는다.
     """
@@ -174,7 +178,10 @@ def parse_allowed_grades(cot2: str):
     def near_grade(m):
         return "등급" in t[max(0, m.start() - 12): m.end() + 12]
 
-    ranges = []
+    def done(grades, kind, texts):
+        return (grades, kind, texts) if with_text else (grades, kind)
+
+    ranges, texts = [], []
     range_pat = (r"([1-6])\s*(?:등급)?(?:\s*\([^)]{0,12}\))?\s*(?:~|-|부터|에서)\s*([1-6])" + tail +
                  r"\s*(?:등급)?")
     for m in re.finditer(range_pat, t):
@@ -182,27 +189,36 @@ def parse_allowed_grades(cot2: str):
             a, b = int(m.group(1)), int(m.group(2))
             if a != b:
                 ranges.append(frozenset(range(min(a, b), max(a, b) + 1)))
+                texts.append(m.group(0))
     masked = re.sub(range_pat, lambda m: "#" * len(m.group(0)) if near_grade(m) else m.group(0), t)
     list_pat = (r"[1-6](?:\s*등급)?(?:\s*(?:[·ㆍ,/]|및|와|과|또는)\s*·?\s*[1-6]" + tail + r"(?:\s*등급)?)+")
     for m in re.finditer(list_pat, masked):
         if near_grade(m):
             ranges.append(frozenset(int(d) for d in re.findall(r"[1-6]", m.group(0))))
+            texts.append(m.group(0))
+    masked = re.sub(list_pat, lambda m: "#" * len(m.group(0)) if near_grade(m) else m.group(0), masked)
+    # 'N등급'이 쉼표로 이어지고 사이에 짧은 말이 낀 목록: 보통 위험(4등급), 낮은 위험(5등급), …
+    list_pat2 = r"[1-6]\s*등급\)?(?:\s*,\s*[^,.\d\"“”]{0,12}?\(?\s*[1-6]\s*등급\)?)+"
+    for m in re.finditer(list_pat2, masked):
+        ranges.append(frozenset(int(d) for d in re.findall(r"([1-6])\s*등급", m.group(0))))
+        texts.append(m.group(0))
 
     if ranges:
         kind = "범위·목록" + (" (여러 개 다름)" if len(set(ranges)) > 1 else "")
-        return frozenset().union(*ranges), kind
-    m = re.findall(r"([1-6])\s*등급[^.]{0,15}?까지", t)
-    if m:
-        return frozenset().union(*[frozenset(range(int(n), 7)) for n in m]), "까지 해석"
-    m = re.findall(r"([1-6])\s*등급\s*(이상|이하)", t)
-    if m:
-        return frozenset().union(*[frozenset(range(int(n), 7)) if op == "이상" else frozenset(range(1, int(n) + 1))
-                                   for n, op in m]), "이상·이하 해석"
-    singles = {int(x) for x in re.findall(r"([1-6])\s*등급", t)}
-    singles |= {int(x) for x in re.findall(r"등급\s*(?:은|는|이|:)?\s*([1-6])" + tail, t)}
-    if singles:
-        return frozenset(singles), "단일 등급만"
-    return None, "실패"
+        return done(frozenset().union(*ranges), kind, texts)
+    ms = list(re.finditer(r"([1-6])\s*등급[^.]{0,15}?까지", t))
+    if ms:
+        return done(frozenset().union(*[frozenset(range(int(m.group(1)), 7)) for m in ms]), "까지 해석",
+                    [m.group(0) for m in ms])
+    ms = list(re.finditer(r"([1-6])\s*등급\s*(이상|이하)", t))
+    if ms:
+        return done(frozenset().union(*[frozenset(range(int(m.group(1)), 7)) if m.group(2) == "이상"
+                                         else frozenset(range(1, int(m.group(1)) + 1)) for m in ms]),
+                    "이상·이하 해석", [m.group(0) for m in ms])
+    ms = list(re.finditer(r"([1-6])\s*등급", t)) + list(re.finditer(r"등급\s*(?:은|는|이|:)?\s*([1-6])" + tail, t))
+    if ms:
+        return done(frozenset(int(m.group(1)) for m in ms), "단일 등급만", [m.group(0) for m in ms])
+    return done(None, "실패", [])
 
 
 _CHAIN_GAP = 8  # 상품명 사이 간격이 이 글자 수 이하면 '함께 나열된 상품'으로 본다 (예: "A"와 "B"는)
@@ -217,15 +233,37 @@ def _find_all(text: str, name: str) -> list:
     return spans
 
 
-def grade_after_name(text: str, name: str, other_names: list, suffix: bool = True) -> tuple[str, float]:
-    """text(cot3 등)에서 상품명 뒤에 적힌 단일 위험등급을 뽑는다.
+def _segments_after_name(text: str, name: str, other_names: list):
+    """상품명 뒤 구간 목록. 상품명이 없으면 None.
 
-    구간 정하기:
+    구간 정하기 (grade_after_name, risk_mention_after_name 공통):
     - 상품명이 나온 위치의 끝에서 시작한다.
     - 바로 뒤(8자 이내)에 목록의 다른 상품명이 이어지면 함께 나열된 것으로 보고 건너뛴다.
       예: "A"와 "B"는 모두 4등급 → A의 구간은 B 뒤부터 이어진다.
     - 그다음 나오는 목록의 다른 상품명 앞(없으면 텍스트 끝)에서 끝난다.
-    - 상품명이 여러 번 나오면 등장 순서대로 보고, 처음으로 등급이 추출되는 구간을 쓴다.
+    - 상품명이 여러 번 나오면 등장 순서대로 구간을 모두 돌려준다.
+    """
+    text = str(text)
+    spans = _find_all(text, name)
+    if not spans:
+        return None
+    others = [s for o in other_names if o != name for s in _find_all(text, o)]
+    segs = []
+    for _, end in spans:
+        moved = True
+        while moved:
+            moved = False
+            for s, e in others:
+                if end <= s <= end + _CHAIN_GAP and e > end:
+                    end, moved = e, True
+        nxt = min([s for s, _ in others if s >= end] + [len(text)])
+        segs.append(text[end:nxt])
+    return segs
+
+
+def grade_after_name(text: str, name: str, other_names: list, suffix: bool = True) -> tuple[str, float]:
+    """text(cot3 등)에서 상품명 뒤에 적힌 단일 위험등급을 뽑는다. (구간은 _segments_after_name 참고)
+
     반환: (상태, 등급)
     - '추출': 구간에서 범위 표현을 제외한 첫 단일 등급 ('N등급', suffix=True이면 '등급 N'도)
     - '상품명 없음': 텍스트에 상품명이 없음 (정확 일치, 실패 시 공백 무시 비교)
@@ -236,24 +274,13 @@ def grade_after_name(text: str, name: str, other_names: list, suffix: bool = Tru
     - 범위 표현(N~M, N·M, N 이상/이하)은 상품의 등급이 아니라 허용 범위일 수 있어 제외한다.
     - 구간 안의 첫 단일 등급을 그 상품의 등급으로 본다. 다른 맥락의 등급일 가능성은 남는다.
     - 함께 나열된 상품은 같은 등급 표현을 공유한다 ("모두 4등급"인지 "각각"인지 구분하지 않는다).
+    - 상품명이 여러 번 나오면 처음으로 등급이 추출되는 구간을 쓴다.
     """
-    text = str(text)
-    spans = _find_all(text, name)
-    if not spans:
+    segs = _segments_after_name(text, name, other_names)
+    if segs is None:
         return "상품명 없음", np.nan
-
-    others = [s for o in other_names if o != name for s in _find_all(text, o)]
     saw_grade_word = False
-    for _, end in spans:
-        # 바로 이어서 나열된 다른 상품명 건너뛰기
-        moved = True
-        while moved:
-            moved = False
-            for s, e in others:
-                if end <= s <= end + _CHAIN_GAP and e > end:
-                    end, moved = e, True
-        nxt = min([s for s, _ in others if s >= end] + [len(text)])
-        seg = text[end:nxt]
+    for seg in segs:
         if not _has_grade_word(seg, suffix):
             continue
         saw_grade_word = True
@@ -261,6 +288,28 @@ def grade_after_name(text: str, name: str, other_names: list, suffix: bool = Tru
         if g is not None:
             return "추출", g
     return ("있지만 추출 실패" if saw_grade_word else "등급 표현 없음"), np.nan
+
+
+# 위험등급 공식 명칭 (공백 유무 모두 인식). 긴 이름을 먼저 둬서 '높은위험'이 '매우높은위험' 안에서 먼저 잡히지 않게 한다
+RISK_LABELS = ["매우높은위험", "다소높은위험", "매우낮은위험", "높은위험", "보통위험", "낮은위험"]
+_LABEL_RE = re.compile("|".join(r"\s*".join(lbl) for lbl in RISK_LABELS))
+
+
+def risk_mention_after_name(text: str, name: str, other_names: list) -> str:
+    """D19 기준용: 상품명 뒤 구간에 숫자 위험등급 또는 공식 위험 명칭이 있는지.
+
+    반환: '숫자 등급' / '공식 명칭' / '둘 다' / '없음' / '상품명 없음'
+    애매한 경우 처리:
+    - 숫자 등급은 grade_after_name과 같은 방식(범위·목록 표현 제외)으로 찾는다.
+    - 공식 명칭은 '매우 높은 위험'처럼 띄어 쓴 경우도 인정한다. 다른 상품을 설명하는 명칭일 가능성은 남는다.
+    - 상품명이 여러 번 나오면 어느 구간에든 있으면 있다고 본다.
+    """
+    segs = _segments_after_name(text, name, other_names)
+    if segs is None:
+        return "상품명 없음"
+    num = any(_first_single_grade(seg, True) is not None for seg in segs)
+    lab = any(_LABEL_RE.search(seg) for seg in segs)
+    return "둘 다" if num and lab else ("숫자 등급" if num else ("공식 명칭" if lab else "없음"))
 
 
 # ---------------------------------------------------------------------------
