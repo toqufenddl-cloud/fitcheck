@@ -112,40 +112,97 @@ _RANGE_PATTERNS = [
 ]
 _GRADE_ANY = re.compile(r"[1-6]\s*등급")
 
+# 숫자가 '등급' 뒤에 오는 표기 (예: '위험등급 2의', '등급 3', '위험등급은 4')
+# 애매한 경우 처리: 숫자 뒤에 숫자·개·년·월·%·.·~가 붙으면 등급이 아닌 다른 숫자로 보고 제외한다.
+_NOT_GRADE_TAIL = r"(?![\d개년월%.~∼])"
+_GRADE_SUFFIX = re.compile(r"등급\s*(?:은|는|이|:)?\s*([1-6])" + _NOT_GRADE_TAIL)
+_RANGE_PATTERNS_SUFFIX = [
+    r"등급\s*(?:은|는|이|:)?\s*[1-6]\s*[~∼〜\-–]\s*[1-6]",                                # 등급 2~6
+    r"등급\s*(?:은|는|이|:)?\s*[1-6](?:\s*(?:[·ㆍ,/]|및|와|과|또는)\s*[1-6]" + _NOT_GRADE_TAIL + ")+",  # 등급 2, 3
+    r"등급\s*(?:은|는|이|:)?\s*[1-6]\s*(?:이상|이하|까지|부터|초과|미만|이내)",              # 등급 2 이상
+]
 
-def _mask_ranges(text: str) -> str:
+
+def _mask_ranges(text: str, suffix: bool = False) -> str:
     """범위·목록 표현을 '#'로 덮어서 단일 등급 검색에서 빠지게 한다."""
-    for p in _RANGE_PATTERNS:
+    for p in _RANGE_PATTERNS + (_RANGE_PATTERNS_SUFFIX if suffix else []):
         text = re.sub(p, lambda m: "#" * len(m.group(0)), text)
     return text
 
 
+def _first_single_grade(seg: str, suffix: bool):
+    """구간에서 범위 표현을 뺀 뒤 가장 먼저 나오는 단일 등급 숫자. 없으면 None."""
+    masked = _mask_ranges(seg, suffix)
+    cands = []
+    m = _GRADE_ANY.search(masked)
+    if m:
+        cands.append((m.start(), int(re.match(r"([1-6])", m.group(0)).group(1))))
+    if suffix:
+        m = _GRADE_SUFFIX.search(masked)
+        if m:
+            cands.append((m.start(), int(m.group(1))))
+    return float(min(cands)[1]) if cands else None
+
+
+def _has_grade_word(seg: str, suffix: bool) -> bool:
+    # '등급 N' 뒤에 개·년·월·%·.이 붙으면 등급 표현으로 세지 않는다 (예: '신용등급 1년')
+    return bool(_GRADE_ANY.search(seg) or (suffix and re.search(r"등급\s*(?:은|는|이|:)?\s*[1-6](?![\d개년월%.])", seg)))
+
+
 def parse_allowed_grades(cot2: str):
-    """cot2에서 '허용 위험등급' 집합을 뽑는다 (범위·목록 표현을 펼친다).
+    """cot2에서 '허용 위험등급' 집합을 뽑는다.
 
-    방법: '허용·범위·투자할 수·가능·포함' 중 하나가 들어 있는 문장에서 등급 표현을 모은다.
-    - 'N~M등급' → N..M, 'N·M·K등급' / 'N등급, M등급' → {N, M, K}, 단일 'N등급' → {N}
-    - 'N등급 이상/이하'는 각각 N..6 / 1..N 으로 펼친다.
+    반환: (등급 집합 또는 None, 근거 종류)
+    근거 종류 (우선순위 순서):
+    - '범위·목록': 2개 이상 등급을 나타내는 표현이 있음. 예) 2~6등급, 2,~6등급, 2～6, 2등급부터 6등급까지,
+      1에서 6까지, 2·3·4·5·6등급, 허용 위험등급: 3, 4, 5, 6
+    - '까지 해석': 범위·목록이 없고 'N등급(…)까지'만 있음 → N~6으로 펼친다
+      (등급 숫자가 클수록 위험이 낮으므로 'N등급까지 허용'을 N보다 낮은 위험 전체로 읽은 것. 해석이 들어간다)
+    - '이상·이하 해석': 'N등급 이상/이하'만 있음 → 숫자 기준 N~6 / 1~N (방향 해석이 들어간다)
+    - '단일 등급만': 단일 'N등급'만 있음 → 그 등급들의 집합
+    - '실패': 숫자 등급 표현이 없음 → None
     애매한 경우 처리:
-    - 키워드 문장이 없으면 cot2 전체에서 모은다 (source='전체').
-    - 등급 표현이 하나도 없으면 None (추출 실패).
-    - 서로 다른 범위가 여러 번 나오면 합집합으로 둔다 (어느 것이 '최종'인지 판단하지 않는다).
+    - 범위·목록 표현은 숫자 앞뒤 12자 안에 '등급'이 있을 때만 인정한다 (수익률·기간 숫자 제외).
+    - 범위·목록 표현이 여러 개면 합집합으로 둔다. 서로 다르면 근거 종류에 '(여러 개 다름)'을 붙인다.
+    - 범위·목록이 있으면 같은 cot2의 단일 등급(예: '2등급 상품을 추천')은 허용 집합에 넣지 않는다.
     """
-    sents = re.split(r"(?<=[.!?])\s+|\n", str(cot2))
-    key = [s for s in sents if re.search(r"허용|범위|투자할 수|가능|포함", s)]
-    source = "키워드 문장" if key and any(_GRADE_ANY.search(s) for s in key) else "전체"
-    text = " ".join(key) if source == "키워드 문장" else str(cot2)
+    t = str(cot2)
+    t = re.sub(r"[～∼〜–]", "~", t)
+    t = re.sub(r",\s*~", "~", t)                      # '2,~6' → '2~6'
+    tail = r"(?!\s*[\d년개월%])"                       # '1년', '6개월' 같은 숫자 제외
 
-    grades = set()
-    for a, b in re.findall(r"([1-6])\s*(?:등급)?\s*[~∼〜\-–]\s*([1-6])\s*등급", text):
-        grades |= set(range(min(int(a), int(b)), max(int(a), int(b)) + 1))
-    for n, op in re.findall(r"([1-6])\s*등급\s*(이상|이하)", text):
-        grades |= set(range(int(n), 7)) if op == "이상" else set(range(1, int(n) + 1))
-    # 나머지 숫자 등급 (목록·단일)
-    rest = re.sub(r"[1-6]\s*(?:등급)?\s*[~∼〜\-–]\s*[1-6]\s*등급|[1-6]\s*등급\s*(?:이상|이하)", " ", text)
-    for m in re.finditer(r"[1-6](?:\s*(?:등급)?\s*(?:[·ㆍ,/]|및|와|과|또는)\s*[1-6])*\s*등급", rest):
-        grades |= {int(d) for d in re.findall(r"[1-6]", m.group(0))}
-    return (frozenset(grades), source) if grades else (None, source)
+    def near_grade(m):
+        return "등급" in t[max(0, m.start() - 12): m.end() + 12]
+
+    ranges = []
+    range_pat = (r"([1-6])\s*(?:등급)?(?:\s*\([^)]{0,12}\))?\s*(?:~|-|부터|에서)\s*([1-6])" + tail +
+                 r"\s*(?:등급)?")
+    for m in re.finditer(range_pat, t):
+        if near_grade(m):
+            a, b = int(m.group(1)), int(m.group(2))
+            if a != b:
+                ranges.append(frozenset(range(min(a, b), max(a, b) + 1)))
+    masked = re.sub(range_pat, lambda m: "#" * len(m.group(0)) if near_grade(m) else m.group(0), t)
+    list_pat = (r"[1-6](?:\s*등급)?(?:\s*(?:[·ㆍ,/]|및|와|과|또는)\s*·?\s*[1-6]" + tail + r"(?:\s*등급)?)+")
+    for m in re.finditer(list_pat, masked):
+        if near_grade(m):
+            ranges.append(frozenset(int(d) for d in re.findall(r"[1-6]", m.group(0))))
+
+    if ranges:
+        kind = "범위·목록" + (" (여러 개 다름)" if len(set(ranges)) > 1 else "")
+        return frozenset().union(*ranges), kind
+    m = re.findall(r"([1-6])\s*등급[^.]{0,15}?까지", t)
+    if m:
+        return frozenset().union(*[frozenset(range(int(n), 7)) for n in m]), "까지 해석"
+    m = re.findall(r"([1-6])\s*등급\s*(이상|이하)", t)
+    if m:
+        return frozenset().union(*[frozenset(range(int(n), 7)) if op == "이상" else frozenset(range(1, int(n) + 1))
+                                   for n, op in m]), "이상·이하 해석"
+    singles = {int(x) for x in re.findall(r"([1-6])\s*등급", t)}
+    singles |= {int(x) for x in re.findall(r"등급\s*(?:은|는|이|:)?\s*([1-6])" + tail, t)}
+    if singles:
+        return frozenset(singles), "단일 등급만"
+    return None, "실패"
 
 
 _CHAIN_GAP = 8  # 상품명 사이 간격이 이 글자 수 이하면 '함께 나열된 상품'으로 본다 (예: "A"와 "B"는)
@@ -160,7 +217,7 @@ def _find_all(text: str, name: str) -> list:
     return spans
 
 
-def grade_after_name(text: str, name: str, other_names: list) -> tuple[str, float]:
+def grade_after_name(text: str, name: str, other_names: list, suffix: bool = True) -> tuple[str, float]:
     """text(cot3 등)에서 상품명 뒤에 적힌 단일 위험등급을 뽑는다.
 
     구간 정하기:
@@ -170,10 +227,11 @@ def grade_after_name(text: str, name: str, other_names: list) -> tuple[str, floa
     - 그다음 나오는 목록의 다른 상품명 앞(없으면 텍스트 끝)에서 끝난다.
     - 상품명이 여러 번 나오면 등장 순서대로 보고, 처음으로 등급이 추출되는 구간을 쓴다.
     반환: (상태, 등급)
-    - '추출': 구간에서 범위 표현을 제외한 첫 단일 'N등급'
+    - '추출': 구간에서 범위 표현을 제외한 첫 단일 등급 ('N등급', suffix=True이면 '등급 N'도)
     - '상품명 없음': 텍스트에 상품명이 없음 (정확 일치, 실패 시 공백 무시 비교)
-    - '등급 표현 없음': 어느 구간에도 'N등급'이 전혀 없음
-    - '있지만 추출 실패': 'N등급'은 있으나 모두 범위·목록 표현
+    - '등급 표현 없음': 어느 구간에도 숫자 등급 표현이 전혀 없음
+    - '있지만 추출 실패': 등급 표현은 있으나 모두 범위·목록 표현
+    suffix=False로 두면 'N등급' 표기만 인식한다 (수정 전 방식, 비교용).
     애매한 경우 처리:
     - 범위 표현(N~M, N·M, N 이상/이하)은 상품의 등급이 아니라 허용 범위일 수 있어 제외한다.
     - 구간 안의 첫 단일 등급을 그 상품의 등급으로 본다. 다른 맥락의 등급일 가능성은 남는다.
@@ -196,12 +254,12 @@ def grade_after_name(text: str, name: str, other_names: list) -> tuple[str, floa
                     end, moved = e, True
         nxt = min([s for s, _ in others if s >= end] + [len(text)])
         seg = text[end:nxt]
-        if not _GRADE_ANY.search(seg):
+        if not _has_grade_word(seg, suffix):
             continue
         saw_grade_word = True
-        m = _GRADE_ANY.search(_mask_ranges(seg))
-        if m:
-            return "추출", float(re.match(r"([1-6])", m.group(0)).group(1))
+        g = _first_single_grade(seg, suffix)
+        if g is not None:
+            return "추출", g
     return ("있지만 추출 실패" if saw_grade_word else "등급 표현 없음"), np.nan
 
 
