@@ -15,14 +15,16 @@ CLASS_CODE = {
 }
 
 D52_REASON = "원천 등급 과소 기재(베트남 레버리지)"
+D30_REASON = "넓은 허용 범위의 완화 등급 실제 추천(안정추구형 4등급·위험중립형 3등급)"
 
 
-def build_exclusions(review: pd.DataFrame, d52_ids: list, split_of: pd.Series) -> pd.DataFrame:
-    """범위밖_분류표와 D52 목록으로 엄격본 제외 목록을 만든다.
+def build_exclusions(review: pd.DataFrame, d52_ids: list, split_of: pd.Series, d30_ids: list = ()) -> pd.DataFrame:
+    """범위밖_분류표, D52 목록, D30 목록으로 엄격본 제외 목록을 만든다.
 
     입력
     - review: 범위밖_분류표 (cot_id, 판단, 처리, 내 분류)
     - d52_ids: D52 베트남 레버리지 추천 CoT의 cot_id
+    - d30_ids: D30 제외 CoT의 cot_id (교정 전 원본 cot2 기준 넓은 범위 + 완화 등급 실제 추천, 308건)
     - split_of: cot_id → 분할(Training/Validation)
     반환: cot_id, 분할, 제외 사유, 근거 결정, 출처 (cot_id 순)
 
@@ -53,6 +55,8 @@ def build_exclusions(review: pd.DataFrame, d52_ids: list, split_of: pd.Series) -
         rows.append({"cot_id": x["cot_id"], "제외 사유": reason, "근거 결정": ", ".join(basis), "출처": "범위밖_분류표"})
     for c in d52_ids:
         rows.append({"cot_id": int(c), "제외 사유": D52_REASON, "근거 결정": "D52", "출처": "D52"})
+    for c in d30_ids:
+        rows.append({"cot_id": int(c), "제외 사유": D30_REASON, "근거 결정": "D30", "출처": "D30"})
 
     df = pd.DataFrame(rows)
     out = (df.groupby("cot_id", sort=True)

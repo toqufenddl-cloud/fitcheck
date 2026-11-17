@@ -29,6 +29,47 @@ def grade_num(risk_grade) -> float:
     return float(m.group(1)) if m else np.nan
 
 
+_BODY_CLASSIFY = re.compile(r"\(?([1-6])\)?등급((?:\([^()]*\))?)\)?으로분류")
+_BODY_LABELED = re.compile(r"([1-6])등급\((?:매우)?(?:높은|낮은|다소높은|보통)위험\)(?!에서|부터|~|까지)")
+
+
+def body_grade(text):
+    """상품 설명(investment_strategy) 속 운용사 위험등급을 꺼낸다 (H2).
+
+    반환: 등급 숫자(int) / '본문 등급 없음' / '본문 등급 복수'
+
+    - 공백·줄바꿈을 모두 지운 뒤 찾는다 (원천 설명에 '분\\n류'처럼 단어 중간 줄바꿈이 있다).
+    - 1순위: 운용사 분류 문장 'N등급으로 분류'. 아래 변형을 함께 인정한다.
+      '(N)등급으로 분류', 'N 등급(보통 위험)으로 분류', 'N등급)으로 분류'(괄호 짝 오류),
+      'N등급(운용전환일 이후 M등급)으로 분류'(괄호 안 등급도 함께 센다).
+    - 2순위(1순위가 없을 때만): 공식 명칭이 붙은 'N등급(매우높은위험)' 표기.
+      단 'N등급(…위험)에서/부터/~/까지'처럼 등급 체계를 설명하는 표기는 뺀다.
+    - 확인했지만 넣지 않은 패턴: '제N등급'(0건), 'N등급에 해당하나'(변동성 기준 설명), 'A~E의 N등급으로 평가'(신용등급).
+
+    애매한 경우 처리
+    - 찾은 등급 값이 둘 이상이면(예: 운용전환 전후 등급이 다름) '본문 등급 복수'로 두고 비교하지 않는다.
+    - 하나도 없으면 '본문 등급 없음'.
+    """
+    s = re.sub(r"\s+", "", str(text))
+    grades = set()
+    for g, par in _BODY_CLASSIFY.findall(s):
+        grades.add(int(g))
+        grades |= {int(x) for x in re.findall(r"([1-6])등급", par)}
+    if not grades:
+        grades = {int(x) for x in _BODY_LABELED.findall(s)}
+    if not grades:
+        return "본문 등급 없음"
+    return grades.pop() if len(grades) == 1 else "본문 등급 복수"
+
+
+def body_grade_old(text):
+    """보완 전 H2 규칙 (비교용): 'N등급으로 분류'만 본다 (공백 허용, 줄바꿈·괄호 숫자 미인정)."""
+    gs = set(re.findall(r"([1-6])\s*등급\s*으로\s*분류", str(text)))
+    if not gs:
+        return "본문 등급 없음"
+    return int(gs.pop()) if len(gs) == 1 else "본문 등급 복수"
+
+
 def build_product_index(prod: pd.DataFrame) -> dict:
     """D10 매칭에 쓸 이름 → 상품 키(file_name) 사전을 만든다.
 
