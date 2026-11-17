@@ -1,0 +1,27 @@
+rule_id,기준,우선순위,조건,판정,처리,사유 코드,근거 결정,시행일,출처 문서
+R3-HUMAN,③,10,human_review(처리=제외|엄격본 제외),범위 밖(사람 판정),제외,@내 분류,D47,2026-11-13,data/review/범위밖_분류표.csv
+R3-D52,③,20,recommends(상품=NH-Amundi 베트남 레버리지),범위 밖(원천 등급 반영),제외,원천 등급 과소 기재,D52,2026-11-16,sources 8 (NH-Amundi 펀드 페이지)
+R3-D30,③,30,wide_range_relaxed_grade(),범위 밖,제외,D30 완화 등급 추천,D30,2026-11-12,한국투자증권 투자권유준칙 제6조①
+R3-D55-3,③,40,out_of_range() & cot2_propensity(값=복수),범위 밖,제외,3,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
+R3-D55-N,③,41,out_of_range() & cot2_propensity(값=없음),범위 밖,제외,성향 누락,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
+R3-D55-4,③,42,out_of_range() & range_mismatch(),범위 밖,제외,4,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
+R3-D55-2,③,43,out_of_range(),범위 밖,제외,2,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
+R3-NA-P,③,90,no_propensity(),판정 불가(성향),,,D21,2026-11-12,
+R3-NA-G,③,91,no_graded_rec(),판정 불가(등급 없음),,,D10,2026-11-11,
+R3-IN,③,99,always(),범위 안,,,D43,2026-11-12,
+R3-D30-TAG,③태그,10,wide_range_only(),공개 기준 대비 완화된 허용 범위,태그,,D30,2026-11-12,한국투자증권 투자권유준칙 제6조①
+R4-D19-NA,④,10,d19_level(값=판정 불가),판정 불가(추천 상품 없음),,,D34,2026-11-12,
+R4-D19-ALL,④,20,d19_level(값=전부 충족),전부 기재,,,D19,2026-11-11,
+R4-D19-PART,④,30,d19_level(값=일부),일부 기재,태그,answer 위험등급 일부 미기재,D19,2026-11-11,
+R4-D19-NONE,④,40,d19_level(값=전무),기재 없음,태그,answer 위험등급 미기재,D19,2026-11-11,
+SRC-D51,원천,10,recommends_mismatch_product(),원천 확인 필요,표시,,D51,2026-11-17,상품 설명 속 운용사 등급(body_grade)
+SRC-D51-MULTI,원천,20,recommends_multi_grade_product(),원천 등급 복수,표시,,D51,2026-11-17,상품 설명 속 운용사 등급(body_grade)
+SRC-NONE,원천,99,always(),해당 없음,,,D51,2026-11-17,
+TR-NONE,이관,10,transfer_class(값=언급 없음),언급 없음,,,D50,2026-11-16,
+TR-DEFECT,이관,20,transfer_outcome(값=결함),결함,태그,성향 밖 언급 등급 직접 추천·이관 없음,D50·D56,2026-11-17,한국투자증권 투자권유준칙 제6조③
+TR-HUMAN,이관,30,transfer_outcome(값=사람 확인),사람 확인,,,D50·D56,2026-11-17,
+TR-OK,이관,99,always(),해당 없음,,,D50,2026-11-16,
+FIX-LOG,교정,10,in_corrections_log(),교정됨,교정,,D38·D46,2026-11-13,outputs/corrections_log.csv
+TAG-FILE,기록 태그,10,in_tags_file(),태그 있음,태그,,D46·D48·D52,2026-11-16,outputs/tags.csv
+C1-NA,①,99,always(),미판정,,,,2026-11-17,docs/criteria_12_plan.md
+C2-NA,②,99,always(),미판정,,,,2026-11-17,docs/criteria_12_plan.md
