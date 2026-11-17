@@ -601,7 +601,7 @@
 1647,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 1667,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 1682,Training,미판정,미판정,범위 안,,,,일부 기재,True,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-PART|SRC-D51
-1662,Training,미판정,미판정,판정 불가(등급 없음),,,,판정 불가(추천 상품 없음),False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R3-NA-G|R4-D19-NA|TR-NONE
+1662,Training,미판정,미판정,판정 불가(추천 상품 없음),,,,판정 불가(추천 상품 없음),False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R3-NA-R|R3-NA-G|R4-D19-NA|TR-NONE
 1605,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 1629,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 1672,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
@@ -2056,7 +2056,7 @@
 5799,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 5828,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 5833,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
-5890,Training,미판정,미판정,판정 불가(등급 없음),,,공개 기준 대비 완화된 허용 범위,판정 불가(추천 상품 없음),False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-G|R3-D30-TAG|R4-D19-NA|TR-NONE
+5890,Training,미판정,미판정,판정 불가(추천 상품 없음),,,,판정 불가(추천 상품 없음),False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R3-NA-R|R3-NA-G|R4-D19-NA|TR-NONE
 5855,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 5883,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 5938,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
@@ -5278,7 +5278,7 @@
 2723,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2733,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2712,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
-2687,Training,미판정,미판정,판정 불가(등급 없음),,,,판정 불가(추천 상품 없음),False,False,경험,해당 없음,,False,,False,False,False,,,,R3-NA-G|R4-D19-NA
+2687,Training,미판정,미판정,판정 불가(추천 상품 없음),,,,판정 불가(추천 상품 없음),False,False,경험,해당 없음,,False,,False,False,False,,,,R3-NA-R|R3-NA-G|R4-D19-NA
 2704,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 2771,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 2734,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -5641,7 +5641,7 @@
 3992,Training,미판정,미판정,범위 밖,제외,4,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
 4000,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 3927,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-3919,Training,미판정,미판정,판정 불가(등급 없음),,,,판정 불가(추천 상품 없음),False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R3-NA-G|R4-D19-NA
+3919,Training,미판정,미판정,판정 불가(추천 상품 없음),,,,판정 불가(추천 상품 없음),False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R3-NA-R|R3-NA-G|R4-D19-NA
 3917,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 3942,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 3916,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE

@@ -61,12 +61,20 @@ def wide_range_relaxed_grade(ctx):
 
 @predicate
 def wide_range_only(ctx):
-    """D30 태그: 넓은 범위 표기(위 조합)인데 완화 등급 추천은 없는 CoT."""
+    """D30 태그: 넓은 범위 표기(위 조합)인데 완화 등급 추천은 없는 CoT.
+    애매한 경우 처리: 추천 목록이 비어 있으면 '추천이 모두 엄격 범위 안'이라고 볼 수 없으므로 넣지 않는다 (2026-11-17 수정, 5890)."""
     c = ctx["cots"]
     wide = (((c["성향_cot2"] == "안정추구형") & (c["허용등급"] == "4-5-6")) |
             ((c["성향_cot2"] == "위험중립형") & (c["허용등급"] == "3-4-5-6")))
     relaxed, _ = wide_range_relaxed_grade(ctx)
-    return wide & ~relaxed, None
+    has_rec, _ = no_rec(ctx)
+    return wide & ~relaxed & ~has_rec, None
+
+
+@predicate
+def no_rec(ctx):
+    """추천 목록(product_names)이 비어 있는 CoT (D34: 문자열 깨짐 4건 등). 범위 안으로 통과시키지 않는다."""
+    return ~_ids(ctx).to_series(index=_ids(ctx)).isin(set(ctx["recs"]["cot_id"])), None
 
 
 @predicate

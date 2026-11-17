@@ -199,10 +199,16 @@ def apply_rules(ctx: dict, rules: pd.DataFrame) -> pd.DataFrame:
     return res
 
 
-def judge(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str = "2026-11-17", standard: str = "공개기준", **paths):
-    """증권 CoT를 판정해 CoT당 한 행을 돌려준다. 반환: (결과 데이터프레임, ctx)"""
-    ctx = prepare(cot, prod, as_of, standard, **paths)
+def judge(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str = "2026-11-17", standard: str = "공개기준",
+          drop_rules: tuple = (), ctx: dict | None = None, **paths):
+    """증권 CoT를 판정해 CoT당 한 행을 돌려준다. 반환: (결과 데이터프레임, ctx)
+
+    - drop_rules: 빼고 돌릴 rule_id (04 검증: 사람 판정 규칙 R3-HUMAN을 뺀 자동 규칙만의 결과)
+    - ctx: 이미 만든 ctx를 다시 쓸 때 (prepare 생략)
+    """
+    ctx = ctx or prepare(cot, prod, as_of, standard, **paths)
     rules = load_rules(as_of)
+    rules = rules[~rules["rule_id"].isin(drop_rules)]
     r = apply_rules(ctx, rules)
     c = ctx["cots"]
     out = pd.DataFrame({
