@@ -46,7 +46,8 @@ def classify_sentence(sent: str, grade: int, mentions: list, terms: dict) -> tup
     6. 사람 확인: 위 어느 것에도 해당하지 않음
 
     애매한 경우 처리
-    - 경험과 요청이 한 문장에 함께 있으면('경험은 없지만 3등급을 원한다' 등) 부정 여부를 키워드로 가릴 수 없어 '사람 확인'.
+    - 경험과 요청이 한 문장에 함께 있으면 요청을 우선한다 (D50 갱신 2026-11-18, 근거 5011):
+      숫자 등급 → R1, 고려 표현 → R2. 둘 다 아니면(명칭 + 요청만) 일반 표현일 수 있어 '사람 확인'.
     - 명칭만 있고 요청 표현만 있는 문장(예: '낮은 위험 등급 상품을 찾는')은 일반 표현일 수 있어(희망검수표1 오탐 11건) R1로 보지 않는다.
     - 회피 표현은 문장 전체에서 찾으므로, 다른 대상에 대한 '부담' 등이 있어도 회피로 잡힌다.
     """
@@ -58,13 +59,17 @@ def classify_sentence(sent: str, grade: int, mentions: list, terms: dict) -> tup
             return "회피", grade, ""
     has_exp = bool(re.search(terms["경험"], sent))
     has_req = bool(re.search(terms["요청"], sent))
+    numeric = any(g == grade and f == "숫자" for g, f, _, _ in mentions)
     if has_exp and has_req:
-        return "사람 확인", grade, "경험·요청 표현 동시"
+        if numeric:
+            return "R1 명확한 희망", grade, ""
+        if re.search(terms["고려"], sent):
+            return "R2 고려 중", grade, ""
+        return "사람 확인", grade, "경험·요청 동시, 명칭만"
     if has_exp:
         return "경험", grade, ""
     if grade == 3 and re.search(terms["비교"], sent):
         return "R4 비교 표현", 4, ""
-    numeric = any(g == grade and f == "숫자" for g, f, _, _ in mentions)
     if numeric and has_req:
         return "R1 명확한 희망", grade, ""
     if re.search(terms["고려"], sent):

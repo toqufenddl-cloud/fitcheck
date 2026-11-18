@@ -124,6 +124,8 @@ def transfer_row(cid, r, recs, rng, terms) -> dict:
     - 언급 등급별 분류(src/transfer.question_mentions) 중 '성향 밖'(해석 등급이 기준표 범위 밖)인 것만 결과를 정한다.
     - 결함: 성향 밖 + R1·R2·R4 + 그 등급 상품을 실제 추천 + cot1~answer에 이관 표현 없음 (D50·D56)
       R4는 해석 등급(4)이 성향 안이어도, 문자 그대로의 3등급이 성향 밖이고 3등급을 추천했으면 결함으로 본다.
+      경험(D50 갱신 2026-11-18): 성향 밖 등급의 '경험' 언급만 있는데 그 등급을 추천하고 이관 표현이 없으면 결함
+      (경험은 현재 의도를 대신하지 않으므로 상담사가 현재 의도를 확인해야 한다).
     - 사람 확인: 성향 밖 언급이 '사람 확인'으로 분류됨, 또는 성향을 알 수 없는데(D21 비교 불가) 등급 언급이 있음
     - R3 대상: 성향 밖 R1·R2·R4인데 question에 그 등급의 '경험' 문장이 없음 (상담사 비교 상담 대상, 표시만)
     애매한 경우 처리: 언급 등급이 여러 개면 하나라도 결함이면 결함, 아니면 하나라도 사람 확인이면 사람 확인.
@@ -151,7 +153,10 @@ def transfer_row(cid, r, recs, rng, terms) -> dict:
     if len(r4_lit):
         out["성향 밖 언급"] = ",".join(filter(None, [out["성향 밖 언급"]] +
                                          [f"{g}(문자):R4 비교 표현" for g in r4_lit["언급 등급"]]))
-    if not transfer and ((len(wish) and (set(wish["해석 등급"]) & rec_g)) or (set(r4_lit["언급 등급"]) & rec_g)):
+    # 경험 규칙 (D50 갱신 2026-11-18): 성향 밖 등급의 경험만을 근거로 그 등급을 바로 추천하면 결함
+    exp_out = outside[outside["분류"] == "경험"]
+    if not transfer and ((len(wish) and (set(wish["해석 등급"]) & rec_g)) or (set(r4_lit["언급 등급"]) & rec_g)
+                         or (set(exp_out["해석 등급"]) & rec_g)):
         out["이관 결과"] = "결함"
     elif (outside["분류"] == "사람 확인").any():
         out["이관 결과"] = "사람 확인"
