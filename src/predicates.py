@@ -151,3 +151,23 @@ def in_tags_file(ctx):
     t = ctx["tags"]
     detail = t.groupby(t["cot_id"].astype(int))["태그"].agg(", ".join).reindex(_ids(ctx))
     return _from_ids(ctx, t["cot_id"].astype(int)), detail
+
+
+@predicate
+def out_of_cot2_range(ctx):
+    """D57: 추천 상품 등급이 cot2에 적힌(파싱한) 허용 범위 밖인 CoT. 교정 전 원본 cot2 기준.
+    애매한 경우 처리: 허용 범위 '추출 실패'와 등급 없는 추천은 보지 않는다."""
+    c, rec = ctx["cots"], ctx["recs"]
+    allowed = c["허용등급"].map(lambda a: None if a == "추출 실패" else {int(x) for x in a.split("-")})
+    r = rec[rec["json_grade"].notna()]
+    hit = [cid for cid, g in zip(r["cot_id"], r["json_grade"])
+           if allowed.get(cid) is not None and int(g) not in allowed[cid]]
+    return _from_ids(ctx, hit), None
+
+
+@predicate
+def range_text_damaged(ctx):
+    """D57: 허용 범위 문장이 깨져 파싱 결과를 믿을 수 없는 CoT. 예) '허용 위험등급은 3. 5, 6등급'(194, D20 원문 깨짐).
+    패턴: 'N. M, K'처럼 숫자 뒤 마침표 다음에 등급 목록이 이어짐.
+    애매한 경우 처리: 이 패턴 밖의 손상은 잡지 못한다 (2026-11-18 기준 해당 1건)."""
+    return ctx["cots"]["cot2"].str.contains(r"[1-6]\s*\.\s+(?:/\s*)?[1-6]\s*[,·]\s*[1-6]", regex=True), None

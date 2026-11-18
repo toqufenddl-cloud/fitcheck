@@ -6,6 +6,10 @@ R3-D55-3,③,40,out_of_range() & cot2_propensity(값=복수),범위 밖,제외,3
 R3-D55-N,③,41,out_of_range() & cot2_propensity(값=없음),범위 밖,제외,성향 누락,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
 R3-D55-4,③,42,out_of_range() & range_mismatch(),범위 밖,제외,4,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
 R3-D55-2,③,43,out_of_range(),범위 밖,제외,2,D55,2026-11-17,한국투자증권 투자권유준칙 제6조①
+R3-D57-DMG,③,50,out_of_cot2_range() & range_text_damaged(),판정 불가(범위 표기 손상),,사람 확인,D57,2026-11-18,
+R3-D57-3,③,51,out_of_cot2_range() & cot2_propensity(값=복수),추론 결함(cot2 범위 밖),제외,3,D57,2026-11-18,
+R3-D57-4,③,52,out_of_cot2_range() & range_mismatch(),추론 결함(cot2 범위 밖),제외,4,D57,2026-11-18,
+R3-D57-2,③,53,out_of_cot2_range(),추론 결함(cot2 범위 밖),제외,2,D57,2026-11-18,
 R3-NA-R,③,85,no_rec(),판정 불가(추천 상품 없음),,,D34,2026-11-17,
 R3-NA-P,③,90,no_propensity(),판정 불가(성향),,,D21,2026-11-12,
 R3-NA-G,③,91,no_graded_rec(),판정 불가(등급 없음),,,D10,2026-11-11,

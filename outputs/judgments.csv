@@ -1393,7 +1393,7 @@
 3958,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 3910,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 3933,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG
-3800,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-NONE|SRC-D51|TR-NONE
+3800,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|SRC-D51|TR-NONE
 3915,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 3922,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 3873,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE
@@ -1649,7 +1649,7 @@
 4479,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 4637,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 4619,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
-4708,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-PART
+4708,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-PART
 4443,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 4601,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 4605,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -2105,7 +2105,7 @@
 6027,Training,미판정,미판정,범위 안,,,,전부 기재,True,False,R2 고려 중,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51
 5986,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 5878,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-5851,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-PART|SRC-D51|TR-NONE
+5851,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-PART|SRC-D51|TR-NONE
 6014,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 5831,Training,미판정,미판정,범위 안,,,,기재 없음,False,True,사람 확인,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51-MULTI
 5974,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -2305,7 +2305,7 @@
 210,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE
 212,Training,미판정,미판정,범위 안,,,,일부 기재,True,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-PART|SRC-D51|TR-NONE
 218,Training,미판정,미판정,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
-194,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,"cot3 성향 오기, answer 위험등급 미기재",교정,교정|태그,R4-D19-NONE|FIX-LOG|TAG-FILE|TR-NONE
+194,Training,미판정,미판정,판정 불가(범위 표기 손상),,사람 확인,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,"cot3 성향 오기, answer 위험등급 미기재",교정,교정|태그,R3-D57-DMG|R3-D57-4|R3-D57-2|R4-D19-NONE|FIX-LOG|TAG-FILE|TR-NONE
 199,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 198,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG
 215,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
@@ -3107,7 +3107,7 @@
 2534,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2466,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 2485,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-2469,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+2469,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 2516,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2505,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2562,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -3234,7 +3234,7 @@
 2787,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2887,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2901,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-2908,Training,미판정,미판정,범위 밖(사람 판정),제외,3,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-NONE|TR-NONE
+2908,Training,미판정,미판정,범위 밖(사람 판정),제외,3,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-3|R3-D57-2|R4-D19-NONE|TR-NONE
 2892,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 2859,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2895,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
@@ -3621,7 +3621,7 @@
 4083,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 3890,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 4040,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-4046,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+4046,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 4020,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 4028,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 4081,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
@@ -4138,7 +4138,7 @@
 5536,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 5537,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 5592,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-5560,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+5560,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 5447,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 5561,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 5584,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE
@@ -4288,7 +4288,7 @@
 5916,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE
 5947,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 5922,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-5913,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+5913,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 6073,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 5996,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 5900,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -4450,7 +4450,7 @@
 6431,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 6406,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 6377,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
-6429,Training,미판정,미판정,범위 밖(사람 판정),제외,1,,기재 없음,True,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,원천 등급 과소 기재,제외,제외|태그|표시,R3-HUMAN|R3-D52|R3-D55-2|R4-D19-NONE|TAG-FILE|SRC-D51|TR-DEFECT
+6429,Training,미판정,미판정,범위 밖(사람 판정),제외,1,,기재 없음,True,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,원천 등급 과소 기재,제외,제외|태그|표시,R3-HUMAN|R3-D52|R3-D55-2|R3-D57-2|R4-D19-NONE|TAG-FILE|SRC-D51|TR-DEFECT
 6414,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6435,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 6446,Training,미판정,미판정,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51|TR-NONE
@@ -4669,7 +4669,7 @@
 625,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 652,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 478,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-718,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-PART|TR-NONE
+718,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-PART|TR-NONE
 692,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 641,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 615,Training,미판정,미판정,범위 안,,,,기재 없음,True,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51
@@ -4862,7 +4862,7 @@
 1282,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 1309,Training,미판정,미판정,판정 불가(성향),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-NONE|TR-NONE
 1269,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
-1313,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-NONE|TR-NONE
+1313,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-NONE|TR-NONE
 1295,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 1257,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 1277,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -5057,7 +5057,7 @@
 1987,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2005,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 1971,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-1957,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-NONE
+1957,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-NONE
 2071,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 1948,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 2039,Training,미판정,미판정,판정 불가(성향),,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-PART|TR-NONE
@@ -5087,7 +5087,7 @@
 2032,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 2091,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 2085,Training,미판정,미판정,범위 안,,,,전부 기재,True,False,언급 없음,언급 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51|TR-NONE
-2017,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,제외,제외|교정|태그,R3-HUMAN|R4-D19-NONE|FIX-LOG
+2017,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,제외,제외|교정|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-NONE|FIX-LOG
 2026,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2037,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 1989,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -5112,7 +5112,7 @@
 2183,Training,미판정,미판정,판정 불가(성향),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-NONE|TR-NONE
 2087,Training,미판정,미판정,판정 불가(성향),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-NONE|TR-NONE
 2228,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-2147,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-PART
+2147,Training,미판정,미판정,범위 밖(사람 판정),제외,4,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-PART
 2189,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2168,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2084,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -5177,11 +5177,11 @@
 2383,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2348,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 2453,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-2352,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-NONE|SRC-D51|TR-NONE
+2352,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|SRC-D51|TR-NONE
 2495,Training,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 2404,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 2443,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-2365,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,전부 기재,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-ALL|TR-DEFECT
+2365,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,전부 기재,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-ALL|TR-DEFECT
 2333,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 2440,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2499,Training,미판정,미판정,범위 안,,,,전부 기재,False,False,경험,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
@@ -5200,7 +5200,7 @@
 2502,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 2527,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 2481,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-2552,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,R4 비교 표현,결함,3(문자):R4 비교 표현,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-DEFECT
+2552,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,R4 비교 표현,결함,3(문자):R4 비교 표현,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-DEFECT
 2445,Training,미판정,미판정,판정 불가(등급 없음),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-G|R4-D19-NONE|TR-NONE
 2510,Training,미판정,미판정,판정 불가(성향),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-NONE|TR-NONE
 2560,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,True,False,,태그,태그,R4-D19-NONE
@@ -5926,7 +5926,7 @@
 4772,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 4765,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 4793,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R3-D30-TAG|R4-D19-NONE
-4813,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE
+4813,Training,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE
 4822,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,True,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그|표시,R3-D30-TAG|R4-D19-NONE|SRC-D51
 4758,Training,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-D30-TAG|R4-D19-NONE|TR-NONE
 4777,Training,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -6532,7 +6532,7 @@
 6743,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 6774,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 6776,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
-6799,Validation,미판정,미판정,범위 밖(사람 판정),제외,원천 오류 + 부적합 정당화,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-NA-P|R4-D19-PART|TR-NONE
+6799,Validation,미판정,미판정,범위 밖(사람 판정),제외,원천 오류 + 부적합 정당화,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-3|R3-D57-2|R3-NA-P|R4-D19-PART|TR-NONE
 6782,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 6766,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 6832,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
@@ -6561,7 +6561,7 @@
 6806,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-NONE
 6829,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG
 6853,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
-6895,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-PART|TR-NONE
+6895,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-PART|TR-NONE
 6841,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,True,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,R3-D30-TAG|R4-D19-ALL|FIX-LOG|SRC-D51-MULTI
 6833,Validation,미판정,미판정,판정 불가(성향),,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-NA-P|R4-D19-NONE|TR-NONE
 6792,Validation,미판정,미판정,범위 안,,,,기재 없음,False,True,사람 확인,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51-MULTI
@@ -6598,7 +6598,7 @@
 6962,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6846,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE
 6929,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
-6940,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+6940,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 6989,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 6927,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 6972,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -6669,7 +6669,7 @@
 7055,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 7126,Validation,미판정,미판정,범위 안,,,,전부 기재,True,False,사람 확인,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51
 7132,Validation,미판정,미판정,범위 안,,,,기재 없음,False,True,경험,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51-MULTI
-7127,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE
+7127,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE
 7105,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE
 7130,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 7043,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -6727,7 +6727,7 @@
 6617,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,True,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,R3-D30-TAG|R4-D19-ALL|FIX-LOG|SRC-D51
 6640,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 6671,Validation,미판정,미판정,범위 안,,,,기재 없음,False,True,사람 확인,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51-MULTI
-6660,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R4-D19-NONE|TR-NONE
+6660,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D57-4|R3-D57-2|R4-D19-NONE|TR-NONE
 6596,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6637,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6635,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -6787,7 +6787,7 @@
 6762,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 6817,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6816,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-6866,Validation,미판정,미판정,범위 밖(사람 판정),제외,1,,전부 기재,True,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-ALL|SRC-D51|TR-DEFECT
+6866,Validation,미판정,미판정,범위 밖(사람 판정),제외,1,,전부 기재,True,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-ALL|SRC-D51|TR-DEFECT
 6893,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6814,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6812,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
@@ -6813,7 +6813,7 @@
 6844,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6813,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE
 6889,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-6904,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,R4 비교 표현,결함,3(문자):R4 비교 표현,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-DEFECT
+6904,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,R4 비교 표현,결함,3(문자):R4 비교 표현,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-DEFECT
 6903,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 6909,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 6918,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -6831,7 +6831,7 @@
 6973,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-PART
 6956,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 6987,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-6996,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+6996,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 6946,Validation,미판정,미판정,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,경험,해당 없음,3:경험,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE
 6961,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6885,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
@@ -6880,7 +6880,7 @@
 7075,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 7074,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 7106,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-6873,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,True,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-NONE|SRC-D51-MULTI|TR-NONE
+6873,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,True,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|SRC-D51-MULTI|TR-NONE
 7145,Validation,미판정,미판정,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-PART|TR-NONE
 7094,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 7093,Validation,미판정,미판정,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
@@ -7130,11 +7130,11 @@
 6890,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 6821,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
 6906,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-6878,Validation,미판정,미판정,범위 밖(사람 판정),제외,1,,전부 기재,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-ALL|TR-DEFECT
+6878,Validation,미판정,미판정,범위 밖(사람 판정),제외,1,,전부 기재,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-ALL|TR-DEFECT
 6928,Validation,미판정,미판정,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-DEFECT
 6883,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R3-D30-TAG|R4-D19-NONE
 6892,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
-6933,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+6933,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 6908,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6900,Validation,미판정,미판정,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-NONE
 6836,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
@@ -7142,7 +7142,7 @@
 6855,Validation,미판정,미판정,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R3-D30-TAG|R4-D19-NONE|TR-NONE
 6978,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 6902,Validation,미판정,미판정,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL
-6898,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,사람 확인,해당 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R4-D19-NONE|SRC-D51
+6898,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,True,False,사람 확인,해당 없음,,False,,False,False,False,,제외,제외|태그|표시,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|SRC-D51
 6921,Validation,미판정,미판정,판정 불가(성향),,,,전부 기재,False,False,R2 고려 중,사람 확인,,False,성향 불명(D21 비교 불가),False,False,False,,,,R3-NA-P|R4-D19-ALL|TR-HUMAN
 7002,Validation,미판정,미판정,범위 안,,,,일부 기재,True,False,R2 고려 중,해당 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-PART|SRC-D51
 6959,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
@@ -7155,7 +7155,7 @@
 6854,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 6958,Validation,미판정,미판정,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그|표시,R4-D19-NONE|SRC-D51|TR-NONE
 6960,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
-6995,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R4-D19-NONE|TR-NONE
+6995,Validation,미판정,미판정,범위 밖(사람 판정),제외,2,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,R3-HUMAN|R3-D55-2|R3-D57-2|R4-D19-NONE|TR-NONE
 7060,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
 6983,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,회피,해당 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE
 7041,Validation,미판정,미판정,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,R4-D19-NONE|TR-NONE
