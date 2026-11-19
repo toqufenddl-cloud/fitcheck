@@ -57,8 +57,9 @@ def case_types(row) -> list:
     return t
 
 
-def build_cases(j: pd.DataFrame, ctx: dict, prod: pd.DataFrame, ids=None, types=None) -> list:
-    """반환: 사례 dict 목록. ids로 cot_id를, types로 유형을 좁힐 수 있다."""
+def build_cases(j: pd.DataFrame, ctx: dict, prod: pd.DataFrame, ids=None, types=None, force_types=None) -> list:
+    """반환: 사례 dict 목록. ids로 cot_id를, types로 유형을 좁힐 수 있다.
+    force_types: 규칙상 해당 유형이 아니어도 이 유형으로 만든다 (검증: 사람 판정이 있는 표본)."""
     c, rec = ctx["cots"], ctx["recs"]
     ps = prod[prod["domain"] == "증권"].set_index("file_name")
     j = j if ids is None else j[j["cot_id"].isin(set(ids))]
@@ -72,7 +73,7 @@ def build_cases(j: pd.DataFrame, ctx: dict, prod: pd.DataFrame, ids=None, types=
                 "추천 등급": [None if pd.isna(g) else int(g) for g in rr["json_grade"]],
                 "규칙": {"기준③": r["기준③ 판정"], "처리": r["기준③ 처리"], "사유 코드": r["사유 코드"],
                          "이관 분류": r["이관 분류"], "이관 판정": r["이관 판정"], "원천 확인 필요": bool(r["원천 확인 필요"])}}
-        for t in case_types(r):
+        for t in (force_types or case_types(r)):
             if types and t not in types:
                 continue
             case = dict(base, 유형=t, case_id=f"{cid}:{t}",

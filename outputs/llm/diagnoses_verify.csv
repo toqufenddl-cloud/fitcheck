@@ -1,0 +1,113 @@
+﻿case_id,cot_id,유형,분할,상태,재시도,결함,처리,사유 코드,이관 분류,확신도,인용 조항,인용 오류,검색 top3,정답 조항 top3,사람 확인 이유,소요(초)
+275:이관,275,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,중간,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,4.5
+341:이관,341,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.7
+640:이관,640,이관,Training,정상,0,결함,해당 없음,1,회피,중간,CO-KIS:제7조|CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,4.3
+985:이관,985,이관,Training,정상,0,결함,제외,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.1
+1071:이관,1071,이관,Training,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.5
+1663:이관,1663,이관,Training,정상,0,결함,해당 없음,1,해당 없음,낮음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,확신도 낮음,3.7
+2018:이관,2018,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.4
+2592:이관,2592,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.5
+3059:이관,3059,이관,Training,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.2
+3554:이관,3554,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.4
+3800:범위,3800,범위,Training,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.0
+4224:이관,4224,이관,Training,정상,0,결함,제외,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.2
+4233:이관,4233,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,9.2
+4159:이관,4159,이관,Training,정상,0,결함,제외,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.0
+4282:이관,4282,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.3
+4588:이관,4588,이관,Training,정상,0,결함,제외,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.1
+4708:범위,4708,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.1
+4660:이관,4660,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.3
+4989:이관,4989,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.4
+5085:이관,5085,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.6
+5106:이관,5106,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.4
+5770:이관,5770,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.4
+5851:범위,5851,범위,Training,정상,0,결함,제외,2,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.1
+194:범위,194,범위,Training,정상,0,결함,해당 없음,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,규칙과 다름,1.9
+307:이관,307,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.4
+845:이관,845,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.3
+801:이관,801,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.4
+1078:이관,1078,이관,Training,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.3
+1799:이관,1799,이관,Training,정상,0,결함,해당 없음,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.3
+1794:이관,1794,이관,Training,정상,0,결함,해당 없음,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.3
+2469:범위,2469,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.1
+2908:범위,2908,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1|CO-KIS:제10조,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.5
+3349:이관,3349,이관,Training,정상,0,결함,제외,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.1
+4101:이관,4101,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.4
+4046:범위,4046,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.0
+4146:이관,4146,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.7
+4391:이관,4391,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.6
+4529:이관,4529,이관,Training,정상,0,결함,제외,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.5
+4732:이관,4732,이관,Training,정상,0,결함,제외,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.0
+5468:이관,5468,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.1
+5560:범위,5560,범위,Training,정상,0,결함,제외,2,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.1
+5913:범위,5913,범위,Training,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.2
+6352:이관,6352,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.6
+6429:범위,6429,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.1
+6424:이관,6424,이관,Training,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제7조|CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.3
+565:이관,565,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.2
+621:이관,621,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.6
+659:이관,659,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.2
+718:범위,718,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.0
+946:이관,946,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.8
+855:이관,855,이관,Training,정상,0,결함,해당 없음,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.8
+1313:범위,1313,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.0
+1712:이관,1712,이관,Training,정상,0,결함,해당 없음,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.8
+1957:범위,1957,범위,Training,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.1
+2017:범위,2017,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+2147:범위,2147,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.1
+2352:범위,2352,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.8
+2365:범위,2365,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+2552:범위,2552,범위,Training,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+2552:이관,2552,이관,Training,정상,0,결함,제외,1,R4 비교 표현,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.2
+2967:이관,2967,이관,Training,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.5
+4172:이관,4172,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.3
+4259:이관,4259,이관,Training,정상,0,결함,제외,1,경험,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.4
+4618:이관,4618,이관,Training,정상,0,결함,제외,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.4
+4524:이관,4524,이관,Training,정상,0,결함,해당 없음,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.3
+4633:이관,4633,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.2
+4795:이관,4795,이관,Training,정상,0,결함,제외,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.9
+4813:범위,4813,범위,Training,정상,0,결함,제외,4,해당 없음,중간,?R1 제 6조(적합성 원칙) 1항,True,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,인용 오류,2.0
+5011:이관,5011,이관,Training,정상,0,결함,제외,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,2.3
+6598:이관,6598,이관,Validation,정상,0,결함,해당 없음,1,해당 없음,중간,CO-KIS:제7조|CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,4.8
+6799:범위,6799,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1|CO-KIS:제10조,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제36조-1,True,,2.2
+6895:범위,6895,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.0
+6940:범위,6940,범위,Validation,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,3.1
+7028:이관,7028,이관,Validation,정상,0,결함,해당 없음,1,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,4.7
+7120:이관,7120,이관,Validation,정상,0,결함,제외,1,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,3.3
+7127:범위,7127,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6660:범위,6660,범위,Validation,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제7조|CO-KIS:제10조,True,,2.1
+6866:범위,6866,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6904:범위,6904,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6996:범위,6996,범위,Validation,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,3.2
+6873:범위,6873,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,2.7
+6561:이관,6561,이관,Validation,정상,0,결함,해당 없음,1,회피,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.5
+6878:범위,6878,범위,Validation,정상,0,결함,제외,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6928:이관,6928,이관,Validation,정상,0,결함,제외,1,R4 비교 표현,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,,3.6
+6933:범위,6933,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6898:범위,6898,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+6995:범위,6995,범위,Validation,정상,0,결함,제외,4,해당 없음,중간,CO-KIS:제6조-1,False,CO-KIS:제6조-1|CO-KIS:제10조|CO-KIS:제7조,True,,1.9
+1840:이관,1840,이관,Training,정상,0,근거 부족,해당 없음,4,해당 없음,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,근거 부족,3.2
+2699:이관,2699,이관,Training,정상,0,결함,해당 없음,1,해당 없음,낮음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,확신도 낮음,3.4
+3755:이관,3755,이관,Training,정상,0,결함,해당 없음,1,R1 명확한 희망,낮음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,확신도 낮음,4.1
+4792:이관,4792,이관,Training,정상,0,결함,해당 없음,1,R2 고려 중,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.4
+5387:이관,5387,이관,Training,정상,0,결함,해당 없음,1,R1 명확한 희망,높음,CO-KIS:제6조-1,False,CO-KIS:제7조|CO-KIS:제28조|CO-KIS:제5조,False,규칙과 다름,2.4
+P00:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.6
+P01:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P02:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P03:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.5
+P04:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.7
+P05:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.1
+P06:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P07:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조|CO-KIS:제9조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P08:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.1
+P09:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조|CO-KIS:제9조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.5
+P10:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.1
+P11:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.1
+P12:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.4
+P13:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.5
+P14:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.4
+P15:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.1
+P16:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P17:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.2
+P18:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.3
+P19:원천,-1,원천,-,정상,0,결함,태그,원천 오류,R1 명확한 희망,높음,CO-KIS:제12조,False,CO-KIS:제12조|CO-KIS:부칙제2조#4|CO-KIS:제9조,,,3.4
