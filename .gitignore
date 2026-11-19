@@ -8,3 +8,8 @@ __pycache__/
 
 # 교정본 (원문이 들어 있어 git에 올리지 않는다)
 outputs/corrected/
+
+# 근거 원문 문서 (외부 문서·사용자 제공 파일, git에 올리지 않는다)
+docs/regulations/CO-KIS/
+docs/regulations/LAW-FCPA/
+docs/regulations/REG-KOFIA/

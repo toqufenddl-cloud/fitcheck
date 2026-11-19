@@ -87,7 +87,8 @@ def load_chunks(index: pd.DataFrame | None = None) -> pd.DataFrame:
         p = REG_DIR / d["파일"]
         if not d["파일"] or not p.exists():
             missing.append(d["doc_id"]); continue
-        for no, title, body in split_articles(read_text(p)):
+        splitter = SPLITTERS.get(d["doc_id"], split_articles)
+        for no, title, body in splitter(read_text(p)):
             rows.append({"chunk_id": f"{d['doc_id']}:{no}", "doc_id": d["doc_id"], "문서명": d["문서명"],
                          "조항": no, "조항 제목": title, "층위": d["층위"], "회사명": d["회사명"],
                          "시행일": d["시행일"], "종료일": d["종료일"], "출처 URL": d["출처 URL"], "본문": body})
@@ -98,3 +99,78 @@ def load_chunks(index: pd.DataFrame | None = None) -> pd.DataFrame:
     n = df.groupby("chunk_id").cumcount()
     df.loc[n > 0, "chunk_id"] = df.loc[n > 0, "chunk_id"] + "#" + (n[n > 0] + 1).astype(str)
     return df
+
+
+# ---------------------------------------------------------------------------
+# 문서별 분할 (doc_id로 고른다)
+# ---------------------------------------------------------------------------
+
+_PARA = re.compile(r"(?m)^\s*([①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳])")
+
+
+def split_law(text: str, max_chars: int = 1500) -> list:
+    """법률 txt: '제N조(제목)' 단위로 나눈 뒤 그 안을 항(①②③) 단위로 나눈다. 반환 [(조항 id, 제목, 본문)]
+
+    - 조항 id: '제17조③'. 항이 없는 조항은 '제17조'.
+    - 부칙 줄 뒤의 조항은 '부칙제1조'.
+    애매한 경우 처리
+    - 항 첫 줄 앞에 조 머리 문장(예: '제17조(적합성원칙)')이 붙으므로, 각 항 조각 앞에 '제N조(제목)'을 붙여 검색 문맥을 남긴다.
+    - 항 하나가 max_chars보다 길면(예: 제19조①의 각 호 목록) 그대로 둔다 (호·목 단위로는 나누지 않는다).
+    """
+    out = []
+    for no, title, body in split_articles(text, max_chars=10 ** 6):
+        paras = list(_PARA.finditer(body))
+        if not paras:
+            out.append((no, title, body)); continue
+        head = f"{no}({title})" if title else no
+        pre = body[:paras[0].start()].strip()
+        # ①은 보통 조 머리와 같은 줄에 있어 줄 앞 항으로 잡히지 않는다 → 머리 부분을 ① 조각으로 둔다
+        if pre:
+            out.append((f"{no}①" if "①" in pre else no, title, pre))
+        for i, m in enumerate(paras):
+            end = paras[i + 1].start() if i + 1 < len(paras) else len(body)
+            out.append((f"{no}{m.group(1)}", title, f"{head} {body[m.start():end].strip()}"))
+    return out
+
+
+# 절 제목: '10. 투자권유 절차', '17-①. 계약서류의 교부'. 제목 안 '·'도 허용 (목차 점선 줄은 미리 지운다)
+_KOFIA_SEC = re.compile(r"(?m)^\s*(\d{1,2})(-[①-⑳])?\.\s+([^\n]{1,40}?)\s*$")
+_KOFIA_ITEM = re.compile(r"(?m)^\s*(\d{1,2})\)\s")
+_KOFIA_REF = re.compile(r"(?m)^\s*※\s*회사참고사항\s*(\d{1,2}-\d{1,2})")
+
+
+def split_kofia(text: str, max_chars: int = 1500) -> list:
+    """금융투자협회 표준투자권유준칙 PDF: 번호 절('10. 투자권유 절차') → 항목('4)')·'※ 회사참고사항 10-4' 블록 단위.
+
+    - 조각 id: '10.4)', '회사참고사항 10-4', 절 머리말만 있는 부분은 '10.'
+    애매한 경우 처리
+    - 목차는 점선('···')이 있는 줄과 첫 본문 쪽 표시('- 1 -') 앞부분을 지워서 뺀다. 쪽 번호 줄('- 9 -')도 지운다.
+    - 절 번호는 앞 절보다 같거나 1 큰 경우만 절 머리로 본다 (본문 속 '1. …' 목록을 절로 잘못 보지 않게).
+    - 회사참고사항은 '※'로 시작하는 줄만 블록 머리로 본다. 본문 속 '회사참고사항 10-4의 …' 언급은 머리가 아니다.
+    - 같은 id가 다시 나오면 load_chunks에서 '#2'를 붙인다. max_chars를 넘는 조각은 그대로 둔다.
+    """
+    first = re.search(r"(?m)^\s*-\s*1\s*-\s*$", text)
+    body = text[first.end():] if first else text
+    body = "\n".join(l for l in body.splitlines() if "···" not in l and not re.fullmatch(r"\s*-\s*\d+\s*-\s*", l))
+    heads, last = [], 0
+    for m in _KOFIA_SEC.finditer(body):
+        n = int(m.group(1))
+        if last <= n <= last + 1:
+            heads.append(("sec", m.start(), f"{n}{m.group(2) or ''}", m.group(3).strip())); last = n
+    out = []
+    for i, (_, s, sec, title) in enumerate(heads):
+        e = heads[i + 1][1] if i + 1 < len(heads) else len(body)
+        sb = body[s:e]
+        marks = sorted([(m.start(), f"{sec}.{m.group(1)})") for m in _KOFIA_ITEM.finditer(sb)] +
+                       [(m.start(), f"회사참고사항 {m.group(1)}") for m in _KOFIA_REF.finditer(sb)])
+        if not marks or marks[0][0] > 0:
+            pre = sb[: marks[0][0] if marks else len(sb)].strip()
+            if pre:
+                out.append((f"{sec}.", title, pre))
+        for k, (ms, cid) in enumerate(marks):
+            me = marks[k + 1][0] if k + 1 < len(marks) else len(sb)
+            out.append((cid, title, f"{sec}. {title} — {sb[ms:me].strip()}"))
+    return out
+
+
+SPLITTERS = {"LAW-FCPA": split_law, "LAW-FCPA-ENF": split_law, "REG-KOFIA": split_kofia}
