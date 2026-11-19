@@ -79,8 +79,30 @@ def split_articles(text: str, max_chars: int = 1500) -> list:
     return out
 
 
+MAX_EMBED_CHARS = 1500  # 임베딩 모델(bge-m3) 입력 한도를 넘지 않게 (2026-11-19: 33,800자 조각에서 Ollama 러너가 멈춤)
+
+
+def cap_length(no: str, title: str, body: str, max_chars: int = MAX_EMBED_CHARS) -> list:
+    """max_chars를 넘는 조각을 줄 경계에서 나눈다. 조항 id 뒤에 '~1, ~2'를 붙이고, 두 번째 조각부터 앞에 첫 줄(조 제목)을 붙인다.
+    애매한 경우 처리: 한 줄이 max_chars보다 길면 글자 수로 자른다."""
+    if len(body) <= max_chars:
+        return [(no, title, body)]
+    head = body.split("\n", 1)[0][:80]
+    lines, parts, buf = body.split("\n"), [], ""
+    for ln in lines:
+        while len(ln) > max_chars:
+            parts.append(buf + ln[:max_chars]); buf = ""; ln = ln[max_chars:]
+        if buf and len(buf) + len(ln) + 1 > max_chars:
+            parts.append(buf); buf = ""
+        buf = (buf + "\n" + ln) if buf else ln
+    if buf.strip():
+        parts.append(buf)
+    return [(f"{no}~{i + 1}", title, (p if i == 0 else f"{head} …\n{p}")) for i, p in enumerate(parts)]
+
+
 def load_chunks(index: pd.DataFrame | None = None) -> pd.DataFrame:
-    """색인의 문서를 모두 읽어 조항 단위 표로 만든다. 파일이 없는 행은 건너뛰고 '파일 없음'으로 알린다."""
+    """색인의 문서를 모두 읽어 조항 단위 표로 만든다. 파일이 없는 행은 건너뛰고 '파일 없음'으로 알린다.
+    max 길이(MAX_EMBED_CHARS)를 넘는 조각은 cap_length로 나눈다 ('10.4)~1' 등). 정답 조항 비교는 앞부분 일치로 한다."""
     index = load_index() if index is None else index
     rows, missing = [], []
     for _, d in index.iterrows():
@@ -88,7 +110,8 @@ def load_chunks(index: pd.DataFrame | None = None) -> pd.DataFrame:
         if not d["파일"] or not p.exists():
             missing.append(d["doc_id"]); continue
         splitter = SPLITTERS.get(d["doc_id"], split_articles)
-        for no, title, body in splitter(read_text(p)):
+        pieces = [x for no, title, body in splitter(read_text(p)) for x in cap_length(no, title, body)]
+        for no, title, body in pieces:
             rows.append({"chunk_id": f"{d['doc_id']}:{no}", "doc_id": d["doc_id"], "문서명": d["문서명"],
                          "조항": no, "조항 제목": title, "층위": d["층위"], "회사명": d["회사명"],
                          "시행일": d["시행일"], "종료일": d["종료일"], "출처 URL": d["출처 URL"], "본문": body})
@@ -173,4 +196,4 @@ def split_kofia(text: str, max_chars: int = 1500) -> list:
     return out
 
 
-SPLITTERS = {"LAW-FCPA": split_law, "LAW-FCPA-ENF": split_law, "REG-KOFIA": split_kofia}
+SPLITTERS = {"LAW-FCPA": split_law, "LAW-FCPA-ENF": split_law, "CO-KIS": split_law, "REG-KOFIA": split_kofia}

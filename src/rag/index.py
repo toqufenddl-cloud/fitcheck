@@ -21,14 +21,20 @@ def _embeddings():
     return OllamaEmbeddings(model=EMBED_MODEL, base_url=OLLAMA_URL)
 
 
-def build(chunks: pd.DataFrame, path: Path = STORE_DIR):
+def build(chunks: pd.DataFrame, path: Path = STORE_DIR, batch: int = 8):
     """조항 표로 FAISS 색인을 만들어 저장한다. 본문 앞에 문서명·조항을 붙여 임베딩한다."""
     from langchain_community.vectorstores import FAISS
     from langchain_core.documents import Document
     docs = [Document(page_content=f"[{r['문서명']} {r['조항']} {r['조항 제목']}]\n{r['본문']}",
                      metadata={k: r[k] for k in chunks.columns if k != "본문"})
             for _, r in chunks.iterrows()]
-    store = FAISS.from_documents(docs, _embeddings())
+    # 한 번에 모두 보내면(LangChain 기본) Ollama 러너가 멈춘다 (2026-11-19, 조각 600여 개). 8개씩 나눠 임베딩한다
+    emb = _embeddings()
+    vecs = []
+    for i in range(0, len(docs), batch):
+        vecs += emb.embed_documents([d.page_content for d in docs[i:i + batch]])
+    store = FAISS.from_embeddings(list(zip([d.page_content for d in docs], vecs)), emb,
+                                  metadatas=[d.metadata for d in docs])
     path.mkdir(parents=True, exist_ok=True)
     store.save_local(str(path))
     return store
@@ -51,9 +57,11 @@ def active(meta: dict, as_of: str, company: str | None) -> bool:
     return True
 
 
-def search(store, query: str, as_of: str, company: str | None = None, k: int = 5, fetch: int = 40) -> list:
-    """반환: [(chunk_id, 점수, metadata, 본문)] 상위 k개 (기준일·회사로 거른 뒤)."""
-    hits = store.similarity_search_with_score(query, k=fetch)
+def search(store, query: str, as_of: str, company: str | None = None, k: int = 5, fetch: int | None = None) -> list:
+    """반환: [(chunk_id, 점수, metadata, 본문)] 상위 k개 (기준일·회사로 거른 뒤).
+    fetch를 주지 않으면 색인 전체를 순위로 받은 뒤 거른다 (2026-11-19 수정: 후보 40개가 모두 다른 회사 조항이면
+    회사 필터 뒤 결과가 비던 문제)."""
+    hits = store.similarity_search_with_score(query, k=fetch or store.index.ntotal)
     out = []
     for doc, score in hits:
         if active(doc.metadata, as_of, company):
