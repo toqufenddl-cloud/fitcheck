@@ -1,4 +1,4 @@
-"""기준 ① 필수정보 충족, 기준 ② 성향 판단 근거 (판정기준서 v1.1 1·2장, D64).
+"""기준 ① 필수정보 충족, 기준 ② 성향 판단 근거 (판정기준서 v1.2 1·2장, D64·D65).
 
 판정기준서의 키워드·순서를 그대로 옮겼다. 참고 구현(docs/reference/기준12_참고구현.py)과 같은 결과가 나와야 한다.
 원문 문장은 결과에 넣지 않는다.
@@ -15,7 +15,9 @@ NM = r"(공격투자형|적극투자형|위험중립형|안정추구형|안전�
 ITEMS = {
     "취득 목적": r"목적|목표|자산\s*증식|노후|은퇴|주택|결혼|학자금|교육비|여유\s*자금|마련|생활\s*자금",
     "재산상황": r"소득|연봉|자산|보유\s*(?:자금|금액)|투자금|[천백]?\s*만\s*원|억\s*원|부채|대출|저축",
-    "취득 경험": (r"보유(?:한|하고\s*있는|\s*중인)\s*(?:상품|펀드|주식|채권)|경험|투자해\s*(?:본|온|왔)|운용해\s*(?:본|온|왔)|운용한"
+    # v1.2 (D65, 사용자 결정 2026-11-23): 예적금 등 '거래' 표현을 취득 경험으로 본다. '선호해 왔다'만 있으면 미확인.
+    "취득 경험": (r"거래해\s*(?:본|온|왔)|거래한|거래\s*(?:이력|경험)|위주로\s*만?\s*(?:거래|운용|투자|가입)"
+              r"|보유(?:한|하고\s*있는|\s*중인)\s*(?:상품|펀드|주식|채권)|경험|투자해\s*(?:본|온|왔)|운용해\s*(?:본|온|왔)|운용한"
               r"|처음\s*(?:투자|접)|(?:상품|펀드|주식|채권|ETF|예금|적금)[^.?!]{0,20}(?:보유|운용|투자해)"),
     "상품이해도": r"이해|알고\s*있|잘\s*모르|처음\s*접하|구조를",
     "위험에 대한 태도": r"감수|감내|손실|원금\s*보장|안정적|변동성|위험\s*등급|위험을|위험은|위험도",
@@ -30,7 +32,12 @@ def _norm(s: str) -> str:
 
 
 def p5_propensity(cot2: str, cot1: str) -> tuple[str, str]:
-    """P5 성향. 반환: (성향 또는 '복수'/'없음', 출처 'cot2 정형'/'cot2'/'cot1').
+    p, src, _ = p5_detail(cot2, cot1)
+    return p, src
+
+
+def p5_detail(cot2: str, cot1: str) -> tuple[str, str, set]:
+    """P5 성향과 판단에 쓴 후보 성향 집합. 반환: (성향 또는 '복수'/'없음', 출처 'cot2 정형'/'cot2'/'cot1', 후보 집합).
     애매한 경우 처리:
     - cot2에 '성향명(…숫자)' 정형 표현이 서로 다른 성향으로 둘 이상이면 복수.
     - 정형 표현이 하나의 성향이면 그 성향 (1순위). 없으면 cot2의 성향 명칭이 하나일 때 그 성향 (2순위), 둘 이상이면 복수.
@@ -39,20 +46,20 @@ def p5_propensity(cot2: str, cot1: str) -> tuple[str, str]:
     c2, c1 = str(cot2), str(cot1)
     par = {_norm(x) for x in re.findall(NM + r"\s*[(（:]\s*(?:허용[^)）]*)?\d", c2)}
     if len(par) > 1:
-        return "복수", "cot2 정형"
+        return "복수", "cot2 정형", par
     m = re.findall(NM + r"\s*[,(（]\s*허용", c2) + re.findall(r"'" + NM + r"\s*,\s*허용", c2)
     s = {_norm(x) for x in m}
     if len(s) == 1:
-        return s.pop(), "cot2 정형"
+        return next(iter(s)), "cot2 정형", s
     s = {_norm(x) for x in re.findall(NM, c2)}
     if len(s) == 1:
-        return s.pop(), "cot2"
+        return next(iter(s)), "cot2", s
     if len(s) > 1:
-        return "복수", "cot2"
+        return "복수", "cot2", s
     s = {_norm(x) for x in re.findall(NM, c1)}
     if len(s) == 1:
-        return s.pop(), "cot1"
-    return ("복수" if s else "없음"), "cot1"
+        return next(iter(s)), "cot1", s
+    return ("복수" if s else "없음"), "cot1", s
 
 
 def judge12(cots: pd.DataFrame) -> pd.DataFrame:
@@ -75,7 +82,7 @@ def judge12(cots: pd.DataFrame) -> pd.DataFrame:
         it = {k: ("확인" if re.search(p, t) else "미확인") for k, p in ITEMS.items()}
         if it["연령"] == "미확인" and str(d.get("age", "") or "").strip() not in ("", "nan"):
             it["연령"] = "메타"
-        p, src = p5_propensity(d["cot2"], d["cot1"])
+        p, src, cand = p5_detail(d["cot2"], d["cot1"])
         stated = {_norm(x) for x in re.findall(NM, str(d["question"]))}
         rec = bool(d["product_names"]) if isinstance(d["product_names"], list) else bool(str(d["product_names"]).strip())
         miss = [k for k in LEGAL if it[k] == "미확인"]
@@ -89,5 +96,5 @@ def judge12(cots: pd.DataFrame) -> pd.DataFrame:
             c2 = "결함 아님"
         rows.append({"cot_id": cid, **{f"①{k}": v for k, v in it.items()},
                      "① 확인 수": sum(v != "미확인" for v in it.values()), "① 법정 미확인": "|".join(miss),
-                     "성향_P5": p, "성향 출처": src, "고객 진술 성향": "|".join(sorted(stated)), "② 분류": c2})
+                     "성향_P5": p, "성향 출처": src, "P5 후보": "|".join(sorted(cand)), "고객 진술 성향": "|".join(sorted(stated)), "② 분류": c2})
     return pd.DataFrame(rows).set_index("cot_id")

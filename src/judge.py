@@ -86,6 +86,19 @@ def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "
     # 애매한 경우 처리: D21로 이미 단일 성향인 CoT는 바꾸지 않는다 (P5와 D21이 다른 CoT는 결과에 따로 표시만 한다).
     sc["P5 보충"] = (as_of >= P5_FROM) & (sc["성향_D21"] == "비교 불가") & sc["성향_P5"].isin(PROPENSITY)
     sc.loc[sc["P5 보충"], "성향_D21"] = sc.loc[sc["P5 보충"], "성향_P5"]
+    # D65 (판정기준서 v1.2, 사용자 결정): D21로 단일 성향인데 P5가 다르면 P5를 따른다.
+    # P5가 복수면 후보 중 가장 낮은 성향(P8)으로 ③을 판정한다 (②는 judge12에서 이미 ②-b).
+    # 애매한 경우 처리: D21이 '비교 불가'인 CoT(사람 판정이 있는 6799 등)는 여기서 바꾸지 않는다 (새 규칙을 만들지 않음).
+    #   P5가 '없음'이고 D21이 단일인 CoT가 생기면 성향을 '비교 불가'로 둔다 (P5를 따름).
+    def _lowest(c):
+        xs = [x for x in str(c).split("|") if x in PROPENSITY]
+        return max(xs, key=PROPENSITY.index) if xs else "비교 불가"
+    d21_single = sc["성향_D21"].isin(PROPENSITY) & ~sc["P5 보충"]
+    sc["P5 우선"] = (as_of >= P5_FROM) & d21_single & (sc["성향_P5"] != sc["성향_D21"])
+    sc["성향_D21 원래"] = sc["성향_D21"]
+    sc.loc[sc["P5 우선"], "성향_D21"] = [
+        _lowest(c) if p == "복수" else (p if p in PROPENSITY else "비교 불가")
+        for p, c in zip(sc.loc[sc["P5 우선"], "성향_P5"], sc.loc[sc["P5 우선"], "P5 후보"])]
     sc["허용등급"] = sc["cot2"].map(lambda t: (lambda s: "-".join(map(str, sorted(s))) if s else "추출 실패")(parse_allowed_grades(t)[0]))
 
     # 추천 상품 (D10 매칭, 등급은 상품 JSON 등록 등급)
@@ -233,6 +246,7 @@ def judge(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str = "2026-11-17", stan
         "기준② 판정": r["② 판정"].values,
         "성향_P5": c["성향_P5"].values,
         "P5 보충": c["P5 보충"].values,
+        "P5 우선": c["P5 우선"].values,
         "기준③ 판정": r["③ 판정"].values,
         "기준③ 처리": r["③ 처리"].values,
         "사유 코드": r["③ 사유"].values,
