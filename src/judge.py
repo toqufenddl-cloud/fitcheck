@@ -17,11 +17,13 @@ import pandas as pd
 from src import predicates
 from src.extract import (PROPENSITY, body_grade, build_product_index, match_product, parse_allowed_grades,
                          product_grade, propensity_in, risk_mention_after_name)
+from src.criteria12 import judge12
 from src.transfer import CLASS_RANK, load_terms, question_mentions, transfer_expressions
 
 RULE_DIR = Path(__file__).resolve().parent / "rules"
 ROOT = Path(__file__).resolve().parents[1]
 ACTION_ORDER = ["제외", "교정", "태그", "표시"]
+P5_FROM = "2026-11-23"   # 판정기준서 v1.1 (D64) 시행일
 
 
 # ---------------------------------------------------------------------------
@@ -78,6 +80,12 @@ def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "
     # D21: cot2 단일 성향 우선, 없으면 cot1 단일 성향
     sc["성향_D21"] = np.where(sc["성향_cot2"].isin(PROPENSITY), sc["성향_cot2"],
                             np.where(sc["성향_cot1"].isin(PROPENSITY), sc["성향_cot1"], "비교 불가"))
+    # 기준 ①② (판정기준서 v1.1 1·2장, D64)
+    sc = sc.join(judge12(sc))
+    # 판정기준서 2장: D21로 성향을 정할 수 없지만 P5로 단일 성향이 정해지면 그 성향으로 범위를 다시 판정한다.
+    # 애매한 경우 처리: D21로 이미 단일 성향인 CoT는 바꾸지 않는다 (P5와 D21이 다른 CoT는 결과에 따로 표시만 한다).
+    sc["P5 보충"] = (as_of >= P5_FROM) & (sc["성향_D21"] == "비교 불가") & sc["성향_P5"].isin(PROPENSITY)
+    sc.loc[sc["P5 보충"], "성향_D21"] = sc.loc[sc["P5 보충"], "성향_P5"]
     sc["허용등급"] = sc["cot2"].map(lambda t: (lambda s: "-".join(map(str, sorted(s))) if s else "추출 실패")(parse_allowed_grades(t)[0]))
 
     # 추천 상품 (D10 매칭, 등급은 상품 JSON 등록 등급)
@@ -220,7 +228,11 @@ def judge(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str = "2026-11-17", stan
         "cot_id": c.index,
         "분할": c["split"].values,
         "기준① 판정": r["① 판정"].values,
+        "기준① 확인 수": c["① 확인 수"].values,
+        "기준① 법정 미확인": c["① 법정 미확인"].values,
         "기준② 판정": r["② 판정"].values,
+        "성향_P5": c["성향_P5"].values,
+        "P5 보충": c["P5 보충"].values,
         "기준③ 판정": r["③ 판정"].values,
         "기준③ 처리": r["③ 처리"].values,
         "사유 코드": r["③ 사유"].values,
@@ -238,7 +250,7 @@ def judge(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str = "2026-11-17", stan
         "교정": (r["교정 처리"] == "교정").values,
         "기록 태그": r["기록 태그 사유"].values,
     })
-    acts = pd.DataFrame({k: r[f"{k} 처리"].values for k in ["③", "③태그", "④", "원천", "이관", "교정", "기록 태그"]})
+    acts = pd.DataFrame({k: r[f"{k} 처리"].values for k in ["②", "③", "③태그", "④", "원천", "이관", "교정", "기록 태그"]})
     all_acts = acts.apply(lambda row: [a for a in ACTION_ORDER if a in set(row)], axis=1)
     out["처리"] = all_acts.map(lambda xs: xs[0] if xs else "")
     out["처리 전체"] = all_acts.map("|".join)

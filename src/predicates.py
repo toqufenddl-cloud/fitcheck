@@ -171,3 +171,9 @@ def range_text_damaged(ctx):
     패턴: 'N. M, K'처럼 숫자 뒤 마침표 다음에 등급 목록이 이어짐.
     애매한 경우 처리: 이 패턴 밖의 손상은 잡지 못한다 (2026-11-18 기준 해당 1건)."""
     return ctx["cots"]["cot2"].str.contains(r"[1-6]\s*\.\s+(?:/\s*)?[1-6]\s*[,·]\s*[1-6]", regex=True), None
+
+
+@predicate
+def c2_class(ctx, 값):
+    """기준 ② 분류 (src/criteria12.judge12). 값의 '|'는 '또는'."""
+    return ctx["cots"]["② 분류"].isin(값.split("|")), None
