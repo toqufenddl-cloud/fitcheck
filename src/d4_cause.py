@@ -58,6 +58,25 @@ def answer_label_grades(text, name, names) -> set:
     return out
 
 
+def cause_v11(src: str, c3: str, an: str) -> str:
+    """판정기준서 v1.1 5장 미기재 원인 이름: 등급이 마지막으로 있었던 단계 기준. answer에 등급이 있으면 ''.
+    - cot3 있음·answer 없음 → '답변 정리 단계에서 빠짐' (원천 본문 유무와 관계없이)
+    - 원천 본문 없음·cot3 없음 → '데이터 생성 단계'
+    - 원천 본문 있음·cot3 없음 → '추론 단계부터 빠짐'
+    애매한 경우 처리: cot3 '상품명 없음'은 없음으로 본다 (D63과 같음). 원천이 '본문 등급 복수'·'상품 매칭 안 됨'이고 cot3도 없으면
+    판정기준서에 이름이 없으므로 새 이름을 만들지 않고 '사람 확인'으로 둔다.
+    """
+    if an == "있음":
+        return ""
+    if c3 == "있음":
+        return "답변 정리 단계에서 빠짐"
+    if src == "본문 등급 없음":
+        return "데이터 생성 단계"
+    if src == "있음":
+        return "추론 단계부터 빠짐"
+    return "사람 확인"
+
+
 def d4_cause(ctx: dict, prod: pd.DataFrame) -> pd.DataFrame:
     """judge의 ctx(recs, cots)와 상품 표를 받아 추천 상품 단위 원인 표를 돌려준다.
 
@@ -97,6 +116,7 @@ def d4_cause(ctx: dict, prod: pd.DataFrame) -> pd.DataFrame:
         cmp_ = lambda a: ("같음" if a == sg else "다름") if pd.notna(a) and pd.notna(sg) else "비교 불가"
         rows.append({"cot_id": r.cot_id, "분할": x["split"], "상품명": r.rec_name, "원천": src, "원천 등급": sg,
                      "등록 등급 있음": pd.notna(r.json_grade), "cot3": c3, "answer": an, "조합": combo,
+                     "원인(v1.1)": cause_v11(src, c3, an),
                      "answer 숫자 등급": ag, "숫자 등급 비교": cmp_(ag),
                      "answer 명칭 등급": lg1, "명칭 등급 비교": cmp_(lg1)})
     return pd.DataFrame(rows)
