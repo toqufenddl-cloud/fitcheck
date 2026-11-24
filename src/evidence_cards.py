@@ -4,8 +4,11 @@
 - 문서 시행일은 docs/regulations/regulations_index.csv.
 - 원문 문장은 넣지 않는다. 범위는 숫자, 상품은 상품명과 등급만 쓴다 (P10).
 애매한 경우 처리:
-- gold_articles에 유형이 없는 규칙(기준 ②, 기록 태그, 메타 연령 교정)은 doc_id를 비우고 '근거 연결'에 'gold 미등록'으로 둔다 (새 연결을 만들지 않는다).
-- 교정(FIX-LOG)은 corrections_log의 위치로 유형을 나눈다: cot2 허용 범위 → 범위, answer 위험등급 문장 → 설명, 메타 연령 → 미등록.
+- 기준 ②는 규칙별로 연결한다: ②-a(C2-A) → 금소법 제17조②·③, ②-b(C2-B) → 제17조② (gold_articles 유형 '②-a'·'②-b').
+- 데이터 기록 성격의 처리(기록 태그 TAG-FILE, 고객 진술 성향 태그 C2-EX, 메타 연령 교정)는 근거 조항이 없으므로
+  doc_id를 비우고 '근거 연결'에 '조항 없음(데이터 기록)'으로 둔다.
+- 그 밖에 유형을 못 정한 규칙이 생기면 'gold 미등록'으로 남겨 드러나게 한다 (새 연결을 만들지 않는다).
+- 교정(FIX-LOG)은 corrections_log의 위치로 유형을 나눈다: cot2 허용 범위 → 범위, answer 위험등급 문장 → 설명, 메타 연령 → 조항 없음(데이터 기록).
 - 원천 유형은 해당 상품(NH-Amundi 베트남 레버리지 → PRD-NHVN, 교보악사 공모주하이일드플러스 → PRD-KBAXA)을 추천한 CoT만 문서를 붙인다.
 - 조건만 맞고 최종 판정을 정하지 않은 사람 확인 규칙(예: 사람 판정이 먼저 정한 CoT의 TR-HUMAN)은 카드에 넣지 않는다.
 - 최신 등급은 G 조회 상태가 '확인'·'클래스 다름'인 상품만 쓴다 (클래스 다름은 표시).
@@ -19,7 +22,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 CRIT_TYPE = {"③": "범위", "③태그": "범위", "이관": "이관", "④": "설명", "원천": "원천", "G": "범위"}
 SRC_DOC = {"NH-Amundi 베트남 레버리지": "PRD-NHVN", "교보악사 공모주하이일드플러스": "PRD-KBAXA"}
-FIX_TYPE = {"cot2 허용 범위": "범위", "answer 위험등급 문장": "설명"}
+FIX_TYPE = {"cot2 허용 범위": "범위", "answer 위험등급 문장": "설명", "메타 연령": "기록"}
+RULE_TYPE = {"C2-A": "②-a", "C2-B": "②-b", "TAG-FILE": "기록", "C2-EX": "기록"}   # 기준보다 규칙으로 정하는 것
+NO_CLAUSE = "조항 없음(데이터 기록)"
 
 
 def _rules():
@@ -81,7 +86,7 @@ def build_cards(j: pd.DataFrame, ctx: dict, latest: pd.DataFrame | None = None, 
                 for pos in fix_pos.get(cid, []):
                     items.append((rid, ru, FIX_TYPE.get(pos), f"교정: {pos}"))
             else:
-                items.append((rid, ru, CRIT_TYPE.get(ru["기준"]), ""))
+                items.append((rid, ru, RULE_TYPE.get(rid, CRIT_TYPE.get(ru["기준"])), ""))
                 if rid == "R3-D52":   # 원천 등급 반영 제외는 상품 공식 정보도 근거
                     items.append((rid, ru, "원천", "원천 등급 근거"))
         if cid in g4_ids:
@@ -91,9 +96,10 @@ def build_cards(j: pd.DataFrame, ctx: dict, latest: pd.DataFrame | None = None, 
                  "규칙 판정": ru["판정"] if ru is not None else "최신 기준 부적합",
                  "규칙 처리": ru["처리"] if ru is not None else "태그",
                  "근거 결정": ru["근거 결정"] if ru is not None else "G4, D64", "비고": note}
-            docs = docs_for(typ, cid) if typ else []
+            docs = docs_for(typ, cid) if typ and typ != "기록" else []
             if not docs:
-                rows.append({**d, "doc_id": "", "조항": "", "문서 시행일": "", "근거 연결": "gold 미등록" if not typ else "해당 문서 없음"})
+                link = NO_CLAUSE if typ == "기록" else "gold 미등록" if not typ else "해당 문서 없음"
+                rows.append({**d, "doc_id": "", "조항": "", "문서 시행일": "", "근거 연결": link})
             for doc, art in docs:
                 rows.append({**d, "doc_id": doc, "조항": art, "문서 시행일": idx.get(doc, ""), "근거 연결": f"gold_articles:{typ}"})
     cols = ["cot_id", "분할", "처리", "적용 규칙", "기준", "규칙 판정", "규칙 처리", "근거 결정", "doc_id", "조항", "문서 시행일",
