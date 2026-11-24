@@ -1,0 +1,9 @@
+# FitCheck 시연 앱: 이 컴퓨터에서만 연다 (D60·D69)
+[server]
+address = "127.0.0.1"
+port = 8501
+headless = true
+
+[browser]
+gatherUsageStats = false
+serverAddress = "127.0.0.1"

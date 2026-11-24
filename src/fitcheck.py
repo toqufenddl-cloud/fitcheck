@@ -102,12 +102,47 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run", help="기준일로 전체 실행")
     r.add_argument("--as-of", required=True, help="기준일 YYYY-MM-DD (규칙·범위표·문서 시행일 판단)")
+    lv = sub.add_parser("live", help="시연: 문서 검색 → 규칙 생성 → 상품 등급 검색 → 근거 검색 → 적용 (src/live.py)")
+    lv.add_argument("--n", type=int, default=30, help="분석 건수 (최신 기준 부적합 min(n/3, 16), 범위 밖 최소 3 포함)")
+    lv.add_argument("--as-of", default="2026-11-24", help="기준일 YYYY-MM-DD")
+    lv.add_argument("--saved", action="store_true", help="웹 조회 없이 저장값으로")
+    lv.add_argument("--ids", default="", help="cot_id 목록 (쉼표). 주면 --n 대신")
     a = ap.parse_args(argv)
     if a.cmd == "run":
         datetime.strptime(a.as_of, "%Y-%m-%d")
         m = run(a.as_of)
         print(json.dumps(m["결과 수"], ensure_ascii=False))
         print("manifest:", OUT / "runs" / a.as_of / "manifest.json")
+    elif a.cmd == "live":
+        live_cli(a)
+
+
+def live_cli(a):
+    """진행 메시지·표를 터미널에 차례로 찍는다. 표는 앞 몇 행만 (원문 없음)."""
+    import time
+    from src.live import load_base, pick_sample, run_live, save_run
+    datetime.strptime(a.as_of, "%Y-%m-%d")
+    t0 = time.time()
+    print(f"[준비] 데이터 판정 (기준일 {a.as_of}) ...", flush=True)
+    base = load_base(a.as_of)
+    ids = [int(x) for x in a.ids.split(",") if x.strip()] or pick_sample(base, a.n)
+    print(f"[준비] {round(time.time() - t0, 1)}초, cot_id {ids}", flush=True)
+    pd.set_option("display.width", 200); pd.set_option("display.max_colwidth", 60)
+    last = None
+    for ev in run_live(base, ids, live=not a.saved):
+        k = ev["kind"]
+        if k == "progress":
+            if ev["i"] == ev["n"] or ev["i"] % 10 == 0:
+                print(f"  [{ev['step']}] 조회 {ev['i']}/{ev['n']}", flush=True)
+        elif k in ("msg", "warn"):
+            print(f"[{ev['step']}] {'주의: ' if k == 'warn' else ''}{ev['text']}", flush=True)
+        elif k == "table":
+            print(f"[{ev['step']}] {ev['title']} ({len(ev['data'])}행)\n{ev['data'].head(8).to_string(index=False)}", flush=True)
+        elif k == "done":
+            last = ev
+    print("\n[결과 요약]\n" + last["summary"].to_string(index=False))
+    d = save_run(last, a.as_of, len(ids), not a.saved)
+    print(f"\n파이프라인 {last['seconds']}초, 전체 {round(time.time() - t0, 1)}초. 저장: {d}")
 
 
 if __name__ == "__main__":

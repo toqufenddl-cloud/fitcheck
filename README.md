@@ -49,6 +49,7 @@ LLM 학습용 금융 상담·추천 데이터의 품질 진단 도구.
 src/            판정 함수 (DataFrame을 받아 판정 결과를 돌려준다)
   rules/        판정 규칙 표 (rules.csv, 허용 범위 d43_range.csv, 이관 표현)
   rag/          근거 조항 검색·로컬 LLM 진단 (선택)
+app/            시연 앱 (Streamlit, src/live.py 사용)
 notebooks/      분석 노트북 (번호순 실행)
 outputs/        집계 결과 (scorecard.csv, report_numbers.md, judgments.csv 등). 원문 없음
 docs/           판정기준서, 결정 기록, 근거 자료 목록
@@ -63,6 +64,12 @@ python -m src.fitcheck run --as-of 2026-11-24
 ```
 판정 → 근거 카드(`outputs/evidence_cards.csv`) → 점수표 → 엄격판·교정판 → `report_numbers.md` 순서로 실행하고, 기준일 시행 중인 규칙·범위표만 쓴다.
 실행 기록(기준일, rules.csv 해시, 기준 문서 시행일, 판정기준서 버전, git 커밋)은 `outputs/runs/<기준일>/manifest.json`에 남는다.
+
+시연 (이 컴퓨터 전용, D69): 기준 문서 검색 → 등급표 생성 → 상품 등급 실시간 조회 → 근거 조항 검색 → 적용을 단계별로 보여준다. 순서와 사례는 [`docs/demo_script.md`](docs/demo_script.md).
+```
+streamlit run app/fitcheck_app.py
+python -m src.fitcheck live --n 30 --as-of 2026-11-24
+```
 
 ## 실행 순서 (노트북)
 

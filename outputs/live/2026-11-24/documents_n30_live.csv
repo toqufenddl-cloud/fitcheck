@@ -1,0 +1,4 @@
+﻿doc_id,문서명,시행일,URL,보관본 sha256[:16],받은 문서 sha256[:16],상태,받은 파일,검색 시각
+LAW-FCPA,금융소비자 보호에 관한 법률,2026-01-02,https://www.law.go.kr/법령/금융소비자보호법,82ec89a05ee568b1,,"보관본 사용 (원본 URL이 문서 파일이 아님), 시행 2026-01-02",,2026-11-24T17:01:58
+REG-KOFIA,금융투자회사 표준투자권유준칙,,https://www.kofia.or.kr,09cf7bd39c7d73e4,,보관본 사용 (원본 URL이 문서 파일이 아님),,2026-11-24T17:01:58
+CO-KIS,한국투자증권 투자권유준칙,2026-09-21,https://file.koreainvestment.com/updata/namo/231012_rule.pdf,841363b520d80a86,841363b520d80a86,변경 없음,data\live\CO-KIS_2026-11-24.pdf,2026-11-24T17:01:58
