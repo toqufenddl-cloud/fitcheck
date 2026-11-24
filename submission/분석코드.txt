@@ -782,6 +782,29 @@ def c2_class(ctx, 값):
     """기준 ② 분류 (src/criteria12.judge12). 값의 '|'는 '또는'."""
     return ctx["cots"]["② 분류"].isin(값.split("|")), None
 
+
+@predicate
+def all_recs_in_range(ctx):
+    """R0 (판정기준서 v1.3, D67): 추천이 모두 공개 기준(D43, 성향_D21) 범위 안이면 이관 판정은 '해당 없음'.
+    애매한 경우 처리: 성향을 알 수 없거나(비교 불가), 추천이 없거나, 등급 없는 추천이 하나라도 있으면
+    '모두 범위 안'이라고 볼 수 없으므로 해당하지 않는다 (R0를 쓰지 않고 기존 이관 규칙으로 간다)."""
+    c, rec, rng = ctx["cots"], ctx["recs"], ctx["range"]
+    p = rec["cot_id"].map(c["성향_D21"])
+    ok = [(pd.notna(g) and q in rng and int(g) in rng[q]) for g, q in zip(rec["json_grade"], p)]
+    allin = pd.Series(ok, index=rec.index).groupby(rec["cot_id"]).all()
+    return _from_ids(ctx, allin[allin].index), None
+
+
+@predicate
+def human_transfer(ctx, 값):
+    """data/review/사람확인_판정.csv의 사람 판정 (D67, P3: 자동 규칙보다 우선). 값은 '이관 판정' 칸 ('|'는 '또는').
+    detail: '사람 판정: <내 분류>'.
+    애매한 경우 처리: 같은 cot_id가 두 번 있으면 마지막 행을 쓴다."""
+    r = ctx["transfer_review"].drop_duplicates("cot_id", keep="last")
+    sub = r[r["이관 판정"].isin(값.split("|"))]
+    detail = pd.Series(("사람 판정: " + sub["내 분류"]).values, index=sub["cot_id"].astype(int)).reindex(_ids(ctx))
+    return _from_ids(ctx, sub["cot_id"].astype(int)), detail
+
 ####################################################################################################
 # 파일: src/exclusions.py
 ####################################################################################################
@@ -1304,7 +1327,8 @@ def parse_condition(cond: str) -> list:
 def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "공개기준",
             review_path: Path = ROOT / "data" / "review" / "범위밖_분류표.csv",
             log_path: Path = ROOT / "outputs" / "corrections_log.csv",
-            tags_path: Path = ROOT / "outputs" / "tags.csv") -> dict:
+            tags_path: Path = ROOT / "outputs" / "tags.csv",
+            transfer_review_path: Path = ROOT / "data" / "review" / "사람확인_판정.csv") -> dict:
     """규칙 함수가 쓰는 표를 만든다 (증권 CoT만, D18). 원본은 바꾸지 않는다."""
     rng = load_range(as_of, standard)
     sc = cot[cot["category"] == "증권"].copy().set_index("cot_id")
@@ -1368,7 +1392,12 @@ def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "
     review = pd.read_csv(review_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
     corrections = pd.read_csv(log_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
     tags = pd.read_csv(tags_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+    # 사람 확인 사례의 사람 판정 (D67, P3). 파일이 없으면 빈 표 (규칙만으로 판정).
+    tcols = ["cot_id", "내 분류", "이관 판정", "메모", "출처"]
+    transfer_review = (pd.read_csv(transfer_review_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+                       if Path(transfer_review_path).exists() else pd.DataFrame(columns=tcols))
     return {"cots": sc, "recs": recs, "range": rng, "review": review, "corrections": corrections, "tags": tags,
+            "transfer_review": transfer_review,
             "mismatch_keys": mismatch_keys, "multi_keys": multi_keys, "as_of": as_of, "standard": standard}
 
 
@@ -1709,13 +1738,14 @@ def _grade(client, code: str) -> tuple[float, str]:
     return (float(g.group(1)) if g else float("nan")), (name.group(1).strip() if name else "")
 
 
-def lookup(names: list, checked: str) -> pd.DataFrame:
+def lookup(names: list, checked: str, delay: float = 0.5) -> pd.DataFrame:
     """상품명 목록을 조회한다. 반환 열: 상품명, 조회 이름, 조회 클래스, 최신 등급, 상태, 출처 순위, URL, 확인일.
     애매한 경우 처리:
     - 펀드가 아닌 상품(파생결합증권 등)은 펀드 공시 대상이 아니므로 조회하지 않고 '최신 확인 불가' (G5).
     - 검색은 기본 이름 전체 → 앞 12자 순으로 하고, 결과 중 기본 이름과 정규화 이름이 같은 펀드만 '일치'로 본다.
       이름이 바뀐 것으로 보이는 경우(정규화 이름이 다름)는 자동으로 같은 상품으로 보지 않고 '사람 확인(명칭 다름)'.
     - 클래스가 목록에 없으면 같은 펀드 대표 클래스 등급을 쓰고 '클래스 다름' (G3).
+    delay: 요청 사이 최소 간격(초). 상위 30 조회는 0.4~0.5초, G 표본(D67)은 1초 이상.
     """
     import httpx
     rows = []
@@ -1730,7 +1760,7 @@ def lookup(names: list, checked: str) -> pd.DataFrame:
             for term in _terms(base):
                 for h in _search(cl, term):
                     hits[h["repFundCd"]] = h
-                time.sleep(0.4)
+                time.sleep(max(0.4, delay))
             nb = _norm(base)
             same = [h for h in hits.values() if _norm(h["repFundNm"]) == nb]
             near = sorted(hits.values(), key=lambda h: -SequenceMatcher(None, _norm(h["repFundNm"]), nb).ratio())
@@ -1741,12 +1771,12 @@ def lookup(names: list, checked: str) -> pd.DataFrame:
                     row["상태"] = "최신 확인 불가(검색 결과 없음)"
                 rows.append(row); continue
             rep = same[0]
-            cl_list = _classes(cl, rep["fundCd"]); time.sleep(0.5)
+            cl_list = _classes(cl, rep["fundCd"]); time.sleep(max(0.5, delay))
             want = _norm(cls)
             lab = lambda t: _norm(re.sub(r"^(Class|종류)\s*", "", t.split(" - ")[0].strip()))
             pick = [c for c, t in cl_list if lab(t) == want] if want else []
             code = pick[0] if pick else rep["fundCd"]
-            g, shown = _grade(cl, code); time.sleep(0.5)
+            g, shown = _grade(cl, code); time.sleep(max(0.5, delay))
             row.update({"조회 이름": shown, "조회 클래스": cls if pick else rep.get("classNm", ""), "최신 등급": g,
                         "상태": "확인" if pick else "클래스 다름", "출처 순위": "3 펀드 정보 사이트(참고)",
                         "URL": f"{BASE}/product/fund/view/{code}"})
@@ -1824,6 +1854,8 @@ def tags_of(j: pd.DataFrame, g4_ids: set) -> pd.Series:
             t.append("원천 확인 필요")
         if r["기록 태그"]:
             t += [x.strip() for x in str(r["기록 태그"]).split(",")]
+        if r.get("사유 코드", "") == "원문 깨짐":   # D67: 사람 확인 후 원문 깨짐 태그 (194)
+            t.append("원문 깨짐")
         if r["cot_id"] in g4_ids:
             t.append("최신 기준 부적합")
         out[r["cot_id"]] = " | ".join(t)
@@ -1889,6 +1921,47 @@ def build(cot: pd.DataFrame, j: pd.DataFrame, d4: pd.DataFrame, latest: pd.DataF
     for cid, ss in add.items():
         corr.at[cid, "answer"] = str(corr.at[cid, "answer"]).rstrip() + " " + " ".join(ss)
     return strict.reset_index(), corr.reset_index(), pd.DataFrame(logs)
+
+
+COLS = ["cot_id", "split", "category", "gender", "age", "query_type", "question", "cot1", "cot2", "cot3", "answer", "product_names", "태그"]
+NEW_LOG = ["메타 연령", "answer 위험등급 문장"]
+
+
+def save(strict: pd.DataFrame, corr: pd.DataFrame, newlog: pd.DataFrame, root: Path = ROOT) -> pd.DataFrame:
+    """엄격판·교정판을 outputs/corrected/(git 제외)에 분할별 jsonl로 저장하고, corrections_log에서 D22·④ 기록을 지우고 새로 쓴다.
+    반환: 새 corrections_log."""
+    od = root / "outputs" / "corrected"; od.mkdir(parents=True, exist_ok=True)
+    for name, df in [("엄격판", strict), ("교정판", corr)]:
+        for sp, g in df.groupby("split"):
+            with open(od / f"{name}_{sp}.jsonl", "w", encoding="utf-8") as f:
+                for rec in g[COLS].to_dict("records"):
+                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    lp = root / "outputs" / "corrections_log.csv"
+    old = pd.read_csv(lp, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+    log = pd.concat([old[~old["위치"].isin(NEW_LOG)], newlog.astype(str)], ignore_index=True)
+    log.to_csv(lp, index=False, encoding="utf-8-sig")
+    return log
+
+
+def dataset_rows(strict, corr, newlog, d4, as_of: str, src: str = "08_정제데이터셋") -> list:
+    """scorecard '정제 데이터셋 (08)' 구역 행."""
+    R = lambda k, t, v, a, u: {"지표": k, "Training": t, "Validation": v, "전체": a, "단위": u, "출처": src,
+                               "근거 결정": "판정기준서 9장, D64", "기준일": as_of}
+    cnt = lambda df, sp: int((df["split"] == sp).sum())
+    a = newlog[newlog["위치"] == "answer 위험등급 문장"] if len(newlog) else pd.DataFrame(columns=["cot_id", "위치"])
+    cc = a.merge(corr[["cot_id", "split"]], on="cot_id")
+    miss = d4[(d4["answer"] != "있음") & d4["cot_id"].isin(corr["cot_id"])].drop_duplicates(["cot_id", "상품명"])
+    s, c = strict.set_index("cot_id"), corr.set_index("cot_id")
+    nt = strict[strict["태그"] == ""]
+    return [R("엄격판 CoT", cnt(strict, "Training"), cnt(strict, "Validation"), len(strict), "CoT"),
+            R("교정판 CoT", cnt(corr, "Training"), cnt(corr, "Validation"), len(corr), "CoT"),
+            R("교정: cot2 허용 범위 (P7)", "", "", int((s["cot2"].astype(str) != c["cot2"].astype(str)).sum()), "CoT"),
+            R("교정: 메타 연령 (D22)", "", "", int((s["age"].astype(str) != c["age"].astype(str)).sum()), "CoT"),
+            R("교정: ④ 등급 문장 추가 상품", int((cc["split"] == "Training").sum()), int((cc["split"] == "Validation").sum()), len(cc), "추천"),
+            R("교정: ④ 등급 문장 추가 CoT", cc.loc[cc["split"] == "Training", "cot_id"].nunique(),
+              cc.loc[cc["split"] == "Validation", "cot_id"].nunique(), cc["cot_id"].nunique(), "CoT"),
+            R("④ 미기재인데 등급이 없어 문장 미추가 상품", "", "", len(miss) - len(a), "추천"),
+            R("태그 없는 CoT (엄격판)", cnt(nt, "Training"), cnt(nt, "Validation"), len(nt), "CoT")]
 
 ####################################################################################################
 # 파일: src/report.py
@@ -2158,6 +2231,456 @@ def factor_rates(df: pd.DataFrame) -> pd.DataFrame:
         for (a, b), g in df.groupby(["질문유형", "재간접또는퇴직연금"]):
             out.append({"라벨": y, "요인": "질문유형×재간접또는퇴직연금", "값": f"{a}×{b}", "비율(%)": round(g[y].mean() * 100, 1), "CoT": len(g)})
     return pd.DataFrame(out)
+
+####################################################################################################
+# 파일: src/evidence_cards.py
+####################################################################################################
+"""근거 카드 (판정기준서 v1.3, D67): 처리(제외·교정·태그)가 있거나 사람 확인인 CoT마다 적용 규칙과 근거 조항을 한 표로.
+
+- 한 행 = (CoT, 적용 규칙, 근거 조항). 근거 조항은 src/rag/gold_articles.csv에서 규칙의 기준 유형으로 연결한다.
+- 문서 시행일은 docs/regulations/regulations_index.csv.
+- 원문 문장은 넣지 않는다. 범위는 숫자, 상품은 상품명과 등급만 쓴다 (P10).
+애매한 경우 처리:
+- gold_articles에 유형이 없는 규칙(기준 ②, 기록 태그, 메타 연령 교정)은 doc_id를 비우고 '근거 연결'에 'gold 미등록'으로 둔다 (새 연결을 만들지 않는다).
+- 교정(FIX-LOG)은 corrections_log의 위치로 유형을 나눈다: cot2 허용 범위 → 범위, answer 위험등급 문장 → 설명, 메타 연령 → 미등록.
+- 원천 유형은 해당 상품(NH-Amundi 베트남 레버리지 → PRD-NHVN, 교보악사 공모주하이일드플러스 → PRD-KBAXA)을 추천한 CoT만 문서를 붙인다.
+- 조건만 맞고 최종 판정을 정하지 않은 사람 확인 규칙(예: 사람 판정이 먼저 정한 CoT의 TR-HUMAN)은 카드에 넣지 않는다.
+- 최신 등급은 G 조회 상태가 '확인'·'클래스 다름'인 상품만 쓴다 (클래스 다름은 표시).
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+CRIT_TYPE = {"③": "범위", "③태그": "범위", "이관": "이관", "④": "설명", "원천": "원천", "G": "범위"}
+SRC_DOC = {"NH-Amundi 베트남 레버리지": "PRD-NHVN", "교보악사 공모주하이일드플러스": "PRD-KBAXA"}
+FIX_TYPE = {"cot2 허용 범위": "범위", "answer 위험등급 문장": "설명"}
+
+
+def _rules():
+    return pd.read_csv(ROOT / "src" / "rules" / "rules.csv", encoding="utf-8-sig", dtype=str, keep_default_na=False).set_index("rule_id")
+
+
+def build_cards(j: pd.DataFrame, ctx: dict, latest: pd.DataFrame | None = None, g4: pd.DataFrame | None = None) -> pd.DataFrame:
+    """j: judge() 결과, ctx: judge()의 ctx, latest: outputs/latest_grade_check.csv, g4: outputs/latest_grade_rejudge.csv."""
+    rules = _rules()
+    gold = pd.read_csv(ROOT / "src" / "rag" / "gold_articles.csv", encoding="utf-8-sig", dtype=str, keep_default_na=False)
+    idx = pd.read_csv(ROOT / "docs" / "regulations" / "regulations_index.csv", encoding="utf-8-sig", dtype=str,
+                      keep_default_na=False).set_index("doc_id")["시행일"]
+    c, rec, rng = ctx["cots"], ctx["recs"], ctx["range"]
+    corr = ctx["corrections"]
+    fix_pos = corr.groupby(corr["cot_id"].astype(int))["위치"].agg(lambda s: sorted(set(s)))
+
+    lt = {}
+    if latest is not None:
+        for n, g, s in zip(latest["상품명"], latest["최신 등급"], latest["상태"]):
+            if s in ("확인", "클래스 다름") and pd.notna(g) and str(g) != "":
+                lt[n] = f"{int(float(g))}" + ("(클래스 다름)" if s == "클래스 다름" else "")
+    prod_str = {}
+    for cid, g in rec.groupby("cot_id"):
+        prod_str[cid] = " | ".join(
+            f"{n}[데이터 {int(d) if pd.notna(d) else '없음'}" + (f"/최신 {lt[n]}" if n in lt else "") + "]"
+            for n, d in zip(g["rec_name"], g["json_grade"]))
+    g4_ids = set(g4.loc[g4["G4 태그"] != "", "cot_id"].astype(int)) if g4 is not None else set()
+
+    def docs_for(typ, cid):
+        if typ == "원천":
+            names = " ".join(rec.loc[rec["cot_id"] == cid, "rec_name"])
+            ds = [d for k, d in SRC_DOC.items() if k in names]
+            return [(r.doc_id, r.조항) for r in gold.itertuples() if r.유형 == "원천" and r.doc_id in ds]
+        return [(r.doc_id, r.조항) for r in gold.itertuples() if r.유형 == typ]
+
+    js = j.set_index("cot_id")
+    rows = []
+    for cid, r in js.iterrows():
+        human = "사람 확인" in (str(r["이관 판정"]) + str(r["기준③ 판정"]) + str(r.get("사유 코드", ""))) or \
+            r["기준③ 판정"] == "판정 불가(범위 표기 손상)"
+        acts = set(filter(None, str(r["처리 전체"]).split("|")))
+        if not (acts & {"제외", "교정", "태그"} or human or cid in g4_ids):
+            continue
+        p = c.at[cid, "성향_D21"]
+        base = {"cot_id": cid, "분할": r["분할"], "처리": r["처리 전체"], "성향(P5)": c.at[cid, "성향_P5"],
+                "성향(판정 사용)": p, "cot2 허용 범위": c.at[cid, "허용등급"],
+                "공개 기준 범위": "-".join(map(str, sorted(rng[p]))) if p in rng else "",
+                "추천 상품(등급)": prod_str.get(cid, "")}
+        applied = [x for x in str(r["적용 규칙"]).split("|") if x in rules.index]
+        items = []
+        for rid in applied:
+            ru = rules.loc[rid]
+            if ru["처리"] not in ("제외", "교정", "태그"):
+                # 사람 확인 규칙은 그 기준의 최종 판정이 사람 확인일 때만 (먼저 정해진 규칙이 있으면 조건만 맞은 것)
+                final = r["이관 판정"] if ru["기준"] == "이관" else r["기준③ 판정"] if ru["기준"] == "③" else ""
+                if not ("사람 확인" in (ru["판정"] + ru["사유 코드"]) and final == ru["판정"]):
+                    continue
+            if rid == "FIX-LOG":
+                for pos in fix_pos.get(cid, []):
+                    items.append((rid, ru, FIX_TYPE.get(pos), f"교정: {pos}"))
+            else:
+                items.append((rid, ru, CRIT_TYPE.get(ru["기준"]), ""))
+                if rid == "R3-D52":   # 원천 등급 반영 제외는 상품 공식 정보도 근거
+                    items.append((rid, ru, "원천", "원천 등급 근거"))
+        if cid in g4_ids:
+            items.append(("G4", None, "범위", "최신 기준 부적합"))
+        for rid, ru, typ, note in items:
+            d = {**base, "적용 규칙": rid, "기준": ru["기준"] if ru is not None else "G",
+                 "규칙 판정": ru["판정"] if ru is not None else "최신 기준 부적합",
+                 "규칙 처리": ru["처리"] if ru is not None else "태그",
+                 "근거 결정": ru["근거 결정"] if ru is not None else "G4, D64", "비고": note}
+            docs = docs_for(typ, cid) if typ else []
+            if not docs:
+                rows.append({**d, "doc_id": "", "조항": "", "문서 시행일": "", "근거 연결": "gold 미등록" if not typ else "해당 문서 없음"})
+            for doc, art in docs:
+                rows.append({**d, "doc_id": doc, "조항": art, "문서 시행일": idx.get(doc, ""), "근거 연결": f"gold_articles:{typ}"})
+    cols = ["cot_id", "분할", "처리", "적용 규칙", "기준", "규칙 판정", "규칙 처리", "근거 결정", "doc_id", "조항", "문서 시행일",
+            "근거 연결", "성향(P5)", "성향(판정 사용)", "cot2 허용 범위", "공개 기준 범위", "추천 상품(등급)", "비고"]
+    return pd.DataFrame(rows, columns=cols)
+
+####################################################################################################
+# 파일: src/scorecard.py
+####################################################################################################
+"""품질 점수표·사람 확인 수·민감도 (판정기준서 9장, 05c와 src.fitcheck가 같이 쓴다). 숫자만 만든다. 해석은 쓰지 않는다.
+
+애매한 경우 처리:
+- 비율의 분모는 기준별 대상 CoT (G는 상위 30개 상품을 추천한 CoT, 나머지는 증권 CoT 전체).
+- 민감도의 완화 기준은 공개 기준을 성향마다 한 등급 느슨하게 한 것(적극 1–6, 위험중립 3–6, 안정추구 4–6, 안정 5–6). 공격은 그대로 1–6.
+- 등급 없는 추천과 성향을 알 수 없는 CoT의 추천은 민감도에서 세지 않는다.
+"""
+from __future__ import annotations
+
+import pandas as pd
+
+SP = ["Training", "Validation"]
+RELAX = {"공격투자형": set(range(1, 7)), "적극투자형": set(range(1, 7)), "위험중립형": set(range(3, 7)),
+         "안정추구형": set(range(4, 7)), "안정형": {5, 6}}
+
+
+def _item(j, crit, name, mask, base, action, basis, human=0):
+    r = {"기준": crit, "지표": name, "처리": action, "근거": basis, "사람 확인": human}
+    for s in SP + ["전체"]:
+        b = base if s == "전체" else base & (j["분할"] == s)
+        m = mask & b
+        r[f"대상_{s}"], r[f"결함_{s}"] = int(b.sum()), int(m.sum())
+        r[f"비율_{s}"] = round(m.sum() / b.sum() * 100, 1) if b.sum() else float("nan")
+    return r
+
+
+def quality_table(j: pd.DataFrame, ctx: dict, g4: pd.DataFrame, lg: pd.DataFrame) -> pd.DataFrame:
+    ALL = pd.Series(True, index=j.index)
+    rows = [
+        _item(j, "①", "법정 3항목 중 미확인 있음", j["기준① 법정 미확인"] != "", ALL, "점수 보고", "금소법 제17조②2호"),
+        _item(j, "①", "6항목 중 확인 4개 이하", j["기준① 확인 수"].astype(int) <= 4, ALL, "점수 보고", "판정기준서 1장"),
+        _item(j, "②", "②-a 근거 부족 확정", j["기준② 판정"] == "②-a 근거 부족 확정", ALL, "태그", "금소법 제17조②2호·③, D36"),
+        _item(j, "②", "②-b 성향 미확정 추천", j["기준② 판정"] == "②-b 성향 미확정 추천", ALL, "태그", "금소법 제17조②·③"),
+        _item(j, "③", "범위 밖 (제외)", j["기준③ 처리"] == "제외", ALL, "제외", "KIS 준칙 제6조①, D55·D57·D52·D47",
+              human=int((j["기준③ 판정"] == "판정 불가(범위 표기 손상)").sum())),
+        _item(j, "③", "판정 불가 (성향·추천·등급 없음, 표기 손상)", j["기준③ 판정"].str.startswith("판정 불가"), ALL, "판정 불가", "D21·D34·D10·D57"),
+        _item(j, "③태그", "공개 기준보다 넓은 허용 범위", j["D30 태그"] != "", ALL, "태그(교정판 교정)", "D30"),
+        _item(j, "④", "일부 기재", j["기준④ 판정"] == "일부 기재", ALL, "태그 / 교정판 등급 문장", "금소법 제19조①, D19"),
+        _item(j, "④", "기재 없음", j["기준④ 판정"] == "기재 없음", ALL, "태그 / 교정판 등급 문장", "금소법 제19조①, D19"),
+        _item(j, "이관", "성향 밖 등급 직접 추천·이관 없음", j["이관 판정"] == "결함", ALL, "태그",
+              "KIS 준칙 제6조③, 표준준칙 10.4)·회사참고사항 10-4", human=int((j["이관 판정"] == "사람 확인").sum())),
+        _item(j, "원천", "원천 확인 필요 상품 추천", j["원천 확인 필요"].astype(str) == "True", ALL, "표시", "D51·D59"),
+    ]
+    gt = set(g4.loc[g4["G4 태그"] != "", "cot_id"].astype(int))
+    gb = set(g4["cot_id"].astype(int))
+    rows.append(_item(j, "G", "최신 기준 부적합 (상위 30개 상품 추천 CoT)", j["cot_id"].isin(gt), j["cot_id"].isin(gb), "태그", "G4",
+                      human=int((lg["등급 변경"] == "변경").sum())))
+    return pd.DataFrame(rows)
+
+
+def human_counts(j: pd.DataFrame, ctx: dict, lg: pd.DataFrame) -> dict:
+    return {
+        "③-3 범위 표기 손상 (CoT)": int((j["기준③ 판정"] == "판정 불가(범위 표기 손상)").sum()),
+        "이관 규칙으로 분류할 수 없는 문장 (CoT)": int((j["이관 판정"] == "사람 확인").sum()),
+        "G4 등급이 바뀐 상품 (상품)": int((lg["등급 변경"] == "변경").sum()),
+        "G 조회 명칭 다름 (상품)": int(lg["상태"].str.startswith("사람 확인").sum()),
+        "원천 확인 필요 상품 중 공식 문서 미확인 (상품)": len(ctx["mismatch_keys"]) - 1,
+        "C안 LLM·규칙 불일치 (B안이라 해당 없음)": 0,
+    }
+
+
+def sensitivity(ctx: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """반환: (민감도 표, 추천 행 표)."""
+    recs = ctx["recs"].copy()
+    recs["성향"] = recs["cot_id"].map(ctx["cots"]["성향_D21"])
+    recs["분할"] = recs["cot_id"].map(ctx["cots"]["split"])
+    ok = recs["json_grade"].notna() & recs["성향"].isin(RELAX)
+
+    def outside(r):
+        return [(int(g) not in r[p]) if o else False for g, p, o in zip(recs["json_grade"], recs["성향"], ok)]
+    recs["공개 기준 밖"] = outside(ctx["range"]); recs["완화 기준 밖"] = outside(RELAX)
+    sens = pd.concat({s: pd.DataFrame({k: {"추천": int((recs[k] & (recs["분할"] == s if s != "전체" else True)).sum()),
+                                           "CoT": recs.loc[recs[k] & (recs["분할"] == s if s != "전체" else True), "cot_id"].nunique()}
+                                       for k in ["공개 기준 밖", "완화 기준 밖"]}) for s in SP + ["전체"]}, axis=1)
+    return sens, recs
+
+
+def scorecard_rows(j, ctx, g4, lg, as_of: str, src: str = "05c_품질점수표") -> list:
+    sc = quality_table(j, ctx, g4, lg)
+    human = human_counts(j, ctx, lg)
+    sens, recs = sensitivity(ctx)
+    N = j["분할"].value_counts()
+
+    def srow(name, t, v, a, unit, basis):
+        return {"지표": name, "Training": t, "Validation": v, "전체": a, "단위": unit, "출처": src, "근거 결정": basis, "기준일": as_of}
+    out = []
+    for _, r in sc.iterrows():
+        out.append(srow(f"{r['기준']} {r['지표']} (결함 수)", r["결함_Training"], r["결함_Validation"], r["결함_전체"], "CoT", r["근거"]))
+        out.append(srow(f"{r['기준']} {r['지표']} (비율 %)", r["비율_Training"], r["비율_Validation"], r["비율_전체"], "%", r["근거"]))
+    for k, v in human.items():
+        out.append(srow(f"사람 확인: {k}", "", "", v, "건", "판정기준서 7장"))
+    for k in ["공개 기준 밖", "완화 기준 밖"]:
+        for u in ["추천", "CoT"]:
+            out.append(srow(f"민감도: {k} ({u})", sens.loc[u, ("Training", k)], sens.loc[u, ("Validation", k)], sens.loc[u, ("전체", k)], u, "판정기준서 9장"))
+    nrec = {s: int((recs["분할"] == s).sum()) for s in SP}; nrec["전체"] = len(recs)
+    oc = {s: sens.loc["추천", (s, "공개 기준 밖")] for s in SP + ["전체"]}
+    out.append(srow("③ 공개 기준 밖 추천 (추천 수, D54 대표 수치 갱신, 이전 799)", oc["Training"], oc["Validation"], oc["전체"], "추천", "D43·D54·D65"))
+    out.append(srow("③ 공개 기준 밖 추천 / 증권 추천 전체 (%)", *[round(oc[s] / nrec[s] * 100, 1) for s in SP + ["전체"]], "%", "D43·D54·D65"))
+    out.append(srow("증권 추천 전체", nrec["Training"], nrec["Validation"], nrec["전체"], "추천", ""))
+    out.append(srow("CoT 수", N["Training"], N["Validation"], len(j), "CoT", ""))
+    return out
+
+####################################################################################################
+# 파일: src/g_sample.py
+####################################################################################################
+"""G 표본 추정 (판정기준서 v1.3, D67): 상위 30개 밖 추천 상품에서 원천 등급별 층화 무작위 표본을 뽑아 최신 등급을 조회하고,
+등급 변경 비율과 '최신 기준 부적합' 추천 수를 전체로 추정한다.
+
+- 모집단: 증권 CoT에서 추천된 상품(추천 상품명 단위) 중 데이터 등록 등급이 있고 상위 30개(outputs/latest_grade_check.csv)에 없는 것.
+- 층: 데이터 등록 등급(원천 등급 1~6). 배분: 층 크기 비례, 층마다 최소 2개 (분산 계산용), 합 200. 시드 고정.
+- 조회: src.latest_grade.lookup (상품명만, 요청 간격 1초 이상). 결과는 data/llm_cache/에 상품마다 이어 쓴다 (중단 후 이어서 조회).
+- 추정 (층화 추정, 정규 근사 95% 신뢰구간, 유한 모집단 수정 포함):
+  · 조회 가능 비율: 최신 등급을 얻은 상품('확인'·'클래스 다름') 비율.
+  · 등급 변경 비율: 조회 가능 상품 중 등급이 바뀐 비율 (결합 비 추정, 선형화 분산).
+  · 최신 기준 부적합 추천 수: 상품별 G4 태그 추천 수의 층화 합계 추정. 조회 불가 상품은 0으로 센다(하한).
+    상위 30개 전수 결과(16)를 더한 전체 추정도 함께 낸다.
+애매한 경우 처리:
+- 등록 등급이 없는 추천 상품은 층을 정할 수 없어 모집단에서 뺀다 (수를 기록).
+- '사람 확인(명칭 다름)'은 조회 불가로 센다 (자동으로 같은 상품으로 보지 않음, G 규칙과 같음).
+"""
+from __future__ import annotations
+
+import math
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+SEED = 20261124
+N_SAMPLE = 200
+
+
+def frame(recs: pd.DataFrame, top30: set) -> tuple[pd.DataFrame, dict]:
+    r = recs.dropna(subset=["rec_name"])
+    g = r.groupby("rec_name").agg(등급=("json_grade", "first"), 추천=("cot_id", "size")).reset_index()
+    info = {"추천 상품": len(g), "상위 30 제외": int(g["rec_name"].isin(top30).sum()), "등급 없음 제외": int(g["등급"].isna().sum())}
+    g = g[~g["rec_name"].isin(top30) & g["등급"].notna()].copy()
+    g["층"] = g["등급"].astype(int)
+    info["모집단 상품"] = len(g)
+    return g.rename(columns={"rec_name": "상품명"}).reset_index(drop=True), info
+
+
+def allocate(sizes: pd.Series, n: int = N_SAMPLE, floor: int = 2) -> pd.Series:
+    """층 크기 비례 배분, 최소 floor, 층 크기 상한. 반올림 오차는 큰 나머지 순으로 맞춘다."""
+    raw = sizes / sizes.sum() * n
+    a = np.maximum(np.floor(raw), floor).astype(int).clip(upper=sizes)
+    while a.sum() < n:
+        rem = (raw - a).where(a < sizes, -np.inf)
+        a[rem.idxmax()] += 1
+    while a.sum() > n:
+        a[(a - floor).where(a > floor, -1).idxmax()] -= 1
+    return a
+
+
+def draw(fr: pd.DataFrame, n: int = N_SAMPLE, seed: int = SEED) -> pd.DataFrame:
+    sizes = fr.groupby("층").size()
+    alloc = allocate(sizes, n)
+    rng = np.random.default_rng(seed)
+    parts = []
+    for h, k in alloc.items():
+        pool = fr[fr["층"] == h].sort_values("상품명").reset_index(drop=True)
+        idx = rng.choice(len(pool), size=int(k), replace=False)
+        parts.append(pool.iloc[sorted(idx)].assign(층_N=int(sizes[h]), 층_n=int(k)))
+    return pd.concat(parts, ignore_index=True)
+
+
+def lookup_resumable(names: list, cache: Path, checked: str, delay: float = 1.0) -> pd.DataFrame:
+    from src.latest_grade import lookup
+    done = pd.read_csv(cache, encoding="utf-8-sig", keep_default_na=False, na_values=[""]) if cache.exists() else pd.DataFrame()
+    have = set(done["상품명"]) if len(done) else set()
+    for nm in names:
+        if nm in have:
+            continue
+        row = lookup([nm], checked, delay=delay)
+        row.to_csv(cache, mode="a", header=not cache.exists(), index=False, encoding="utf-8-sig")
+        have.add(nm)
+    return pd.read_csv(cache, encoding="utf-8-sig", keep_default_na=False, na_values=[""])
+
+
+def per_product(sample: pd.DataFrame, looked: pd.DataFrame, recs: pd.DataFrame, cots: pd.DataFrame, rng: dict) -> pd.DataFrame:
+    from src.latest_grade import g4_rejudge
+    lk = looked.drop_duplicates("상품명", keep="last")
+    s = sample.merge(lk[["상품명", "최신 등급", "상태", "조회 이름", "조회 클래스", "출처 순위", "URL", "확인일"]], on="상품명", how="left")
+    s["조회 가능"] = s["상태"].isin(["확인", "클래스 다름"]) & s["최신 등급"].notna()
+    s["등급 변경"] = s["조회 가능"] & (s["최신 등급"] != s["등급"])
+    g = g4_rejudge(recs, cots, rng, lk)
+    tag = g[g["G4 태그"] != ""].groupby("rec_name").size()
+    s["최신 기준 부적합 추천"] = s["상품명"].map(tag).fillna(0).astype(int)
+    s["데이터 범위 밖 추천"] = s["상품명"].map(g[g["데이터 시점"] == "범위 밖"].groupby("rec_name").size()).fillna(0).astype(int)
+    return s
+
+
+def _strat_total(s: pd.DataFrame, y: str):
+    tot, var = 0.0, 0.0
+    for _, g in s.groupby("층"):
+        N, n = g["층_N"].iloc[0], len(g)
+        tot += N * g[y].mean()
+        if n > 1:
+            var += N ** 2 * (1 - n / N) * g[y].var(ddof=1) / n
+    return tot, var
+
+
+def estimate(s: pd.DataFrame, top30_g4: int) -> pd.DataFrame:
+    s = s.assign(_x=s["조회 가능"].astype(float), _y=s["등급 변경"].astype(float), _t=s["최신 기준 부적합 추천"].astype(float))
+    N = s.groupby("층")["층_N"].first().sum()
+    ci = lambda e, v: (e - 1.96 * math.sqrt(v), e + 1.96 * math.sqrt(v))
+    rows = []
+    tx, vx = _strat_total(s, "_x")
+    lo, hi = ci(tx / N, vx / N ** 2)
+    rows.append(("조회 가능 비율 (확인·클래스 다름)", tx / N * 100, max(lo, 0) * 100, min(hi, 1) * 100, "%", "모집단 상품 대비"))
+    ty, _ = _strat_total(s, "_y")
+    R = ty / tx if tx else float("nan")
+    s["_d"] = s["_y"] - R * s["_x"]
+    _, vd = _strat_total(s, "_d")
+    vR = vd / tx ** 2 if tx else float("nan")
+    lo, hi = ci(R, vR)
+    rows.append(("등급 변경 비율 (조회 가능 상품 중)", R * 100, max(lo, 0) * 100, min(hi, 1) * 100, "%", "결합 비 추정"))
+    rows.append(("등급 변경 상품 수 추정 (모집단)", ty, *[max(v, 0) for v in ci(ty, _strat_total(s, "_y")[1])], "상품", "조회 불가는 0(하한)"))
+    tt, vt = _strat_total(s, "_t")
+    lo, hi = ci(tt, vt)
+    rows.append(("최신 기준 부적합 추천 수 추정 (상위 30 밖)", tt, max(lo, 0), hi, "추천", "조회 불가는 0(하한)"))
+    rows.append(("최신 기준 부적합 추천 수 추정 (전체 = 상위 30 전수 + 표본 추정)", tt + top30_g4, max(lo, 0) + top30_g4, hi + top30_g4,
+                 "추천", f"상위 30 전수 {top30_g4}"))
+    out = pd.DataFrame(rows, columns=["지표", "추정치", "95% 하한", "95% 상한", "단위", "비고"])
+    out[["추정치", "95% 하한", "95% 상한"]] = out[["추정치", "95% 하한", "95% 상한"]].round(1)
+    return out
+
+####################################################################################################
+# 파일: src/fitcheck.py
+####################################################################################################
+"""FitCheck 실행 명령 (판정기준서 v1.3, D67).
+
+    python -m src.fitcheck run --as-of 2026-11-24
+
+순서: 판정 → 근거 카드 → 점수표 → 엄격판·교정판 → report_numbers. 모두 기존 src 함수를 부른다.
+기록: outputs/runs/<기준일>/manifest.json (기준일, 규칙 버전 = rules.csv 해시, 기준 문서와 시행일, 판정기준서 버전, git 커밋).
+- G 최신 등급은 웹을 다시 조회하지 않고 outputs/latest_grade_check.csv(05b 조회 결과)를 읽어 G4만 다시 판정한다.
+- 원본 데이터는 data/raw (git 제외). 원문이 들어 있는 엄격판·교정판은 outputs/corrected/ (git 제외)에 쓴다.
+애매한 경우 처리: 교정 기록(corrections_log)이 판정의 '교정' 표시에 쓰이므로, 데이터셋을 만든 뒤 판정을 한 번 더 돌려 최종 판정을 쓴다.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+import pandas as pd
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / "outputs"
+
+
+def _read(p, **kw):
+    return pd.read_csv(p, encoding="utf-8-sig", **kw)
+
+
+def manifest(as_of: str, counts: dict) -> dict:
+    rules = ROOT / "src" / "rules"
+    h = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()[:16]
+    idx = _read(ROOT / "docs" / "regulations" / "regulations_index.csv", dtype=str, keep_default_na=False)
+    gold = set(_read(ROOT / "src" / "rag" / "gold_articles.csv", dtype=str, keep_default_na=False)["doc_id"])
+    head = (ROOT / "docs" / "판정기준서.md").read_text(encoding="utf-8").splitlines()[0]
+    ver = re.search(r"v\d+(?:\.\d+)*", head)
+    git = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    return {
+        "기준일": as_of,
+        "실행 시각": datetime.now().isoformat(timespec="seconds"),
+        "규칙 버전": {"rules.csv sha256[:16]": h(rules / "rules.csv"), "d43_range.csv sha256[:16]": h(rules / "d43_range.csv"),
+                    "transfer_terms.csv sha256[:16]": h(rules / "transfer_terms.csv")},
+        "판정기준서 버전": ver.group(0) if ver else head,
+        "기준 문서": [{"doc_id": r["doc_id"], "문서명": r["문서명"], "시행일": r["시행일"], "근거 카드 연결": r["doc_id"] in gold}
+                    for _, r in idx.iterrows()],
+        "git 커밋": git("rev-parse", "HEAD"),
+        "작업 트리 변경 있음": bool(git("status", "--porcelain", "--untracked-files=no")),
+        "결과 수": counts,
+    }
+
+
+def run(as_of: str) -> dict:
+    from src.dataset import build, dataset_rows, save
+    from src.evidence_cards import build_cards
+    from src.judge import judge
+    from src.latest_grade import g4_rejudge
+    from src.load_cot import load_cot, load_products
+    from src.report import update_scorecard, write_report_numbers
+    from src.scorecard import scorecard_rows
+
+    cot, prod = load_cot(), load_products()
+    # 1. 판정 (+ G4 재판정은 저장된 조회 결과로)
+    j, ctx = judge(cot, prod, as_of=as_of)
+    lg = _read(OUT / "latest_grade_check.csv", keep_default_na=False, na_values=[""])
+    g4 = g4_rejudge(ctx["recs"], ctx["cots"], ctx["range"], lg)
+    g4["분할"] = g4["cot_id"].map(ctx["cots"]["split"])
+    g4_ids = set(g4.loc[g4["G4 태그"] != "", "cot_id"].astype(int))
+    # 엄격판·교정판 (교정 기록이 판정에 쓰이므로 먼저 만들고 판정을 다시 돌린다)
+    d4 = _read(OUT / "d4_cause_by_product.csv", keep_default_na=False)
+    strict, corr, newlog = build(cot, j, d4, lg, g4_ids, ctx["recs"])
+    save(strict, corr, newlog)
+    j, ctx = judge(cot, prod, as_of=as_of)
+    j.to_csv(OUT / "judgments.csv", index=False, encoding="utf-8-sig")
+    g4.to_csv(OUT / "latest_grade_rejudge.csv", index=False, encoding="utf-8-sig")
+    # 2. 근거 카드
+    cards = build_cards(j, ctx, lg, g4)
+    cards.to_csv(OUT / "evidence_cards.csv", index=False, encoding="utf-8-sig")
+    # 3. 점수표
+    update_scorecard(scorecard_rows(j, ctx, g4, _read(OUT / "latest_grade_check.csv", keep_default_na=False), as_of,
+                                    src="fitcheck run"), "품질 점수표 (판정기준서 v1.1)")
+    # 4. 데이터셋 구역
+    update_scorecard(dataset_rows(strict, corr, newlog, d4, as_of, src="fitcheck run"), "정제 데이터셋 (08)")
+    # 5. report_numbers
+    write_report_numbers(_read(OUT / "scorecard.csv", dtype=str, keep_default_na=False))
+    counts = {"증권 CoT": len(j), "제외 CoT": int((j["기준③ 처리"] == "제외").sum()),
+              "이관 결함 CoT": int((j["이관 판정"] == "결함").sum()), "이관 사람 확인 CoT": int((j["이관 판정"] == "사람 확인").sum()),
+              "근거 카드 행": len(cards), "근거 카드 CoT": int(cards["cot_id"].nunique()),
+              "엄격판 CoT": len(strict), "교정판 CoT": len(corr), "G4 최신 기준 부적합 추천": int((g4["G4 태그"] != "").sum())}
+    m = manifest(as_of, counts)
+    rd = OUT / "runs" / as_of; rd.mkdir(parents=True, exist_ok=True)
+    (rd / "manifest.json").write_text(json.dumps(m, ensure_ascii=False, indent=2), encoding="utf-8")
+    return m
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(prog="python -m src.fitcheck", description="FitCheck 판정·근거 카드·점수표·데이터셋 실행")
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    r = sub.add_parser("run", help="기준일로 전체 실행")
+    r.add_argument("--as-of", required=True, help="기준일 YYYY-MM-DD (규칙·범위표·문서 시행일 판단)")
+    a = ap.parse_args(argv)
+    if a.cmd == "run":
+        datetime.strptime(a.as_of, "%Y-%m-%d")
+        m = run(a.as_of)
+        print(json.dumps(m["결과 수"], ensure_ascii=False))
+        print("manifest:", OUT / "runs" / a.as_of / "manifest.json")
+
+
+if __name__ == "__main__":
+    main()
 
 ####################################################################################################
 # 파일: src/rag/__init__.py
@@ -5841,7 +6364,7 @@ pd.set_option("display.width", 200); pd.set_option("display.max_columns", 30)
 from src.load_cot import load_cot, load_products
 from src.judge import judge, load_rules, load_range
 
-AS_OF = "2026-11-23"  # D57(2026-11-18), 판정기준서 v1.1 ①②·P5 보충(2026-11-23, D64) 포함
+AS_OF = "2026-11-24"  # D57(2026-11-18), ①②·P5(2026-11-23, D64·D65), R0·사람확인 판정(2026-11-24, D67) 포함
 cot = load_cot(); prod = load_products()
 print("시행 중 허용 범위(공개기준):", {p: sorted(g) for p, g in load_range(AS_OF).items()})
 rules = load_rules(AS_OF)
@@ -6249,7 +6772,7 @@ from src.load_cot import load_cot, load_products
 from src.judge import judge
 from src.d4_cause import d4_cause, cot_level_d19
 from src.report import update_scorecard
-AS_OF = "2026-11-23"  # 판정기준서 v1.1 (D64)
+AS_OF = "2026-11-24"  # 판정기준서 v1.1 (D64)
 cot = load_cot(); prod = load_products()
 j, ctx = judge(cot, prod, as_of=AS_OF)
 t = d4_cause(ctx, prod)
@@ -6362,7 +6885,7 @@ pd.set_option("display.width", 220); pd.set_option("display.max_colwidth", 60)
 from src.load_cot import load_cot, load_products
 from src.judge import judge
 from src.latest_grade import lookup, g4_rejudge, LABEL
-AS_OF, CHECKED = "2026-11-23", "2026-11-23"
+AS_OF, CHECKED = "2026-11-24", "2026-11-23"
 RERUN_LOOKUP = False
 cot = load_cot(); prod = load_products()
 j, ctx = judge(cot, prod, as_of=AS_OF)
@@ -6428,6 +6951,71 @@ rows += [R("등급 변경 상품", "", "", int((L["등급 변경"] == "변경").
          R("데이터 범위 밖 → 최신 범위 안 추천", "", "", int(((g["데이터 시점"] == "범위 밖") & (g["최신 시점"] == "범위 안")).sum()), "추천")]
 update_scorecard(rows, "G 최신 공시 등급 대조")
 print("scorecard 저장")
+
+####################################################################################################
+# 파일: notebooks/05d_G표본추정.ipynb (코드 셀)
+####################################################################################################
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import sys
+from pathlib import Path
+import pandas as pd
+ROOT = Path.cwd().parent
+sys.path.insert(0, str(ROOT))
+pd.set_option("display.width", 220)
+from src.load_cot import load_cot, load_products
+from src.judge import prepare
+from src.g_sample import frame, draw, lookup_resumable, per_product, estimate, SEED, N_SAMPLE
+AS_OF, CHECKED = "2026-11-24", "2026-11-24"
+cot = load_cot(); prod = load_products()
+ctx = prepare(cot, prod, AS_OF)
+top = pd.read_csv(ROOT / "outputs" / "latest_grade_check.csv", encoding="utf-8-sig", keep_default_na=False)
+g4top = pd.read_csv(ROOT / "outputs" / "latest_grade_rejudge.csv", encoding="utf-8-sig", keep_default_na=False)
+fr, info = frame(ctx["recs"], set(top["상품명"]))
+print(info); print("층 크기:", fr.groupby("층").size().to_dict())
+sample = draw(fr, N_SAMPLE, SEED)
+print("표본:", len(sample), "/ 층별:", sample.groupby("층").size().to_dict())
+
+
+# In[2]:
+
+
+cache = ROOT / "data" / "llm_cache" / "latest_grade_sample_lookup_20261124.csv"
+looked = lookup_resumable(sample["상품명"].tolist(), cache, CHECKED, delay=1.0)
+s = per_product(sample, looked, ctx["recs"], ctx["cots"], ctx["range"])
+print("조회 상태:", s["상태"].value_counts().to_dict())
+print("층별 조회 가능·등급 변경·부적합 추천:")
+print(s.groupby("층").agg(표본=("상품명", "size"), 모집단=("층_N", "first"), 조회가능=("조회 가능", "sum"),
+                         등급변경=("등급 변경", "sum"), 부적합추천=("최신 기준 부적합 추천", "sum")).to_string())
+
+
+# In[3]:
+
+
+top_g4 = int((g4top["G4 태그"] != "").sum())
+est = estimate(s, top_g4)
+print(est.to_string(index=False))
+cols = ["상품명", "층", "층_N", "층_n", "등급", "최신 등급", "상태", "조회 가능", "등급 변경", "최신 기준 부적합 추천",
+        "데이터 범위 밖 추천", "조회 이름", "조회 클래스", "출처 순위", "URL", "확인일"]
+s.rename(columns={"등급": "데이터 등급"}).reindex(columns=[c if c != "등급" else "데이터 등급" for c in cols])  .to_csv(ROOT / "outputs" / "latest_grade_sample.csv", index=False, encoding="utf-8-sig")
+est.to_csv(ROOT / "outputs" / "latest_grade_sample_estimate.csv", index=False, encoding="utf-8-sig")
+
+
+# In[4]:
+
+
+from src.report import update_scorecard
+rows = [{"지표": f"표본 설계: {k}", "전체": v, "단위": "상품", "출처": "05d_G표본추정", "근거 결정": "D67", "기준일": AS_OF} for k, v in info.items()]
+rows.append({"지표": "표본 상품 수 (시드 20261124)", "전체": len(s), "단위": "상품", "출처": "05d_G표본추정", "근거 결정": "D67", "기준일": AS_OF})
+for _, r in est.iterrows():
+    rows.append({"지표": f"{r['지표']} (95% CI {r['95% 하한']}–{r['95% 상한']})", "전체": r["추정치"], "단위": r["단위"],
+                 "출처": "05d_G표본추정", "근거 결정": f"D67, {r['비고']}", "기준일": AS_OF})
+update_scorecard(rows, "G 표본 추정 (05d, D67)")
+print("scorecard 저장:", len(rows), "행")
 
 ####################################################################################################
 # 파일: notebooks/07_근거검색_LLM진단.ipynb (코드 셀)
@@ -6887,7 +7475,7 @@ pd.set_option("display.width", 220)
 from src.load_cot import load_cot, load_products
 from src.judge import judge
 from src.report import update_scorecard
-AS_OF = "2026-11-23"
+AS_OF = "2026-11-24"
 cot = load_cot(); prod = load_products()
 j, ctx = judge(cot, prod, as_of=AS_OF)
 g4 = pd.read_csv(ROOT / "outputs" / "latest_grade_rejudge.csv", encoding="utf-8-sig", keep_default_na=False)
@@ -7015,7 +7603,7 @@ pd.set_option("display.width", 220)
 from src.load_cot import load_cot, load_products
 from src.judge import judge
 from src.dataset import build
-AS_OF = "2026-11-23"
+AS_OF = "2026-11-24"
 cot = load_cot(); prod = load_products()
 j, ctx = judge(cot, prod, as_of=AS_OF)
 d4 = pd.read_csv(ROOT / "outputs" / "d4_cause_by_product.csv", encoding="utf-8-sig", keep_default_na=False)
@@ -7100,7 +7688,7 @@ pd.set_option("display.width", 220)
 from src.load_cot import load_cot, load_products
 from src.judge import judge
 from src.factor_model import build_features, fit_models, factor_rates, LABELS
-AS_OF = "2026-11-23"
+AS_OF = "2026-11-24"
 cot = load_cot(); prod = load_products()
 _, ctx = judge(cot, prod, as_of=AS_OF)
 jd = pd.read_csv(ROOT / "outputs" / "judgments.csv", encoding="utf-8-sig", keep_default_na=False)
