@@ -68,13 +68,14 @@ def _grade(client, code: str) -> tuple[float, str]:
     return (float(g.group(1)) if g else float("nan")), (name.group(1).strip() if name else "")
 
 
-def lookup(names: list, checked: str) -> pd.DataFrame:
+def lookup(names: list, checked: str, delay: float = 0.5) -> pd.DataFrame:
     """상품명 목록을 조회한다. 반환 열: 상품명, 조회 이름, 조회 클래스, 최신 등급, 상태, 출처 순위, URL, 확인일.
     애매한 경우 처리:
     - 펀드가 아닌 상품(파생결합증권 등)은 펀드 공시 대상이 아니므로 조회하지 않고 '최신 확인 불가' (G5).
     - 검색은 기본 이름 전체 → 앞 12자 순으로 하고, 결과 중 기본 이름과 정규화 이름이 같은 펀드만 '일치'로 본다.
       이름이 바뀐 것으로 보이는 경우(정규화 이름이 다름)는 자동으로 같은 상품으로 보지 않고 '사람 확인(명칭 다름)'.
     - 클래스가 목록에 없으면 같은 펀드 대표 클래스 등급을 쓰고 '클래스 다름' (G3).
+    delay: 요청 사이 최소 간격(초). 상위 30 조회는 0.4~0.5초, G 표본(D67)은 1초 이상.
     """
     import httpx
     rows = []
@@ -89,7 +90,7 @@ def lookup(names: list, checked: str) -> pd.DataFrame:
             for term in _terms(base):
                 for h in _search(cl, term):
                     hits[h["repFundCd"]] = h
-                time.sleep(0.4)
+                time.sleep(max(0.4, delay))
             nb = _norm(base)
             same = [h for h in hits.values() if _norm(h["repFundNm"]) == nb]
             near = sorted(hits.values(), key=lambda h: -SequenceMatcher(None, _norm(h["repFundNm"]), nb).ratio())
@@ -100,12 +101,12 @@ def lookup(names: list, checked: str) -> pd.DataFrame:
                     row["상태"] = "최신 확인 불가(검색 결과 없음)"
                 rows.append(row); continue
             rep = same[0]
-            cl_list = _classes(cl, rep["fundCd"]); time.sleep(0.5)
+            cl_list = _classes(cl, rep["fundCd"]); time.sleep(max(0.5, delay))
             want = _norm(cls)
             lab = lambda t: _norm(re.sub(r"^(Class|종류)\s*", "", t.split(" - ")[0].strip()))
             pick = [c for c, t in cl_list if lab(t) == want] if want else []
             code = pick[0] if pick else rep["fundCd"]
-            g, shown = _grade(cl, code); time.sleep(0.5)
+            g, shown = _grade(cl, code); time.sleep(max(0.5, delay))
             row.update({"조회 이름": shown, "조회 클래스": cls if pick else rep.get("classNm", ""), "최신 등급": g,
                         "상태": "확인" if pick else "클래스 다름", "출처 순위": "3 펀드 정보 사이트(참고)",
                         "URL": f"{BASE}/product/fund/view/{code}"})
