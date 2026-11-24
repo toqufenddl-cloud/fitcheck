@@ -111,3 +111,44 @@ def build(cot: pd.DataFrame, j: pd.DataFrame, d4: pd.DataFrame, latest: pd.DataF
     for cid, ss in add.items():
         corr.at[cid, "answer"] = str(corr.at[cid, "answer"]).rstrip() + " " + " ".join(ss)
     return strict.reset_index(), corr.reset_index(), pd.DataFrame(logs)
+
+
+COLS = ["cot_id", "split", "category", "gender", "age", "query_type", "question", "cot1", "cot2", "cot3", "answer", "product_names", "태그"]
+NEW_LOG = ["메타 연령", "answer 위험등급 문장"]
+
+
+def save(strict: pd.DataFrame, corr: pd.DataFrame, newlog: pd.DataFrame, root: Path = ROOT) -> pd.DataFrame:
+    """엄격판·교정판을 outputs/corrected/(git 제외)에 분할별 jsonl로 저장하고, corrections_log에서 D22·④ 기록을 지우고 새로 쓴다.
+    반환: 새 corrections_log."""
+    od = root / "outputs" / "corrected"; od.mkdir(parents=True, exist_ok=True)
+    for name, df in [("엄격판", strict), ("교정판", corr)]:
+        for sp, g in df.groupby("split"):
+            with open(od / f"{name}_{sp}.jsonl", "w", encoding="utf-8") as f:
+                for rec in g[COLS].to_dict("records"):
+                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    lp = root / "outputs" / "corrections_log.csv"
+    old = pd.read_csv(lp, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+    log = pd.concat([old[~old["위치"].isin(NEW_LOG)], newlog.astype(str)], ignore_index=True)
+    log.to_csv(lp, index=False, encoding="utf-8-sig")
+    return log
+
+
+def dataset_rows(strict, corr, newlog, d4, as_of: str, src: str = "08_정제데이터셋") -> list:
+    """scorecard '정제 데이터셋 (08)' 구역 행."""
+    R = lambda k, t, v, a, u: {"지표": k, "Training": t, "Validation": v, "전체": a, "단위": u, "출처": src,
+                               "근거 결정": "판정기준서 9장, D64", "기준일": as_of}
+    cnt = lambda df, sp: int((df["split"] == sp).sum())
+    a = newlog[newlog["위치"] == "answer 위험등급 문장"] if len(newlog) else pd.DataFrame(columns=["cot_id", "위치"])
+    cc = a.merge(corr[["cot_id", "split"]], on="cot_id")
+    miss = d4[(d4["answer"] != "있음") & d4["cot_id"].isin(corr["cot_id"])].drop_duplicates(["cot_id", "상품명"])
+    s, c = strict.set_index("cot_id"), corr.set_index("cot_id")
+    nt = strict[strict["태그"] == ""]
+    return [R("엄격판 CoT", cnt(strict, "Training"), cnt(strict, "Validation"), len(strict), "CoT"),
+            R("교정판 CoT", cnt(corr, "Training"), cnt(corr, "Validation"), len(corr), "CoT"),
+            R("교정: cot2 허용 범위 (P7)", "", "", int((s["cot2"].astype(str) != c["cot2"].astype(str)).sum()), "CoT"),
+            R("교정: 메타 연령 (D22)", "", "", int((s["age"].astype(str) != c["age"].astype(str)).sum()), "CoT"),
+            R("교정: ④ 등급 문장 추가 상품", int((cc["split"] == "Training").sum()), int((cc["split"] == "Validation").sum()), len(cc), "추천"),
+            R("교정: ④ 등급 문장 추가 CoT", cc.loc[cc["split"] == "Training", "cot_id"].nunique(),
+              cc.loc[cc["split"] == "Validation", "cot_id"].nunique(), cc["cot_id"].nunique(), "CoT"),
+            R("④ 미기재인데 등급이 없어 문장 미추가 상품", "", "", len(miss) - len(a), "추천"),
+            R("태그 없는 CoT (엄격판)", cnt(nt, "Training"), cnt(nt, "Validation"), len(nt), "CoT")]

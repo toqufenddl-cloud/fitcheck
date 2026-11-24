@@ -56,7 +56,15 @@ submission/     분석 코드 모음 (src + 노트북 코드 셀)
 data/           원본 데이터 위치 (git 제외)
 ```
 
-## 실행 순서
+## 사용법
+
+```
+python -m src.fitcheck run --as-of 2026-11-24
+```
+판정 → 근거 카드(`outputs/evidence_cards.csv`) → 점수표 → 엄격판·교정판 → `report_numbers.md` 순서로 실행하고, 기준일 시행 중인 규칙·범위표만 쓴다.
+실행 기록(기준일, rules.csv 해시, 기준 문서 시행일, 판정기준서 버전, git 커밋)은 `outputs/runs/<기준일>/manifest.json`에 남는다.
+
+## 실행 순서 (노트북)
 
 | 순서 | 노트북 | 내용 |
 |---|---|---|
