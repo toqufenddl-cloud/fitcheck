@@ -38,3 +38,6 @@ C2-A,②,20,c2_class(값=②-a 근거 부족 확정),②-a 근거 부족 확정,
 C2-EX,②,30,c2_class(값=결함 아님(고객 진술 성향)),결함 아님(고객 진술 성향),태그,고객 진술 성향,D64,2026-11-23,docs/criteria_12_plan.md F1
 C2-OK,②,98,always(),결함 아님,,,D64,2026-11-23,docs/판정기준서.md 2장
 TR-R0,이관,15,all_recs_in_range(),해당 없음,,R0 추천 모두 범위 안,D67,2026-11-24,docs/판정기준서.md 4장 (v1.3 R0)
+TR-HUMAN-D,이관,5,human_transfer(값=결함),결함,태그,@사람 판정,D67,2026-11-24,data/review/사람확인_판정.csv
+TR-HUMAN-NA,이관,6,human_transfer(값=해당 없음),해당 없음,,@사람 판정,D67,2026-11-24,data/review/사람확인_판정.csv
+R3-D57-DMG-H,③,49,range_text_damaged() & human_transfer(값=결함|해당 없음),판정 불가(범위 표기 손상·원문 깨짐),태그,원문 깨짐,D67,2026-11-24,data/review/사람확인_판정.csv

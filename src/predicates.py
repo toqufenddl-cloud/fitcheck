@@ -189,3 +189,14 @@ def all_recs_in_range(ctx):
     ok = [(pd.notna(g) and q in rng and int(g) in rng[q]) for g, q in zip(rec["json_grade"], p)]
     allin = pd.Series(ok, index=rec.index).groupby(rec["cot_id"]).all()
     return _from_ids(ctx, allin[allin].index), None
+
+
+@predicate
+def human_transfer(ctx, 값):
+    """data/review/사람확인_판정.csv의 사람 판정 (D67, P3: 자동 규칙보다 우선). 값은 '이관 판정' 칸 ('|'는 '또는').
+    detail: '사람 판정: <내 분류>'.
+    애매한 경우 처리: 같은 cot_id가 두 번 있으면 마지막 행을 쓴다."""
+    r = ctx["transfer_review"].drop_duplicates("cot_id", keep="last")
+    sub = r[r["이관 판정"].isin(값.split("|"))]
+    detail = pd.Series(("사람 판정: " + sub["내 분류"]).values, index=sub["cot_id"].astype(int)).reindex(_ids(ctx))
+    return _from_ids(ctx, sub["cot_id"].astype(int)), detail

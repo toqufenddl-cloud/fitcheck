@@ -71,7 +71,8 @@ def parse_condition(cond: str) -> list:
 def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "공개기준",
             review_path: Path = ROOT / "data" / "review" / "범위밖_분류표.csv",
             log_path: Path = ROOT / "outputs" / "corrections_log.csv",
-            tags_path: Path = ROOT / "outputs" / "tags.csv") -> dict:
+            tags_path: Path = ROOT / "outputs" / "tags.csv",
+            transfer_review_path: Path = ROOT / "data" / "review" / "사람확인_판정.csv") -> dict:
     """규칙 함수가 쓰는 표를 만든다 (증권 CoT만, D18). 원본은 바꾸지 않는다."""
     rng = load_range(as_of, standard)
     sc = cot[cot["category"] == "증권"].copy().set_index("cot_id")
@@ -135,7 +136,12 @@ def prepare(cot: pd.DataFrame, prod: pd.DataFrame, as_of: str, standard: str = "
     review = pd.read_csv(review_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
     corrections = pd.read_csv(log_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
     tags = pd.read_csv(tags_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+    # 사람 확인 사례의 사람 판정 (D67, P3). 파일이 없으면 빈 표 (규칙만으로 판정).
+    tcols = ["cot_id", "내 분류", "이관 판정", "메모", "출처"]
+    transfer_review = (pd.read_csv(transfer_review_path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
+                       if Path(transfer_review_path).exists() else pd.DataFrame(columns=tcols))
     return {"cots": sc, "recs": recs, "range": rng, "review": review, "corrections": corrections, "tags": tags,
+            "transfer_review": transfer_review,
             "mismatch_keys": mismatch_keys, "multi_keys": multi_keys, "as_of": as_of, "standard": standard}
 
 

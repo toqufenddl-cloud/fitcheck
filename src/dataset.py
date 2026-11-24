@@ -44,6 +44,8 @@ def tags_of(j: pd.DataFrame, g4_ids: set) -> pd.Series:
             t.append("원천 확인 필요")
         if r["기록 태그"]:
             t += [x.strip() for x in str(r["기록 태그"]).split(",")]
+        if r.get("사유 코드", "") == "원문 깨짐":   # D67: 사람 확인 후 원문 깨짐 태그 (194)
+            t.append("원문 깨짐")
         if r["cot_id"] in g4_ids:
             t.append("최신 기준 부적합")
         out[r["cot_id"]] = " | ".join(t)

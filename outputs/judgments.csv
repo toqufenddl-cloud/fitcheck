@@ -210,7 +210,7 @@
 479,Training,점수 보고(기준① 확인 수),6,,결함 아님,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 606,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 573,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
-570,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN
+570,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN-D|TR-HUMAN
 590,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,경험,결함,3:경험,False,,False,False,False,,제외,제외|태그|표시,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-DEFECT
 564,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 617,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE|TR-R0
@@ -352,7 +352,7 @@
 955,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 984,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 972,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,True,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-A|R3-D30-TAG|R4-D19-ALL|FIX-LOG|SRC-D51|TR-R0
-985,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,사람 확인,3:사람 확인,False,명칭·관련 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN
+985,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,결함,3:사람 확인,False,명칭·관련 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN-D|TR-HUMAN
 905,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 836,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-PART|FIX-LOG|TR-R0
 1038,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,경험,결함,3:경험,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-DEFECT
@@ -565,7 +565,7 @@
 1569,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,True,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-R0
 1501,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 1542,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
-1589,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,일부 기재,True,False,사람 확인,해당 없음,5:사람 확인,False,"경험·요청 동시, 명칭만",False,False,True,,교정,교정|태그|표시,R4-D19-PART|FIX-LOG|SRC-D51|TR-R0|TR-HUMAN
+1589,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,일부 기재,True,False,사람 확인,해당 없음,5:사람 확인,False,"경험·요청 동시, 명칭만",False,False,True,,교정,교정|태그|표시,R4-D19-PART|FIX-LOG|SRC-D51|TR-HUMAN-NA|TR-R0|TR-HUMAN
 1560,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정형,False,False,범위 안,,,,전부 기재,True,False,사람 확인,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51|TR-R0
 1523,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE|TR-R0
 1510,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-R0
@@ -644,7 +644,7 @@
 1746,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 1706,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,True,R1 명확한 희망,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51-MULTI|TR-R0
 1693,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-1663,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0|TR-HUMAN
+1663,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 1734,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 1765,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 1763,Training,점수 보고(기준① 확인 수),6,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -1502,7 +1502,7 @@
 4253,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4159,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,경험,결함,3:경험,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-DEFECT
 4266,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
-4256,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN
+4256,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN-D|TR-HUMAN
 4177,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,R1 명확한 희망,결함,3:R1 명확한 희망,True,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-DEFECT
 4234,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4243,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
@@ -1514,7 +1514,7 @@
 4280,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-R0
 4344,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4240,Training,점수 보고(기준① 확인 수),5,취득 경험,②-a 근거 부족 확정,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-PART|FIX-LOG|TR-R0
-4282,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,사람 확인,해당 없음,2:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-R0|TR-HUMAN
+4282,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,사람 확인,해당 없음,2:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 4270,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4297,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4305,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-R0
@@ -1539,7 +1539,7 @@
 4288,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4339,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 4296,Training,점수 보고(기준① 확인 수),5,,②-b 성향 미확정 추천,복수,False,False,판정 불가(성향),,,,일부 기재,False,False,경험,②-b로 이관(성향 미확정),,False,성향 불명(D21 비교 불가),False,False,True,,교정,교정|태그,C2-B|R3-NA-P|R4-D19-PART|FIX-LOG|TR-C2B|TR-HUMAN
-4310,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4310,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4350,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4355,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4300,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
@@ -1593,7 +1593,7 @@
 4465,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-R0
 4508,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-R0
 4528,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
-4556,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,4:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4556,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,4:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4294,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 4417,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 4343,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
@@ -1670,12 +1670,12 @@
 4740,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4739,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,R2 고려 중,결함,3:R2 고려 중,True,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-DEFECT
 4799,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-R0
-4660,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0|TR-HUMAN
+4660,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 4761,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,일부 기재,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4755,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE|TR-R0
 4643,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,C2-A|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
 4814,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE|TR-R0
-4780,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4780,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4797,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4787,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 4779,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -1738,7 +1738,7 @@
 4923,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 4912,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 4835,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,True,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-R0
-4913,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,사람 확인,4:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN
+4913,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,결함,4:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN-D|TR-HUMAN
 4969,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-R0
 4952,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 4924,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
@@ -1746,7 +1746,7 @@
 4951,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 4694,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4965,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
-4973,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,4,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4973,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,4,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4914,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,적극투자형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-NONE|FIX-LOG|TR-R0
 4995,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4939,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,True,사람 확인,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51-MULTI|TR-R0
@@ -1845,7 +1845,7 @@
 5199,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,위험중립형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-A|R4-D19-ALL|TR-NONE|TR-R0
 5208,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 5270,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,True,False,사람 확인,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51|TR-R0
-5260,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,"경험·요청 동시, 명칭만",False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0|TR-HUMAN
+5260,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,"경험·요청 동시, 명칭만",False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 5187,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 4903,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 5255,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -2008,7 +2008,7 @@
 5760,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 5733,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,일부 기재,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 5732,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
-5770,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0|TR-HUMAN
+5770,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 5794,Training,점수 보고(기준① 확인 수),6,,결함 아님,공격투자형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 5761,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,,전부 기재,True,False,경험,해당 없음,,False,,False,False,False,,표시,표시,R4-D19-ALL|SRC-D51|TR-R0
 5722,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,True,False,,,,R4-D19-ALL|TR-NONE|TR-R0
@@ -2157,7 +2157,7 @@
 6181,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 6256,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-A|R4-D19-ALL|TR-NONE|TR-R0
 6180,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE|TR-R0
-6259,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,사람 확인,"2:회피,3:사람 확인",False,명칭·요청 표현만,False,False,False,,제외,제외|태그|표시,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN
+6259,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,결함,"2:회피,3:사람 확인",False,명칭·요청 표현만,False,False,False,,제외,제외|태그|표시,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN-D|TR-HUMAN
 6092,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 6138,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-PART|FIX-LOG|SRC-D51|TR-NONE|TR-R0
 6139,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
@@ -2305,7 +2305,7 @@
 210,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 212,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,일부 기재,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-EX|R4-D19-PART|FIX-LOG|SRC-D51|TR-NONE|TR-R0
 218,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
-194,Training,점수 보고(기준① 확인 수),4,,결함 아님(고객 진술 성향),위험중립형,False,False,판정 불가(범위 표기 손상),,사람 확인,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,"cot3 성향 오기, answer 위험등급 미기재",교정,교정|태그,C2-EX|R3-D57-DMG|R3-D57-4|R3-D57-2|R4-D19-NONE|FIX-LOG|TAG-FILE|TR-NONE|TR-R0
+194,Training,점수 보고(기준① 확인 수),4,,결함 아님(고객 진술 성향),위험중립형,False,False,판정 불가(범위 표기 손상·원문 깨짐),태그,원문 깨짐,,기재 없음,False,False,언급 없음,해당 없음,,False,,False,False,True,"cot3 성향 오기, answer 위험등급 미기재",교정,교정|태그,C2-EX|R3-D57-DMG-H|R3-D57-DMG|R3-D57-4|R3-D57-2|R4-D19-NONE|FIX-LOG|TAG-FILE|TR-HUMAN-NA|TR-NONE|TR-R0
 199,Training,점수 보고(기준① 확인 수),5,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-R0
 198,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-R0
 215,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
@@ -2860,7 +2860,7 @@
 1947,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 1643,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 1836,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
-1794,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-R0|TR-HUMAN
+1794,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-HUMAN-NA|TR-R0|TR-HUMAN
 1880,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 1744,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
 1879,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,,기재 없음,True,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-EX|R4-D19-NONE|FIX-LOG|SRC-D51|TR-R0
@@ -3777,7 +3777,7 @@
 4461,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4510,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4422,Training,점수 보고(기준① 확인 수),5,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
-4529,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,사람 확인,4:사람 확인,False,명칭·관련 표현 없음,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN
+4529,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,False,False,사람 확인,결함,4:사람 확인,False,명칭·관련 표현 없음,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|TR-HUMAN-D|TR-HUMAN
 4445,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4497,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4533,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
@@ -3808,7 +3808,7 @@
 4592,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),공격투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4543,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4552,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
-4518,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN
+4518,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN-D|TR-HUMAN
 4577,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
 4424,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4544,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -3892,7 +3892,7 @@
 4833,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
 4756,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4819,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
-4841,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,사람 확인,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN
+4841,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,결함,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN-D|TR-HUMAN
 4825,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4879,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4656,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -3980,7 +3980,7 @@
 5084,Training,점수 보고(기준① 확인 수),4,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 5093,Training,점수 보고(기준① 확인 수),5,취득 경험,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
 5108,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-R0
-5098,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+5098,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 5097,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 5072,Training,점수 보고(기준① 확인 수),4,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
 5127,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
@@ -4431,7 +4431,7 @@
 6306,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
 6286,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 6378,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
-6352,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-R0|TR-HUMAN
+6352,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-HUMAN-NA|TR-R0|TR-HUMAN
 6371,Training,점수 보고(기준① 확인 수),6,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
 6364,Training,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-NONE|TR-R0
 6338,Training,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 밖(원천 등급 반영),제외,원천 등급 과소 기재,,전부 기재,True,False,언급 없음,언급 없음,,False,,False,False,False,원천 등급 과소 기재,제외,제외|태그|표시,C2-EX|R3-D52|R4-D19-ALL|TAG-FILE|SRC-D51|TR-NONE|TR-R0
@@ -4503,7 +4503,7 @@
 100,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 86,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 31,Training,점수 보고(기준① 확인 수),5,취득 경험,②-a 근거 부족 확정,공격투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
-51,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,True,False,사람 확인,사람 확인,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그|표시,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|SRC-D51|TR-HUMAN
+51,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,일부 기재,True,False,사람 확인,결함,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그|표시,R3-D30|R3-D55-4|R3-D55-2|R4-D19-PART|SRC-D51|TR-HUMAN-D|TR-HUMAN
 4,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 128,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,안정형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 135,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
@@ -4578,7 +4578,7 @@
 396,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,일부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
 339,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 323,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
-565,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,True,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-R0|TR-HUMAN
+565,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,True,False,사람 확인,해당 없음,5:사람 확인,False,명칭·요청 표현만,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-HUMAN-NA|TR-R0|TR-HUMAN
 759,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE
 334,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE|TR-R0
 322,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE|TR-R0
@@ -4649,7 +4649,7 @@
 597,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 508,Training,점수 보고(기준① 확인 수),5,취득 경험,②-b 성향 미확정 추천,없음,False,False,판정 불가(성향),,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-B|R3-NA-P|R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE
 594,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,일부 기재,False,False,회피,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
-621,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,True,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-R0|TR-HUMAN
+621,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,True,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51|TR-HUMAN-NA|TR-R0|TR-HUMAN
 485,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 536,Training,점수 보고(기준① 확인 수),5,,②-b 성향 미확정 추천,없음,False,False,판정 불가(성향),,,,기재 없음,False,False,경험,②-b로 이관(성향 미확정),,False,성향 불명(D21 비교 불가),False,True,True,,교정,교정|태그,C2-B|R3-NA-P|R4-D19-NONE|FIX-LOG|TR-C2B|TR-HUMAN
 578,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
@@ -4664,7 +4664,7 @@
 651,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 595,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 464,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-A|R3-D30-TAG|R4-D19-ALL|TR-NONE|TR-R0
-659,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0|TR-HUMAN
+659,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,5:사람 확인,False,명칭·관련 표현 없음,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-HUMAN-NA|TR-R0|TR-HUMAN
 671,Training,점수 보고(기준① 확인 수),5,취득 경험,②-a 근거 부족 확정,적극투자형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 625,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
 652,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
@@ -4750,7 +4750,7 @@
 868,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 838,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 942,Training,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-934,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,사람 확인,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN
+934,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,전부 기재,False,False,사람 확인,결함,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-ALL|TR-HUMAN-D|TR-HUMAN
 864,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 943,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 865,Training,점수 보고(기준① 확인 수),6,,결함 아님,안정추구형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -5771,7 +5771,7 @@
 4164,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R3-D30-TAG|R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE|TR-R0
 4262,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-R0
 4322,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-4317,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4317,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,명칭·요청 표현만,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4318,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,True,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-NONE
 4295,Training,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R3-D30-TAG|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4292,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,True,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,R4-D19-NONE|FIX-LOG|SRC-D51-MULTI|TR-NONE|TR-R0
@@ -5797,7 +5797,7 @@
 4400,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4348,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,위험중립형,False,False,범위 안,,,,일부 기재,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-PART|FIX-LOG|TR-NONE|TR-R0
 4333,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-4489,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+4489,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 4345,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 4366,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 4365,Training,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,일부 기재,False,False,R2 고려 중,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-PART|FIX-LOG|TR-R0
@@ -6165,7 +6165,7 @@
 5624,Training,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,적극투자형,False,False,범위 안,,,,기재 없음,False,True,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-A|R4-D19-NONE|FIX-LOG|SRC-D51-MULTI|TR-NONE|TR-R0
 5575,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 5565,Training,점수 보고(기준① 확인 수),6,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-5712,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+5712,Training,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,숫자 등급·요청 표현 없음,False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 5548,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 5628,Training,점수 보고(기준① 확인 수),5,,②-b 성향 미확정 추천,없음,False,False,판정 불가(성향),,,,기재 없음,True,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-B|R3-NA-P|R4-D19-NONE|FIX-LOG|SRC-D51|TR-NONE
 5527,Training,점수 보고(기준① 확인 수),5,,결함 아님,안정추구형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
@@ -6644,7 +6644,7 @@
 7022,Validation,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 7067,Validation,점수 보고(기준① 확인 수),6,,결함 아님,위험중립형,False,False,범위 안,,,,전부 기재,False,False,사람 확인,해당 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-R0
 7073,Validation,점수 보고(기준① 확인 수),5,,결함 아님,공격투자형,False,False,범위 안,,,,기재 없음,False,False,사람 확인,해당 없음,,False,,False,False,True,,교정,교정|태그,R4-D19-NONE|FIX-LOG|TR-R0
-7120,Validation,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN
+7120,Validation,점수 보고(기준① 확인 수),5,,결함 아님,위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,False,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그,R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|TR-HUMAN-D|TR-HUMAN
 7070,Validation,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,,,R4-D19-ALL|TR-NONE|TR-R0
 6935,Validation,점수 보고(기준① 확인 수),5,,결함 아님,적극투자형,False,False,범위 밖(원천 등급 반영),제외,원천 등급 과소 기재,,전부 기재,True,False,경험,해당 없음,,False,,False,False,False,원천 등급 과소 기재,제외,제외|태그|표시,R3-D52|R4-D19-ALL|TAG-FILE|SRC-D51|TR-R0
 7014,Validation,점수 보고(기준① 확인 수),4,취득 경험,②-a 근거 부족 확정,적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-A|R4-D19-NONE|FIX-LOG|TR-R0
@@ -6923,7 +6923,7 @@
 7146,Validation,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,전부 기재,False,False,R1 명확한 희망,해당 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-R0
 7199,Validation,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 안,,,,기재 없음,False,False,언급 없음,언급 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-NONE|TR-R0
 7208,Validation,점수 보고(기준① 확인 수),4,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,True,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그|표시,C2-EX|R4-D19-NONE|FIX-LOG|SRC-D51-MULTI|TR-R0
-7274,Validation,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,사람 확인,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN
+7274,Validation,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),위험중립형,False,False,범위 밖,제외,D30 완화 등급 추천,,기재 없음,True,False,사람 확인,결함,3:사람 확인,False,"경험·요청 동시, 명칭만",False,False,False,,제외,제외|태그|표시,C2-EX|R3-D30|R3-D55-4|R3-D55-2|R4-D19-NONE|SRC-D51|TR-HUMAN-D|TR-HUMAN
 7217,Validation,점수 보고(기준① 확인 수),5,취득 경험,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,전부 기재,False,False,언급 없음,언급 없음,,False,,False,False,False,,태그,태그,C2-EX|R4-D19-ALL|TR-NONE|TR-R0
 7246,Validation,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),안정추구형,False,False,범위 안,,,공개 기준 대비 완화된 허용 범위,전부 기재,False,False,경험,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R3-D30-TAG|R4-D19-ALL|FIX-LOG|TR-R0
 7230,Validation,점수 보고(기준① 확인 수),5,,결함 아님(고객 진술 성향),적극투자형,False,False,범위 안,,,,기재 없음,False,False,R1 명확한 희망,해당 없음,,False,,False,False,True,,교정,교정|태그,C2-EX|R4-D19-NONE|FIX-LOG|TR-R0
