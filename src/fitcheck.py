@@ -28,14 +28,17 @@ def _read(p, **kw):
     return pd.read_csv(p, encoding="utf-8-sig", **kw)
 
 
-def manifest(as_of: str, counts: dict) -> dict:
+def _git(*a) -> str:
+    return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+
+
+def manifest(as_of: str, counts: dict, dirty_before: bool) -> dict:
     rules = ROOT / "src" / "rules"
     h = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()[:16]
     idx = _read(ROOT / "docs" / "regulations" / "regulations_index.csv", dtype=str, keep_default_na=False)
     gold = set(_read(ROOT / "src" / "rag" / "gold_articles.csv", dtype=str, keep_default_na=False)["doc_id"])
     head = (ROOT / "docs" / "판정기준서.md").read_text(encoding="utf-8").splitlines()[0]
     ver = re.search(r"v\d+(?:\.\d+)*", head)
-    git = lambda *a: subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
     return {
         "기준일": as_of,
         "실행 시각": datetime.now().isoformat(timespec="seconds"),
@@ -44,8 +47,8 @@ def manifest(as_of: str, counts: dict) -> dict:
         "판정기준서 버전": ver.group(0) if ver else head,
         "기준 문서": [{"doc_id": r["doc_id"], "문서명": r["문서명"], "시행일": r["시행일"], "근거 카드 연결": r["doc_id"] in gold}
                     for _, r in idx.iterrows()],
-        "git 커밋": git("rev-parse", "HEAD"),
-        "작업 트리 변경 있음": bool(git("status", "--porcelain", "--untracked-files=no")),
+        "git 커밋": _git("rev-parse", "HEAD"),
+        "실행 전 작업 트리 변경 있음": dirty_before,   # 실행이 쓰는 outputs는 빼고 실행 전에 본다
         "결과 수": counts,
     }
 
@@ -59,6 +62,7 @@ def run(as_of: str) -> dict:
     from src.report import update_scorecard, write_report_numbers
     from src.scorecard import scorecard_rows
 
+    dirty_before = bool(_git("status", "--porcelain", "--untracked-files=no"))
     cot, prod = load_cot(), load_products()
     # 1. 판정 (+ G4 재판정은 저장된 조회 결과로)
     j, ctx = judge(cot, prod, as_of=as_of)
@@ -87,7 +91,7 @@ def run(as_of: str) -> dict:
               "이관 결함 CoT": int((j["이관 판정"] == "결함").sum()), "이관 사람 확인 CoT": int((j["이관 판정"] == "사람 확인").sum()),
               "근거 카드 행": len(cards), "근거 카드 CoT": int(cards["cot_id"].nunique()),
               "엄격판 CoT": len(strict), "교정판 CoT": len(corr), "G4 최신 기준 부적합 추천": int((g4["G4 태그"] != "").sum())}
-    m = manifest(as_of, counts)
+    m = manifest(as_of, counts, dirty_before)
     rd = OUT / "runs" / as_of; rd.mkdir(parents=True, exist_ok=True)
     (rd / "manifest.json").write_text(json.dumps(m, ensure_ascii=False, indent=2), encoding="utf-8")
     return m
