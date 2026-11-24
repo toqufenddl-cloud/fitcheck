@@ -82,7 +82,7 @@ def run(as_of: str) -> dict:
     cards.to_csv(OUT / "evidence_cards.csv", index=False, encoding="utf-8-sig")
     # 3. 점수표
     update_scorecard(scorecard_rows(j, ctx, g4, _read(OUT / "latest_grade_check.csv", keep_default_na=False), as_of,
-                                    src="fitcheck run"), "품질 점수표 (판정기준서 v1.1)")
+                                    src="fitcheck run"), "품질 점수표 (판정기준서 v1.3)")
     # 4. 데이터셋 구역
     update_scorecard(dataset_rows(strict, corr, newlog, d4, as_of, src="fitcheck run"), "정제 데이터셋 (08)")
     # 5. report_numbers
