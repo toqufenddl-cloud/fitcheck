@@ -177,3 +177,15 @@ def range_text_damaged(ctx):
 def c2_class(ctx, 값):
     """기준 ② 분류 (src/criteria12.judge12). 값의 '|'는 '또는'."""
     return ctx["cots"]["② 분류"].isin(값.split("|")), None
+
+
+@predicate
+def all_recs_in_range(ctx):
+    """R0 (판정기준서 v1.3, D67): 추천이 모두 공개 기준(D43, 성향_D21) 범위 안이면 이관 판정은 '해당 없음'.
+    애매한 경우 처리: 성향을 알 수 없거나(비교 불가), 추천이 없거나, 등급 없는 추천이 하나라도 있으면
+    '모두 범위 안'이라고 볼 수 없으므로 해당하지 않는다 (R0를 쓰지 않고 기존 이관 규칙으로 간다)."""
+    c, rec, rng = ctx["cots"], ctx["recs"], ctx["range"]
+    p = rec["cot_id"].map(c["성향_D21"])
+    ok = [(pd.notna(g) and q in rng and int(g) in rng[q]) for g, q in zip(rec["json_grade"], p)]
+    allin = pd.Series(ok, index=rec.index).groupby(rec["cot_id"]).all()
+    return _from_ids(ctx, allin[allin].index), None
