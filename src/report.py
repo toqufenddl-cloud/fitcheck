@@ -22,7 +22,7 @@ def update_scorecard(rows: list, section: str, path: Path = OUT / "scorecard.csv
     if path.exists():
         old = pd.read_csv(path, encoding="utf-8-sig", dtype=str, keep_default_na=False)
         old = old[old["구분"] != section]
-        new = pd.concat([old, new.astype(str).replace("nan", "")], ignore_index=True)
+        new = pd.concat([old, new.astype(object).where(new.notna(), "").astype(str)], ignore_index=True)
     new.to_csv(path, index=False, encoding="utf-8-sig")
     write_report_numbers(new)
     return new
