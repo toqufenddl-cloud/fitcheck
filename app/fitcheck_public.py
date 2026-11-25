@@ -1,8 +1,9 @@
-"""FitCheck 외부용 시연 앱 (보고서 스타일, 탭 3개). 실행: run_public.ps1 (앱 127.0.0.1:8501 + ngrok 고정 도메인).
+"""FitCheck 외부용 시연 앱 (탭 3개, 로컬 앱과 같은 이전 디자인). 실행: run_public.ps1 (앱 127.0.0.1:8501 + ngrok 고정 도메인).
 
 로컬 앱(app/fitcheck_app.py)은 그대로 두고, 판정·점수 함수(src/)와 데이터 준비(app/fc_ui.base_for 등)만 같이 쓴다.
-화면 디자인(색·글꼴·카드·표)은 이 파일의 CSS가 정한다. 테마 색은 run_public.ps1의 --theme.* 옵션으로 준다
-(.streamlit/config.toml은 로컬 앱 테마라서 바꾸지 않는다).
+화면 디자인은 로컬 앱과 같은 이전 디자인(fc_ui의 CSS·카드·배지·등급 구간·항목 막대)을 쓴다. 테마는 .streamlit/config.toml.
+등급 색만 이 앱에서 바꾼다: 우수 초록, 양호 연초록, 보통 노랑, 미흡 주황, 저조 빨강 (점수 카드·타일·30건 표·사례 표 모두).
+항목 판정은 ✓ 이행(초록), ✗ 미이행(빨강), – 판정 불가(회색). 색과 기호·글자를 같이 쓴다.
 
 탭
 - 진단 결과: 저장된 전체 결과 (품질 점수 원본 → 교정판, 항목별 감점 원본 vs 교정판, 주요 지표)
@@ -34,9 +35,12 @@ from html import escape
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fc_ui import ITEMS, ROOT, _csv, base_for, facts, item_pass, live_frame, pick_sample, run_live, st, summarize  # noqa: E402
+import fc_ui  # noqa: E402
+from fc_ui import (FOOT, ITEMS, ROOT, _csv, badge, band, base_for, corr_sentence, counts, dark_card, facts,  # noqa: E402
+                   guide_version, item_bars, item_pass, live_frame, opinion, pick_sample, run_live, st, summarize,
+                   why_lines, worst_sentence)
 import pandas as pd  # noqa: E402
-from src.score import cot_scores  # noqa: E402
+from src.score import cot_scores, grade  # noqa: E402
 
 AS_OF = "2026-11-24"
 OUT = ROOT / "outputs"
@@ -49,88 +53,43 @@ DEMO = {1547: "최신 등급으로 ③ 판정이 바뀜", 2365: "범위 밖 추�
 STEPS = {1: "① 기준 문서 검색", 2: "② 규칙 생성", 3: "③ 상품 등급 조회", 4: "④ 근거 조항 검색", 5: "⑤ 판정"}
 SHORT = {"CO-KIS": "KIS 준칙", "LAW-FCPA": "금소법", "REG-KOFIA": "표준준칙"}
 GENERIC = "일시적인 문제로 화면을 표시하지 못했습니다. 잠시 뒤 다시 시도해 주세요."
-SOURCE = ("출처: AI Hub 「금융상품·서비스 및 소비자 특성 데이터」(한국지능정보사회진흥원) · 한국투자증권 투자권유준칙(2026-09-21 시행) · "
-          "금융소비자 보호에 관한 법률. AI 학습용 생성 데이터이며 실제 고객 행동이 아닙니다.")
-OR, OR2, INK, CARD, LINE, BEIGE, RES = "#FF5A1F", "#FF7A45", "#111111", "#FBF9F3", "#D8D1C2", "#CBC2B0", "#C2410C"
+# 이전 디자인(docs/design/diagnosis_mockup.html, app/fc_ui.py의 CSS·색)을 그대로 쓴다.
+# 등급 색은 이 앱에서만 바꾼다: 우수 초록, 양호 연초록, 보통 노랑, 미흡 주황, 저조 빨강 (로컬 앱은 fc_ui의 원래 색 그대로).
+GRADE = {"우수": ("#DCFCE7", "#15803D"), "양호": ("#ECFCCB", "#4D7C0F"), "보통": ("#FEF3C7", "#92400E"),
+         "미흡": ("#FFEDD5", "#C2410C"), "저조": ("#FEE2E2", "#B91C1C")}
+fc_ui.BADGE.update({g: (bg, fg, fc_ui.ICON_OK if g in ("우수", "양호") else fc_ui.ICON_WARN if g in ("보통", "미흡") else fc_ui.ICON_X)
+                    for g, (bg, fg) in GRADE.items()})
+fc_ui.BANDS[:] = [("저조", 60, "#FCA5A5"), ("미흡", 10, "#FDBA74"), ("보통", 10, "#FCD34D"), ("양호", 10, "#BEF264"), ("우수", 10, "#4ADE80")]
+OK_C, NG_C, NA_C = ("#DCFCE7", "#166534"), ("#FEE2E2", "#B91C1C"), ("#EEF1F6", "#334155")
 
-CSS = f"""<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
-.stApp, .stApp p, .stApp li, .stApp label, .stApp button, .stApp input, .stApp td, .stApp th, .stApp summary,
-.stApp h1, .stApp h2, .stApp h3, .fc, .fc div, .fc span {{ font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; }}
-.stApp p, .stApp div, .stApp td, .stApp th, .stApp li, .stApp label, .stApp summary {{ word-break: keep-all; overflow-wrap: break-word; }}
-#MainMenu, footer, [data-testid="stToolbar"], [data-testid="stAppDeployButton"], .stDeployButton, [data-testid="stDecoration"],
-[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stExpandSidebarButton"] {{ display: none !important; }}
-header[data-testid="stHeader"] {{ background: transparent; }}
-.block-container {{ max-width: 1180px; padding-top: 2.2rem; padding-bottom: 3rem; }}
-.fc-top {{ display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 24px; flex-wrap: wrap;
-  border-bottom: 2px solid {INK}; padding-bottom: 14px; margin-bottom: 14px; }}
-.fc-kicker {{ font-size: 12px; font-weight: 700; letter-spacing: 2px; color: {INK}; }}
-.fc-title {{ font-size: 30px; font-weight: 900; letter-spacing: -0.8px; line-height: 1.25; margin-top: 6px; color: {INK}; }}
-.fc-date {{ font-size: 14px; font-weight: 700; text-align: right; color: {INK}; }}
-.fc-sec {{ display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 24px 0 12px; font-size: 18px; font-weight: 900;
-  letter-spacing: -0.3px; color: {INK}; }}
-.fc-chip {{ display: inline-block; background: {OR}; color: {INK}; font-weight: 700; font-size: 13px; padding: 3px 8px; border-radius: 0;
-  letter-spacing: 0; line-height: 1.4; }}
-.fc-chip.k {{ background: {INK}; color: #FFFFFF; }}
-.fc-kpis {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 4px 0 8px; }}
-.fc-kpi {{ background: {INK}; color: #FFFFFF; border-top: 3px solid {OR}; padding: 14px 16px; }}
-.fc-kpi .l {{ font-size: 13px; color: #E8E2D4; font-weight: 500; }}
-.fc-kpi .v {{ font-size: 32px; font-weight: 900; color: {OR2}; letter-spacing: -1px; line-height: 1.15; margin-top: 6px; }}
-.fc-kpi .v small {{ font-size: 15px; font-weight: 700; color: #FFFFFF; letter-spacing: 0; margin-left: 4px; }}
-.fc-kpi .s {{ font-size: 12.5px; color: #BDB5A4; margin-top: 6px; line-height: 1.5; }}
-.fc-card {{ background: {CARD}; border: 1px solid {LINE}; border-radius: 0; padding: 16px 18px; margin: 0 0 12px; color: {INK}; }}
-.fc-card p {{ margin: 0 0 6px; font-size: 14.5px; line-height: 1.65; }}
-.fc-note {{ font-size: 13px; color: #5A5446; line-height: 1.6; }}
-.fc-scroll {{ overflow-x: auto; }}
-.fc-tbl {{ width: 100%; border-collapse: collapse; font-size: 14px; color: {INK}; }}
-.fc-tbl th {{ text-align: left; font-weight: 700; font-size: 13px; padding: 8px 10px; border-bottom: 1px solid {INK}; white-space: nowrap; }}
-.fc-tbl td {{ padding: 8px 10px; border-bottom: 1px solid {LINE}; vertical-align: top; }}
-.fc-tbl td.res {{ font-weight: 700; color: {RES}; }}
-.fc-tbl td.num {{ text-align: right; white-space: nowrap; }}
-.fc-tbl tr.hl td {{ background: #FFE9DF; }}
-.fc-ok {{ color: {INK}; font-weight: 900; }}
-.fc-ng {{ color: {OR}; font-weight: 900; }}
-.fc-na {{ color: #8A8272; }}
-.fc-src {{ display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 6px; border: 1px solid {INK}; }}
-.fc-src.saved {{ background: {BEIGE}; }}
-.fc-bars {{ display: grid; gap: 14px; }}
-.fc-bar-row {{ display: grid; grid-template-columns: minmax(130px, 190px) minmax(0, 1fr); gap: 6px 14px; align-items: center; }}
-.fc-bar-name {{ font-size: 14px; font-weight: 700; }}
-.fc-bar-name small {{ display: block; font-size: 12px; font-weight: 400; color: #5A5446; }}
-.fc-bar-line {{ display: grid; grid-template-columns: 56px minmax(0, 1fr) 64px; gap: 8px; align-items: center; font-size: 12.5px; }}
-.fc-bar-track {{ height: 14px; background: transparent; border-left: 1px solid {INK}; }}
-.fc-bar-fill {{ height: 14px; }}
-.fc-legend {{ display: flex; gap: 16px; font-size: 13px; margin-bottom: 12px; flex-wrap: wrap; }}
-.fc-legend span::before {{ content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px;
-  background: var(--c); }}
-.fc-foot {{ border-top: 1px solid {INK}; margin-top: 30px; padding-top: 10px; font-size: 12.5px; color: #4A4538; line-height: 1.6; }}
-/* 탭: 선택 = 검정 바탕 흰 글씨, 나머지 = 테두리만 */
-.stTabs [role="tablist"] {{ gap: 6px; border-bottom: none; box-shadow: none; flex-wrap: wrap; }}
-.stTabs [data-testid="stTab"] {{ border: 1px solid {INK}; border-radius: 0; padding: 8px 16px; height: auto; background: transparent; }}
-.stTabs [data-testid="stTab"] p {{ font-size: 15px; font-weight: 700; color: {INK}; }}
-.stTabs [data-testid="stTab"][aria-selected="true"] {{ background: {INK}; }}
-.stTabs [data-testid="stTab"][aria-selected="true"] p {{ color: #FFFFFF; }}
-.stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"], .stTabs [data-testid="stTabsHighlight"], .stTabs .react-aria-SelectionIndicator {{ display: none !important; }}
-/* 버튼: 주황 바탕, 검정 굵은 글씨, 각진 모서리 */
-.stButton button, [data-testid="stFormSubmitButton"] button {{ background: {OR}; color: {INK}; border: 1px solid {INK}; border-radius: 0;
-  font-weight: 700; }}
-.stButton button p, [data-testid="stFormSubmitButton"] button p {{ color: {INK}; font-weight: 700; }}
-.stButton button:hover, [data-testid="stFormSubmitButton"] button:hover {{ background: {OR2}; color: {INK}; border-color: {INK}; }}
-.stButton button:disabled {{ background: {BEIGE}; opacity: 0.8; }}
-[data-testid="stExpander"] details, [data-testid="stForm"], [data-testid="stVerticalBlockBorderWrapper"] {{ border-radius: 0; }}
-[data-testid="stExpander"] details {{ background: {CARD}; border: 1px solid {LINE}; }}
-[data-testid="stExpander"] summary p {{ font-weight: 700; }}
-[data-baseweb="select"] > div, [data-baseweb="input"], .stTextInput input {{ border-radius: 0; }}
-[data-testid="stProgress"] div[role="progressbar"] > div > div {{ background: {OR}; }}
-@media (max-width: 640px) {{ .fc-title {{ font-size: 24px; }} .fc-date {{ text-align: left; }} .fc-kpi .v {{ font-size: 28px; }} }}
-</style>"""
+CSS = fc_ui.CSS.replace("</style>", """
+[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stExpandSidebarButton"] { display: none !important; }
+.fc-tbl { width: 100%; border-collapse: collapse; font-size: 14px; color: #0F172A; }
+.fc-tbl th { text-align: left; color: #4A5568; font-weight: 700; font-size: 13px; padding: 8px 10px; border-bottom: 1px solid #DCE2EC;
+  white-space: nowrap; }
+.fc-tbl td { padding: 9px 10px; border-bottom: 1px solid #EEF1F6; vertical-align: top; }
+.fc-tbl td.res { font-weight: 700; color: #1E3A8A; }
+.fc-tbl td.num { text-align: right; white-space: nowrap; }
+.fc-tbl tr.hl td { background: #FEF3C7; }
+.fc-scroll { overflow-x: auto; }
+.fc-mark { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 13px; padding: 2px 8px; border-radius: 6px;
+  white-space: nowrap; }
+.fc-pill { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 13px; padding: 2px 8px; border-radius: 6px;
+  white-space: nowrap; }
+.fc-src { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #DBEAFE; color: #1E3A8A; }
+.fc-src.saved { background: #EEF1F6; color: #334155; }
+.fc-hd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 8px 0 10px; }
+.fc-hd .fc-h2 { font-size: 17px; }
+.fc-hd span { font-size: 13px; color: #4A5568; }
+.fc-tile-v { font-size: 40px; font-weight: 800; letter-spacing: -1px; line-height: 1.05; }
+</style>""")
 
 
 # ---------------------------------------------------------------------------
-# 공용 조각
+# 공용 조각 (이전 디자인)
 # ---------------------------------------------------------------------------
 def html(s: str) -> None:
-    st.html(f'<div class="fc">{s}</div>')
+    st.html(s)
 
 
 def _ctl(e: Exception) -> bool:
@@ -139,25 +98,57 @@ def _ctl(e: Exception) -> bool:
 
 
 def top() -> None:
-    html('<div class="fc-top"><div><div class="fc-kicker">FITCHECK · LIVE DEMO</div>'
-         '<div class="fc-title">금융상품 추천 학습 데이터 품질 진단</div></div>'
-         f'<div class="fc-date">기준일 {AS_OF}</div></div>')
+    html(f'<header class="fc-head" style="margin-bottom:16px"><div style="display:flex;align-items:center;gap:14px"><div class="fc-logo">'
+         f'<span style="font-size:22px;font-weight:800;color:#FFFFFF">✓</span></div><div>'
+         f'<div style="font-size:22px;font-weight:800;letter-spacing:-0.3px">FitCheck</div>'
+         f'<div style="font-size:13px;color:#B8C4DC">금융상품 추천 학습 데이터 품질 진단 · 시연</div></div></div>'
+         f'<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="fc-chip">기준일 {AS_OF}</span>'
+         f'<span class="fc-chip">판정기준서 v{guide_version()}</span></div></header>')
 
 
-def sec(title: str, chip: str, sub: str = "") -> str:
-    s = f'<span class="fc-chip k">{escape(sub)}</span>' if sub else ""
-    return f'<div class="fc-sec"><span class="fc-chip">{escape(chip)}</span>{s}<span>{escape(title)}</span></div>'
+def sec(title: str, chip: str = "", sub: str = "") -> str:
+    """섹션 제목 (chip은 쓰지 않는다. 보조 설명은 sub)."""
+    s = f"<span>{escape(sub)}</span>" if sub else ""
+    return f'<div class="fc-hd"><h2 class="fc-h2">{escape(title)}</h2>{s}</div>'
+
+
+def grade_pill(score, g: str = "") -> str:
+    """점수 + 등급 글자를 등급 색으로 (색과 글자를 같이 쓴다)."""
+    if score is None or pd.isna(score):
+        return '<span class="fc-pill" style="background:#EEF1F6;color:#334155">점수 없음</span>'
+    g = g or grade(float(score))
+    bg, fg = GRADE.get(g, ("#EEF1F6", "#334155"))
+    return f'<span class="fc-pill" style="background:{bg};color:{fg}">{float(score):g} {escape(g)}</span>'
 
 
 def kpis(items: list) -> str:
-    """items: [(라벨, 값, 단위, 설명)]"""
-    return '<div class="fc-kpis">' + "".join(
-        f'<div class="fc-kpi"><div class="l">{escape(l)}</div><div class="v">{escape(v)}<small>{escape(u)}</small></div>'
-        f'<div class="s">{escape(s)}</div></div>' for l, v, u, s in items) + "</div>"
+    """흰 카드 타일. items: [(라벨, 값, 단위, 설명[, 등급])]. 등급을 주면 숫자를 등급 색으로 쓰고 등급 배지를 붙인다."""
+    out = ""
+    for it in items:
+        l, v, u, s = it[:4]
+        g = it[4] if len(it) > 4 else ""
+        col = GRADE[g][1] if g in GRADE else "#0F172A"
+        b = f'<div>{badge(g)}</div>' if g in GRADE else ""
+        out += (f'<div class="fc-card" style="padding:18px 22px;gap:6px"><div class="fc-label">{escape(l)}</div>'
+                f'<div style="display:flex;align-items:baseline;gap:6px"><span class="fc-tile-v" style="color:{col}">{escape(v)}</span>'
+                f'<span style="font-size:15px;color:#4A5568">{escape(u)}</span></div>{b}<div class="fc-note">{escape(s)}</div></div>')
+    return f'<div class="fc-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">{out}</div>'
+
+
+def score_card2(label: str, s: dict, sentence: str, delta: float | None = None) -> str:
+    """이전 디자인의 점수 카드에 등급 색 숫자를 더한 것."""
+    col = GRADE.get(s["등급"], ("", "#0F172A"))[1]
+    d = ""
+    if delta is not None:
+        d = f'<span style="font-size:15px;font-weight:700;color:{"#15803D" if delta >= 0 else "#B91C1C"}">{delta:+.1f}</span>'
+    return (f'<div class="fc-card"><div class="fc-label">{escape(label)}</div>'
+            f'<div style="display:flex;align-items:baseline;gap:10px"><span class="fc-big" style="color:{col}">{s["점수"]:.1f}</span>'
+            f'<span style="font-size:16px;color:#4A5568">/ 100점</span>{d}</div>'
+            f'<div>{badge(s["등급"])}</div><div class="fc-sent">{escape(sentence)}</div></div>')
 
 
 def table(df: pd.DataFrame, res_cols=(), num_cols=(), hl=None, raw_cols=()) -> str:
-    """보고서 표. res_cols = 결과 열(굵게 주황 갈색), hl = 강조할 행(불리언 목록), raw_cols = 이미 HTML인 열."""
+    """흰 카드 안의 표. res_cols = 결과 열(굵게), hl = 강조 행(연노랑), raw_cols = 이미 HTML인 열."""
     head = "".join(f"<th>{escape(str(c))}</th>" for c in df.columns)
     rows = ""
     for i, (_, r) in enumerate(df.iterrows()):
@@ -168,20 +159,31 @@ def table(df: pd.DataFrame, res_cols=(), num_cols=(), hl=None, raw_cols=()) -> s
             cls = " ".join(x for x in ["res" if c in res_cols else "", "num" if c in num_cols else ""] if x)
             cells += f'<td class="{cls}">{txt}</td>' if cls else f"<td>{txt}</td>"
         rows += f'<tr class="hl">{cells}</tr>' if hl is not None and hl[i] else f"<tr>{cells}</tr>"
-    return f'<div class="fc-scroll"><table class="fc-tbl"><tr>{head}</tr>{rows}</table></div>'
+    return (f'<div class="fc-sec" style="padding:12px 18px;gap:0"><div class="fc-scroll"><table class="fc-tbl"><tr>{head}</tr>{rows}'
+            f'</table></div></div>')
 
 
 def mark(v) -> str:
-    """판정 기호: 이행 ✓(검정), 미이행 ✗(주황), 판정 불가 –. 색과 기호를 같이 쓴다."""
+    """판정: 이행 ✓ 초록, 미이행 ✗ 빨강, 판정 불가 – 회색. 색과 기호·글자를 같이 쓴다."""
     if v is None or pd.isna(v):
-        return '<span class="fc-na">– 판정 불가</span>'
-    return '<span class="fc-ok">✓ 이행</span>' if v == 1 else '<span class="fc-ng">✗ 미이행</span>'
+        bg, fg, t = *NA_C, "– 판정 불가"
+    elif v == 1:
+        bg, fg, t = *OK_C, "✓ 이행"
+    else:
+        bg, fg, t = *NG_C, "✗ 미이행"
+    return f'<span class="fc-mark" style="background:{bg};color:{fg}">{t}</span>'
 
 
 def mark_short(v) -> str:
     if v is None or pd.isna(v):
-        return '<span class="fc-na">–</span>'
-    return '<span class="fc-ok">✓</span>' if v == 1 else '<span class="fc-ng">✗</span>'
+        return f'<span class="fc-mark" style="background:{NA_C[0]};color:{NA_C[1]}" title="판정 불가">–</span>'
+    if v == 1:
+        return f'<span class="fc-mark" style="background:{OK_C[0]};color:{OK_C[1]}" title="이행">✓</span>'
+    return f'<span class="fc-mark" style="background:{NG_C[0]};color:{NG_C[1]}" title="미이행">✗</span>'
+
+
+def note(s: str) -> str:
+    return f'<div class="fc-note" style="margin:0 0 8px">{s}</div>'
 
 
 _PATHY = re.compile(r"\s*\([^)]*(?:[/\\]|\.csv|\.json|https?:|localhost|127\.0\.0\.1|:\d{2,5})[^)]*\)")
@@ -276,7 +278,6 @@ def gate() -> None:
         if ss["fail"] >= MAX_FAIL:
             ss["fail"], ss["lock_until"] = 0, time.time() + LOCK
         st.error("비밀번호가 맞지 않습니다.")
-    html(f'<div class="fc-foot">{escape(SOURCE)}</div>')
     st.stop()
 
 
@@ -394,7 +395,7 @@ def batch_rows(done: dict, J: pd.DataFrame, source: str = "") -> pd.DataFrame:
         names = [n for n, _, _ in parse_products(r["추천 상품(데이터→최신)"])]
         live_all = bool(names) and all(src.get(n) == "실시간 조회" for n in names)
         s_ = source or ("실시간" if live_all else "저장값")
-        row = {"cot_id": cid, "점수 (데이터 → 최신)": f"{sa.loc[cid, '점수']:g} → {sb.loc[cid, '점수']:g}"}
+        row = {"cot_id": cid, "점수 (데이터 → 최신)": f"{grade_pill(sa.loc[cid, '점수'])} → {grade_pill(sb.loc[cid, '점수'])}"}
         for k, *_ in ITEMS:
             row[k] = mark_short(sb.loc[cid, k])
         row |= {"바뀐 상품": f"{n_changed(r['추천 상품(데이터→최신)'])}개", "근거 조항": escape(articles_of(cards, cid)),
@@ -414,7 +415,8 @@ def batch_summary(done: dict, J: pd.DataFrame) -> dict:
 
 def summary_view(sm: dict, secs: float, at: str, n_live: int) -> None:
     html(kpis([
-        ("평균 품질 점수 (최신 문서 기준)", f"{sm['b']['점수']:.1f}", f"점 {sm['b']['등급']}", f"데이터 기준 {sm['a']['점수']:.1f}점 {sm['a']['등급']}"),
+        ("평균 품질 점수 · 데이터 기준", f"{sm['a']['점수']:.1f}", "/ 100점", "데이터에 적힌 상품 등급으로 판정", sm["a"]["등급"]),
+        ("평균 품질 점수 · 최신 문서 기준", f"{sm['b']['점수']:.1f}", "/ 100점", "검색한 기준 문서와 최신 상품 등급으로 판정", sm["b"]["등급"]),
         ("결함 있는 상담", f"{sm['결함']}", f"/ {sm['n']}건", f"데이터 기준 {sm['결함 데이터']}건"),
         ("최신 등급으로 새로 부적합", f"{sm['새 부적합']}", "건", "데이터 기준 범위 안 → 최신 기준 범위 밖"),
         ("걸린 시간", f"{secs:g}", "초", f"검색 시각 {at} · 실시간 {n_live}/{sm['n']}건"),
@@ -464,7 +466,7 @@ def run_batch(base: dict, J: pd.DataFrame, ids: list) -> dict:
         bar, ph = st.progress(0.0), st.empty()
         for i in range(len(rows)):
             shown.append(rows.iloc[i])
-            ph.html(f'<div class="fc">{table(pd.DataFrame(shown), res_cols=("점수 (데이터 → 최신)",), raw_cols=tuple(rows.columns))}</div>')
+            ph.html(table(pd.DataFrame(shown), raw_cols=tuple(rows.columns)))
             bar.progress((i + 1) / len(rows), text=f"판정 {i + 1}/{len(rows)}")
             time.sleep(0.08)
         return []
@@ -493,72 +495,48 @@ def run_batch(base: dict, J: pd.DataFrame, ids: list) -> dict:
 
 
 def batch_result(last: dict) -> None:
-    html(sec("마지막 실행 결과", "요약", f"{last['at']}"))
+    html(sec("실행 결과 요약", sub=f"검색 시각 {last['at']}"))
     summary_view(last["summary"], last["secs"], last["at"], last["n_live"])
-    html(sec("상담별 판정", "결과", f"{len(last['rows'])}건"))
-    html('<div class="fc-note" style="margin-bottom:8px">항목 기호: ✓ 이행, ✗ 미이행, – 판정 불가 (최신 문서 기준). '
-         '점수는 데이터 기준 → 최신 문서 기준 100점 환산입니다.</div>')
-    html(table(last["rows"], res_cols=("점수 (데이터 → 최신)",), raw_cols=tuple(last["rows"].columns)))
+    html(sec("상담별 판정", sub=f"{len(last['rows'])}건 · 항목은 최신 문서 기준 (✓ 이행, ✗ 미이행, – 판정 불가)"))
+    html(table(last["rows"], raw_cols=tuple(last["rows"].columns)))
 
 
 # ---------------------------------------------------------------------------
 # 탭
 # ---------------------------------------------------------------------------
-def _loss(x) -> str:
-    x = float(x)
-    return f"−{x:.2f}" if x >= 0.005 else "0.00"
-
-
 def tab_summary(J: pd.DataFrame, F: dict) -> None:
+    """이전 디자인 진단 결과: 점수 카드 2개 + 진단 의견, 등급 구간, 항목별 막대, 주요 지표."""
     o = summarize(item_pass(J))
-    cr = summarize(F["corr_pass"]) if F.get("corr_pass") is not None else None
-    n_out = int((J["기준③ 처리"] == "제외").sum())
-    n_d4 = int((J["기준④ 판정"] == "기재 없음").sum())
-    n_tr = int((J["이관 판정"] == "결함").sum())
-    n_2a = int(J["기준② 판정"].astype(str).str.startswith("②-").sum())
-    html(sec("품질 점수", "핵심", "원본 → 교정판"))
+    cnt = counts(J)
+    if F.get("corr_pass") is None:
+        html(f'<div class="fc-grid">{score_card2("원본 데이터", o, worst_sentence(o))}</div>')
+    else:
+        cr = summarize(F["corr_pass"])
+        n1c = int((F["corr_pass"]["①"] == 0).sum())
+        html('<div class="fc-grid">'
+             + score_card2("원본 데이터", o, worst_sentence(o))
+             + score_card2("FitCheck 교정판", cr, corr_sentence(cr, F["n_add"], len(J) - cr["CoT"] - cr["점수 없음"]),
+                           round(cr["점수"] - o["점수"], 1))
+             + dark_card("진단 의견", opinion(o, cr, n1c)) + "</div>")
+        html(band([("원본", o["점수"], o["등급"]), ("교정판", cr["점수"], cr["등급"])]))
+        html(item_bars("항목별 점수와 감점 이유", o, cr, ("원본", "교정판"), why_lines(cnt, cr)))
+    html(sec("주요 지표", sub=f"증권 CoT {len(J):,}건, 저장 판정"))
     html(kpis([
-        ("원본 품질 점수", f"{o['점수']:.1f}", f"점 {o['등급']}", f"증권 CoT {o['CoT']:,}건 평균 (100점 환산)"),
-        ("교정판 품질 점수", f"{cr['점수']:.1f}" if cr else "-", f"점 {cr['등급']}" if cr else "", f"교정 후 다시 판정한 {cr['CoT']:,}건" if cr else "교정판 점수 없음"),
-        ("점수 변화", f"{cr['점수'] - o['점수']:+.1f}" if cr else "-", "점", "범위 밖 제외 + 위험등급 문장 추가 후"),
-        ("④ 위험 설명 이행률", f"{o['항목'].set_index('키').loc['④', '이행률']:g}", "%", "원본에서 감점이 가장 큰 항목입니다"),
+        ("③ 범위 밖 추천 (제외)", f"{int((J['기준③ 처리'] == '제외').sum()):,}", "건", "엄격판·교정판에서 뺐습니다"),
+        ("④ 위험등급 설명 없음", f"{int((J['기준④ 판정'] == '기재 없음').sum()):,}", "건", "교정판에 위험등급 문장을 추가했습니다"),
+        ("이관 결함", f"{int((J['이관 판정'] == '결함').sum()):,}", "건", "부적합 상품을 안내 없이 권유했습니다"),
+        ("② 근거 없는 성향 판단", f"{int(J['기준② 판정'].astype(str).str.startswith('②-').sum()):,}", "건",
+         "필수정보가 부족한데 성향을 확정했거나 미확정인데 추천했습니다"),
     ]))
-    if cr is not None:
-        ta, tb = o["항목"].set_index("키"), cr["항목"].set_index("키")
-        mx = max(ta["배점"].max(), 1)
-        bars = ""
-        for k, nm, w, law in ITEMS:
-            la, lb = float(ta.loc[k, "감점"]), float(tb.loc[k, "감점"])
-            bars += (f'<div class="fc-bar-row"><div class="fc-bar-name">{escape(nm)}<small>배점 {w:g} · {escape(law)}</small></div><div>'
-                     f'<div class="fc-bar-line"><span>원본</span><div class="fc-bar-track"><div class="fc-bar-fill" '
-                     f'style="width:{la / mx * 100:.1f}%;background:{OR}"></div></div><b>{_loss(la)}</b></div>'
-                     f'<div class="fc-bar-line"><span>교정판</span><div class="fc-bar-track"><div class="fc-bar-fill" '
-                     f'style="width:{lb / mx * 100:.1f}%;background:{BEIGE}"></div></div><b>{_loss(lb)}</b></div></div></div>')
-        html(sec("항목별 감점", "그래프", "원본 vs 교정판"))
-        html(f'<div class="fc-card"><div class="fc-legend"><span style="--c:{OR}">원본</span><span style="--c:{BEIGE}">교정판</span>'
-             f'<span style="--c:transparent">막대 길이 = 감점 (최대 25점 기준)</span></div><div class="fc-bars">{bars}</div></div>')
-        t = pd.DataFrame([{"항목": nm, "배점": f"{w:g}", "원본 이행률": f"{ta.loc[k, '이행률']:g}%", "원본 감점": _loss(ta.loc[k, '감점']),
-                           "교정판 이행률": f"{tb.loc[k, '이행률']:g}%", "교정판 감점": _loss(tb.loc[k, '감점'])} for k, nm, w, _ in ITEMS])
-        html(table(t, res_cols=("교정판 감점",), num_cols=("배점", "원본 이행률", "원본 감점", "교정판 이행률", "교정판 감점")))
-    html(sec("주요 지표", "지표", f"증권 CoT {len(J):,}건"))
-    html(kpis([
-        ("③ 범위 밖 추천 (제외)", f"{n_out:,}", "건", "성향 허용 등급보다 위험한 상품을 추천한 상담입니다"),
-        ("④ 위험등급 설명 없음", f"{n_d4:,}", "건", "교정판에서 위험등급 문장을 추가했습니다"),
-        ("이관 결함", f"{n_tr:,}", "건", "부적합 상품을 안내 없이 권유한 상담입니다"),
-        ("② 근거 없는 성향 판단", f"{n_2a:,}", "건", "필수정보가 부족한데 성향을 확정했거나 미확정인데 추천했습니다"),
-    ]))
-    html('<div class="fc-card"><p>채점 방식: 금융감독원 미스터리쇼핑 방식을 빌렸습니다. CoT 1건을 판매 상담 1회로 보고, 항목을 지키면 배점을 주고 '
-         '못 지키면 0점(일부 이행도 0점)입니다. ①②③·이관 각 18.75점, ④ 25점으로 100점이며, 판정할 수 없는 항목은 그 CoT에서 빼고 환산합니다. '
-         '등급: 우수 90점 이상, 양호 80, 보통 70, 미흡 60, 저조 60점 미만.</p></div>')
 
 
 def tab_batch(base: dict, J: pd.DataFrame) -> None:
     sh = shared()
     ids = pick_sample(base, N_BATCH)
-    html(sec("표본 30건 실시간 검색", "실시간", "CLI live --n 30과 같은 표본"))
-    html(f'<div class="fc-card"><p>로컬 명령 <b>python -m src.fitcheck live --n 30</b>과 같은 방식(고정 시드)으로 뽑은 30건입니다. '
-         f'기준 문서를 받아 등급표를 만들고, 추천 상품의 최신 위험등급을 상품명으로 조회한 뒤, 근거 조항을 찾아 다시 판정합니다. '
-         f'보통 5분 남짓 걸립니다.</p><div class="fc-note">표본 cot_id: {", ".join(map(str, ids))}</div></div>')
+    html(f'<div class="fc-sec"><h2 class="fc-h2">표본 30건 실시간 검색</h2><div class="fc-sent">로컬 명령 '
+         f'<b>python -m src.fitcheck live --n 30</b>과 같은 방식(고정 시드)으로 뽑은 30건입니다. 기준 문서를 받아 등급표를 만들고, '
+         f'추천 상품의 최신 위험등급을 상품명으로 조회한 뒤, 근거 조항을 찾아 다시 판정합니다. 보통 5분 남짓 걸립니다.</div>'
+         f'<div class="fc-note">표본 cot_id: {", ".join(map(str, ids))}</div></div>')
     go = st.button("표본 30건 실시간 검색", type="primary", key="batch_go")
     if go:
         why = try_start(sh)
@@ -566,7 +544,7 @@ def tab_batch(base: dict, J: pd.DataFrame) -> None:
             st.info(why)
         else:
             try:
-                html(sec("진행 상황", "단계", "① → ⑤"))
+                html(sec("진행 상황", sub="① 기준 문서 → ② 규칙 → ③ 상품 등급 → ④ 근거 조항 → ⑤ 판정"))
                 last = run_batch(base, J, ids)
                 with sh["lock"]:
                     sh["last"] = last
@@ -598,19 +576,19 @@ def case_tables(J: pd.DataFrame, cid: int, done: dict | None) -> None:
     jr = row.iloc[0]
     p = item_pass(row)
     s1 = summarize(p)
-    kp = [("품질 점수 (저장 판정)", f"{s1['점수']:g}", f"점 {s1['등급']}", f"성향 {jr['성향_P5'] or '미확정'} · {jr['분할']}")]
+    kp = [(f"cot_id {cid} · 저장 판정", f"{s1['점수']:.1f}", "/ 100점", f"성향 {jr['성향_P5'] or '미확정'} · {jr['분할']}", s1["등급"])]
     if done is not None:
         res = done["result"][done["result"]["cot_id"].astype(int) == cid]
         fa, fb = frames(res, J)
         a, b = summarize(item_pass(fa)), summarize(item_pass(fb))
-        kp += [("데이터 기준", f"{a['점수']:g}", f"점 {a['등급']}", f"③ {res['③ 데이터 기준'].iloc[0]}"),
-               ("최신 문서 기준", f"{b['점수']:g}", f"점 {b['등급']}", f"③ {res['③ 최신 문서 기준'].iloc[0]}")]
+        kp += [("데이터 기준", f"{a['점수']:.1f}", "/ 100점", f"③ {res['③ 데이터 기준'].iloc[0]}", a["등급"]),
+               ("최신 문서 기준", f"{b['점수']:.1f}", "/ 100점", f"③ {res['③ 최신 문서 기준'].iloc[0]}", b["등급"])]
     html(kpis(kp))
     val = {"①": jr["기준① 법정 미확인"] or "법정 3항목 확인", "②": jr["기준② 판정"], "③": jr["기준③ 판정"],
            "이관": jr["이관 판정"], "④": jr["기준④ 판정"]}
     t = pd.DataFrame([{"항목": nm, "근거": law, "판정": mark(p.iloc[0][k]), "세부": escape(str(val[k])),
                        "득점": "제외" if pd.isna(p.iloc[0][k]) else f"{w * p.iloc[0][k]:g} / {w:g}"} for k, nm, w, law in ITEMS])
-    html(sec("항목별 판정", "판정", "저장 판정"))
+    html(sec("항목별 판정", sub="저장 판정"))
     html(table(t, res_cols=("득점",), raw_cols=("판정", "세부"), num_cols=("득점",)))
     if done is None:
         return
@@ -618,12 +596,12 @@ def case_tables(J: pd.DataFrame, cid: int, done: dict | None) -> None:
     pr = parse_products(res["추천 상품(데이터→최신)"].iloc[0])
     pt = pd.DataFrame([{"상품명": n, "데이터 등급": f"{a}등급" if a else "", "최신 등급": f"{b}등급" if b else "최신 등급 없음",
                         "변화": "▲ 바뀜" if a and b and a != b else ""} for n, a, b in pr])
-    html(sec("추천 상품", "상품", "데이터 등급 → 최신 등급"))
+    html(sec("추천 상품", sub="데이터 등급 → 최신 등급, 바뀐 상품은 노란 행"))
     html(table(pt, res_cols=("최신 등급",), hl=[x == "▲ 바뀜" for x in pt["변화"]]))
     cards = done["cards"][done["cards"]["cot_id"].astype(int) == cid].drop_duplicates(["결함 유형", "doc_id", "조항"])
-    html(sec("근거 조항과 시행일", "근거"))
+    html(sec("근거 조항과 시행일"))
     if not len(cards):
-        html('<div class="fc-card"><p>이 상담에는 결함이 없어 근거 조항을 붙이지 않았습니다.</p></div>')
+        html('<div class="fc-sec"><div class="fc-sent">이 상담에는 결함이 없어 근거 조항을 붙이지 않았습니다.</div></div>')
     else:
         names, gist = doc_names(), article_gist()
         ct = pd.DataFrame([{"결함 유형": r["결함 유형"], "문서": names.get(r["doc_id"], r["doc_id"]), "조항": r["조항"],
@@ -633,7 +611,7 @@ def case_tables(J: pd.DataFrame, cid: int, done: dict | None) -> None:
 
 def tab_case(base: dict, J: pd.DataFrame) -> None:
     ss, sh = st.session_state, shared()
-    html(sec("시연 사례", "사례", "6건"))
+    html(sec("시연 사례", sub="6건 중 선택"))
     c1, c2 = st.columns([3, 1], vertical_alignment="bottom")
     cid = c1.selectbox("시연 사례", list(DEMO), format_func=lambda i: f"{i} · {DEMO[i]}")
     wait = CASE_GAP - (time.time() - ss.get("case_at", 0))
@@ -655,15 +633,15 @@ def tab_case(base: dict, J: pd.DataFrame) -> None:
             rows = [{"항목": nm, "데이터 기준": mark(pa.iloc[0][k]), "최신 문서 기준": mark(pb.iloc[0][k]),
                      "득점 (데이터)": "제외" if pd.isna(pa.iloc[0][k]) else f"{w * pa.iloc[0][k]:g} / {w:g}",
                      "득점 (최신)": "제외" if pd.isna(pb.iloc[0][k]) else f"{w * pb.iloc[0][k]:g} / {w:g}"} for k, nm, w, _ in ITEMS]
-            rows.append({"항목": "<b>점수 (100점 환산)</b>", "데이터 기준": a["등급"], "최신 문서 기준": b["등급"],
-                         "득점 (데이터)": f"{a['점수']:g}", "득점 (최신)": f"{b['점수']:g}"})
+            rows.append({"항목": "<b>점수 (100점 환산)</b>", "데이터 기준": grade_pill(a["점수"], a["등급"]),
+                         "최신 문서 기준": grade_pill(b["점수"], b["등급"]), "득점 (데이터)": f"{a['점수']:g}", "득점 (최신)": f"{b['점수']:g}"})
             t = pd.DataFrame(rows)
             step_view(5, {"tables": [("항목별 판정", t)]})
             return [("항목별 판정", t)]
 
         t0 = time.time()
         try:
-            html(sec("진행 상황", "단계", "① → ⑤"))
+            html(sec("진행 상황", sub="① 기준 문서 → ② 규칙 → ③ 상품 등급 → ④ 근거 조항 → ⑤ 판정"))
             recs, done = stream_steps(run_live(base, [int(cid)], live=True), on_done)
         except Exception as e:
             if _ctl(e):
@@ -679,7 +657,7 @@ def tab_case(base: dict, J: pd.DataFrame) -> None:
             replay_steps(lv["recs"])
     done = lv["done"] if lv and lv["cid"] == cid and lv["done"] is not None else saved_run(base, tuple(DEMO))
     label = "실시간 검색 결과" if lv and lv["cid"] == cid and lv["done"] is not None else f"저장된 결과 (기준일 {AS_OF})"
-    html(f'<div class="fc-note" style="margin:10px 0 4px"><span class="fc-chip k">{escape(label)}</span></div>')
+    html(f'<div style="margin:10px 0 8px"><span class="fc-src{"" if label.startswith("실시간") else " saved"}">{escape(label)}</span></div>')
     case_tables(J, int(cid), done)
 
 
@@ -695,7 +673,7 @@ def page() -> None:
         tab_batch(base, J)
     with t3:
         tab_case(base, J)
-    html(f'<div class="fc-foot">{escape(SOURCE)}</div>')
+    html(f'<div class="fc-foot">{escape(FOOT.format(v=guide_version()))}</div>')
 
 
 st.set_page_config(page_title="FitCheck 시연", layout="wide", initial_sidebar_state="collapsed")
