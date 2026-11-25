@@ -85,12 +85,18 @@ def run(as_of: str) -> dict:
                                     src="fitcheck run"), "품질 점수표 (판정기준서 v1.3)")
     # 4. 데이터셋 구역
     update_scorecard(dataset_rows(strict, corr, newlog, d4, as_of, src="fitcheck run"), "정제 데이터셋 (08)")
+    # 4b. 품질 점수 (D70): 원본, 교정판(교정 후 다시 판정), 저장된 live 결과가 있으면 그 두 기준
+    from src.score import rejudge_corrected, save_scores
+    lp = OUT / "live" / as_of / "result_n30_live.csv"
+    lres = _read(lp, keep_default_na=False) if lp.exists() else None
+    scores = save_scores(j, rejudge_corrected(cot, prod, corr, as_of), as_of, lres)
     # 5. report_numbers
     write_report_numbers(_read(OUT / "scorecard.csv", dtype=str, keep_default_na=False))
     counts = {"증권 CoT": len(j), "제외 CoT": int((j["기준③ 처리"] == "제외").sum()),
               "이관 결함 CoT": int((j["이관 판정"] == "결함").sum()), "이관 사람 확인 CoT": int((j["이관 판정"] == "사람 확인").sum()),
               "근거 카드 행": len(cards), "근거 카드 CoT": int(cards["cot_id"].nunique()),
-              "엄격판 CoT": len(strict), "교정판 CoT": len(corr), "G4 최신 기준 부적합 추천": int((g4["G4 태그"] != "").sum())}
+              "엄격판 CoT": len(strict), "교정판 CoT": len(corr), "G4 최신 기준 부적합 추천": int((g4["G4 태그"] != "").sum()),
+              **{f"품질 점수 {k}": f"{v['점수']} {v['등급']}" for k, v in scores.items()}}
     m = manifest(as_of, counts, dirty_before)
     rd = OUT / "runs" / as_of; rd.mkdir(parents=True, exist_ok=True)
     (rd / "manifest.json").write_text(json.dumps(m, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -141,6 +147,10 @@ def live_cli(a):
         elif k == "done":
             last = ev
     print("\n[결과 요약]\n" + last["summary"].to_string(index=False))
+    from src.score import data_score, live_frame
+    for b in ("데이터 기준", "최신 문서 기준"):
+        sc = data_score(live_frame(last["result"], base["j"], b))
+        print(f"[품질 점수 {b}] {sc['점수']} {sc['등급']} · 감점 " + ", ".join(f"{r['키']} {r['감점']}" for _, r in sc["항목"].iterrows()))
     d = save_run(last, a.as_of, len(ids), not a.saved)
     print(f"\n파이프라인 {last['seconds']}초, 전체 {round(time.time() - t0, 1)}초. 저장: {d}")
 
