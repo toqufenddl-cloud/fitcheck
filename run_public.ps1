@@ -36,7 +36,11 @@ $appArgs = @("-X", "utf8", "-m", "streamlit", "run", "app/fitcheck_public.py",
     "--server.address", "127.0.0.1", "--server.port", "$Port", "--server.headless", "true",
     "--client.showErrorDetails", "none", "--client.toolbarMode", "minimal",
     "--server.fileWatcherType", "none", "--server.runOnSave", "false",
-    "--browser.gatherUsageStats", "false", "--browser.serverAddress", $Domain, "--browser.serverPort", "443")
+    "--browser.gatherUsageStats", "false",
+    # 보고서 스타일 테마 (로컬 앱 테마인 .streamlit/config.toml은 그대로 두고 여기서만 덮는다)
+    "--theme.base", "light", "--theme.backgroundColor", "#F5F2EA", "--theme.secondaryBackgroundColor", "#FBF9F3",
+    "--theme.textColor", "#111111", "--theme.primaryColor", "#FF5A1F", "--theme.font", "sans serif",
+    "--theme.borderColor", "#D8D1C2", "--theme.linkColor", "#C2410C", "--theme.baseRadius", "none", "--browser.serverAddress", $Domain, "--browser.serverPort", "443")
 $app = Start-Process -FilePath $Py -ArgumentList $appArgs -WorkingDirectory $Root -PassThru -WindowStyle Minimized
 Write-Host "앱 시작 (pid $($app.Id)), 응답 기다리는 중..."
 $ok = $false
