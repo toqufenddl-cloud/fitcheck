@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>FitCheck 진단 결과</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6FA;word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+h2,div,span{word-break:keep-all}
+main div,main h2{text-wrap:pretty}
+a{color:#1E3A8A}a:hover{color:#172554}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans KR', system-ui, sans-serif; color: #0F172A; background: #F4F6FA; min-height: 100%;">
+
+  <header style="background: #13213D; color: #FFFFFF; padding: 20px 32px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div style="width: 40px; height: 40px; border-radius: 10px; background: #2F6FED; display: flex; align-items: center; justify-content: center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>
+      </div>
+      <div>
+        <div style="font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">FitCheck</div>
+        <div style="font-size: 13px; color: #B8C4DC;">금융상품 추천 학습 데이터 품질 진단</div>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px;">
+      <span style="background: #1F3159; padding: 6px 12px; border-radius: 999px;">기준일 2026-11-24</span>
+      <span style="background: #1F3159; padding: 6px 12px; border-radius: 999px;">증권 CoT 7,201건</span>
+      <span style="background: #1F3159; padding: 6px 12px; border-radius: 999px;">기준 문서 3종 · 판정기준서 v1.3</span>
+    </div>
+  </header>
+
+  <nav aria-label="화면 전환" style="background: #FFFFFF; border-bottom: 1px solid #DCE2EC; padding: 0 32px; display: flex; flex-wrap: wrap; gap: 4px;">
+    <a href="#" style="padding: 14px 18px; font-size: 15px; font-weight: 700; color: #13213D; text-decoration: none; border-bottom: 3px solid #2F6FED;">진단 결과</a>
+    <a href="#" style="padding: 14px 18px; font-size: 15px; color: #4A5568; text-decoration: none; border-bottom: 3px solid transparent;">실시간 분석</a>
+    <a href="#" style="padding: 14px 18px; font-size: 15px; color: #4A5568; text-decoration: none; border-bottom: 3px solid transparent;">사례 보기</a>
+    <a href="#" style="padding: 14px 18px; font-size: 15px; color: #4A5568; text-decoration: none; border-bottom: 3px solid transparent;">전체 데이터</a>
+  </nav>
+
+  <main style="max-width: 1200px; margin: 0 auto; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px;">
+
+    <section aria-label="종합 진단" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <div style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 14px; color: #4A5568; font-weight: 500;">원본 데이터</div>
+        <div style="display: flex; align-items: baseline; gap: 10px;">
+          <span style="font-size: 56px; font-weight: 800; letter-spacing: -1.5px; line-height: 1;">73.2</span>
+          <span style="font-size: 16px; color: #4A5568;">/ 100점</span>
+        </div>
+        <div><span style="display: inline-flex; align-items: center; gap: 6px; background: #FEF3C7; color: #92400E; font-weight: 700; font-size: 15px; padding: 5px 12px; border-radius: 8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 8v5M12 17h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>보통</span></div>
+        <div style="font-size: 14px; color: #334155; line-height: 1.55;">답변 10건 중 8건이 상품의 위험등급을 제대로 설명하지 않습니다.</div>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="font-size: 14px; color: #4A5568; font-weight: 500;">FitCheck 교정판</div>
+        <div style="display: flex; align-items: baseline; gap: 10px;">
+          <span style="font-size: 56px; font-weight: 800; letter-spacing: -1.5px; line-height: 1;">94.0</span>
+          <span style="font-size: 16px; color: #4A5568;">/ 100점</span>
+          <span style="font-size: 15px; color: #1D4ED8; font-weight: 700;">+20.8</span>
+        </div>
+        <div><span style="display: inline-flex; align-items: center; gap: 6px; background: #DBEAFE; color: #1E3A8A; font-weight: 700; font-size: 15px; padding: 5px 12px; border-radius: 8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12l5 5L19 7"></path></svg>우수</span></div>
+        <div style="font-size: 14px; color: #334155; line-height: 1.55;">위험등급 문장을 넣고 부적합 추천 355건을 뺐습니다. 필수정보 누락은 남아 있습니다.</div>
+      </div>
+      <div style="background: #13213D; color: #FFFFFF; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="font-size: 14px; color: #B8C4DC; font-weight: 500;">진단 의견</div>
+        <div style="font-size: 19px; font-weight: 700; line-height: 1.45;">원본은 그대로 학습에 쓰면 안 됩니다. 교정판은 학습에 쓸 수 있지만, 필수정보가 빠진 1,442건은 데이터를 다시 받아야 합니다.</div>
+        <div style="font-size: 13px; color: #B8C4DC; line-height: 1.5;">최신 상품 등급을 반영하면 부적합 추천이 최소 약 1,200건 더 있는 것으로 추정됩니다 (표본 추정, 95% CI 545~1,847).</div>
+      </div>
+    </section>
+
+    <section aria-label="등급 구간" style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700;">등급 구간</h2>
+        <span style="font-size: 13px; color: #4A5568;">금융감독원 미스터리쇼핑 5단계 등급 차용</span>
+      </div>
+      <div style="position: relative; padding-top: 30px;">
+        <div style="position: absolute; top: 0; left: 73.2%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: #92400E; white-space: nowrap;">원본 73.2 ▾</div>
+        <div style="position: absolute; top: 0; left: 94%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: #1E3A8A; white-space: nowrap;">교정판 94.0 ▾</div>
+        <div style="display: grid; grid-template-columns: 60fr 10fr 10fr 10fr 10fr; gap: 3px; height: 14px;">
+          <div style="background: #FCA5A5; border-radius: 7px 0 0 7px;"></div>
+          <div style="background: #FDBA74;"></div>
+          <div style="background: #FCD34D;"></div>
+          <div style="background: #86EFAC;"></div>
+          <div style="background: #93C5FD; border-radius: 0 7px 7px 0;"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: 60fr 10fr 10fr 10fr 10fr; gap: 3px; margin-top: 6px; font-size: 12px; color: #334155;">
+          <div>저조 · 60 미만</div><div>미흡 · 60</div><div>보통 · 70</div><div>양호 · 80</div><div>우수 · 90</div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="항목별 점수" style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700;">항목별 점수와 감점 이유</h2>
+        <div style="display: flex; gap: 16px; font-size: 13px; color: #334155;">
+          <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 10px; border-radius: 3px; background: #94A3B8;"></span>원본</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 10px; border-radius: 3px; background: #2F6FED;"></span>교정판</span>
+        </div>
+      </div>
+      <sc-for list="{{ items }}" as="it" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: minmax(180px, 220px) minmax(0, 1fr) minmax(220px, 320px); gap: 20px; align-items: center; padding: 14px 0; border-top: 1px solid #EEF1F6;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 15px; font-weight: 700;">{{ it.name }}</div>
+            <div style="font-size: 12px; color: #4A5568;">배점 {{ it.max }}점 · {{ it.law }}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="flex: 1; height: 12px; background: #EEF1F6; border-radius: 6px; overflow: hidden;"><div style="height: 12px; background: #94A3B8; border-radius: 6px; width: {{ it.wO }}%;"></div></div>
+              <span style="width: 92px; font-size: 13px; color: #334155; text-align: right;">{{ it.ptO }} / {{ it.max }}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="flex: 1; height: 12px; background: #EEF1F6; border-radius: 6px; overflow: hidden;"><div style="height: 12px; background: #2F6FED; border-radius: 6px; width: {{ it.wC }}%;"></div></div>
+              <span style="width: 92px; font-size: 13px; color: #1E3A8A; font-weight: 700; text-align: right;">{{ it.ptC }} / {{ it.max }}</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="font-size: 13px; font-weight: 700; color: {{ it.lossColor }};">감점 {{ it.loss }}점 · 이행 {{ it.rate }}</div>
+            <div style="font-size: 13px; color: #334155; line-height: 1.5;">{{ it.why }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section aria-label="먼저 할 일" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+      <div style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 8px; background: #13213D; color: #FFFFFF; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center;">1</span><span style="font-size: 15px; font-weight: 700;">답변에 위험등급 문장 넣기</span></div>
+        <div style="font-size: 13px; color: #334155; line-height: 1.55;">감점이 가장 큰 항목 (−19.9점). 등급은 추론 단계에 있다가 답변 정리 단계에서 빠졌습니다(95%).</div>
+        <div style="font-size: 12px; font-weight: 700; color: #1D4ED8;">교정판에서 해결됨 · 문장 10,900개 추가</div>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 8px; background: #13213D; color: #FFFFFF; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center;">2</span><span style="font-size: 15px; font-weight: 700;">빠진 고객 정보 다시 받기</span></div>
+        <div style="font-size: 13px; color: #334155; line-height: 1.55;">1,442건이 목적·재산·경험 중 하나를 확인하지 않았습니다 (−3.8점). 데이터만으로는 채울 수 없습니다.</div>
+        <div style="font-size: 12px; font-weight: 700; color: #B45309;">데이터 제공처에 재요청 필요</div>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #DCE2EC; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 28px; height: 28px; border-radius: 8px; background: #13213D; color: #FFFFFF; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center;">3</span><span style="font-size: 15px; font-weight: 700;">최신 상품 등급으로 다시 검사</span></div>
+        <div style="font-size: 13px; color: #334155; line-height: 1.55;">상품 등급은 다시 매겨집니다. 표본 200개 중 등급을 찾은 상품의 41.7%가 데이터와 달랐습니다.</div>
+        <div style="font-size: 12px; font-weight: 700; color: #B45309;">실시간 분석 탭에서 확인</div>
+      </div>
+    </section>
+
+    <footer style="font-size: 12px; color: #4A5568; line-height: 1.6; padding: 0 4px;">
+      채점 방식: 금융감독원 미스터리쇼핑 방식 차용. CoT 1건을 판매 상담 1회로 보고, 항목을 지키면 배점을 주고 못 지키면 0점(일부 이행도 0점). 측정하는 5개 항목(성향 파악 영역 4개 각 7.5점, 투자 위험 설명 10점)을 100점으로 환산했습니다. 데이터: AI Hub 「금융상품·서비스 및 소비자 특성 데이터」(한국지능정보사회진흥원).
+    </footer>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const rows = [
+      { name: '① 필수정보 확인', max: 18.75, law: '금소법 제17조②', o: 0.800, c: 0.800, why: '1,442건이 목적·재산·경험 중 하나를 확인하지 않음. 교정으로 채울 수 없음' },
+      { name: '② 성향 판단 근거', max: 18.75, law: '금소법 제17조②·③', o: 0.902, c: 0.902, why: '707건이 근거 없이 성향을 확정하거나 성향 없이 추천' },
+      { name: '③ 적합한 상품 권유', max: 18.75, law: '투자권유준칙 제6조①', o: 0.951, c: 1.0, why: '355건이 성향보다 위험한 상품 추천. 교정판에서는 제외' },
+      { name: '이관 (부적합 안내)', max: 18.75, law: '투자권유준칙 제6조③', o: 0.980, c: 0.980, why: '146건이 기준 초과를 알리지 않고 그대로 추천' },
+      { name: '④ 투자 위험 설명', max: 25, law: '금소법 제19조①', o: 0.205, c: 1.0, why: '57%가 위험등급을 아예 설명하지 않고 22%는 일부만 설명' }
+    ];
+    const items = rows.map((r) => {
+      const ptO = r.max * r.o, ptC = r.max * r.c, loss = r.max - ptO;
+      return {
+        name: r.name, max: r.max, law: r.law, why: r.why,
+        ptO: ptO.toFixed(1), ptC: ptC.toFixed(1),
+        wO: (r.o * 100).toFixed(1), wC: (r.c * 100).toFixed(1),
+        loss: loss.toFixed(1), rate: (r.o * 100).toFixed(1) + '%',
+        lossColor: loss > 10 ? '#B91C1C' : (loss > 2 ? '#B45309' : '#334155')
+      };
+    });
+    return { items };
+  }
+}
+</script>
+</body>
+</html>

@@ -7,3 +7,21 @@ headless = true
 [browser]
 gatherUsageStats = false
 serverAddress = "127.0.0.1"
+
+[client]
+# 메뉴·배포 버튼 숨김 (나머지는 앱 CSS)
+toolbarMode = "minimal"
+
+# 시안 docs/design/diagnosis_mockup.html 색·글꼴
+[theme]
+base = "light"
+primaryColor = "#2F6FED"
+backgroundColor = "#F4F6FA"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#0F172A"
+linkColor = "#1E3A8A"
+borderColor = "#DCE2EC"
+baseRadius = "14px"
+font = "'Noto Sans KR', 'Malgun Gothic', sans-serif"
+headingFont = "'Noto Sans KR', 'Malgun Gothic', sans-serif"
+showWidgetBorder = true

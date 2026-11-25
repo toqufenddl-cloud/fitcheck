@@ -39,6 +39,7 @@ LLM 학습용 금융 상담·추천 데이터의 품질 진단 도구.
 | 성향 밖 등급 직접 추천, 상담사 이관 없음 | 126 CoT | 1.7% |
 | G 최신 기준 부적합 (상위 30개 상품 추천) | 16 추천 | 등급이 바뀐 상품 5개 |
 | 정제 데이터셋 (엄격판·교정판) | 각 6,828 CoT | 교정판에 ④ 등급 문장 10,900건 추가 |
+| 품질 점수 (D70, 미스터리쇼핑 방식) | 원본 73.0 보통 → 교정판 94.2 우수 | 원본 감점 최대 ④ −19.9 |
 | D61 로컬 LLM 검증 | 결함 아님 일치 14/14, 결함 검출 3/16 | → B안 |
 
 사람 확인으로 남긴 사례: 이관 문장 31 CoT, 범위 표기 손상 1 CoT, 최신 등급이 바뀐 상품 5개, 조회 명칭이 다른 상품 1개, 원천 확인이 필요한데 공식 문서로 확인하지 못한 상품 318개.
@@ -65,9 +66,9 @@ python -m src.fitcheck run --as-of 2026-11-24
 판정 → 근거 카드(`outputs/evidence_cards.csv`) → 점수표 → 엄격판·교정판 → `report_numbers.md` 순서로 실행하고, 기준일 시행 중인 규칙·범위표만 쓴다.
 실행 기록(기준일, rules.csv 해시, 기준 문서 시행일, 판정기준서 버전, git 커밋)은 `outputs/runs/<기준일>/manifest.json`에 남는다.
 
-시연 (이 컴퓨터 전용, D69): 기준 문서 검색 → 등급표 생성 → 상품 등급 실시간 조회 → 근거 조항 검색 → 적용을 단계별로 보여준다. 순서와 사례는 [`docs/demo_script.md`](docs/demo_script.md).
+시연 (이 컴퓨터 전용, D69): 진단 결과(품질 점수) 화면과, 기준 문서 검색 → 등급표 생성 → 상품 등급 실시간 조회 → 근거 조항 검색 → 적용을 단계별로 보여준다. 순서와 사례는 [`docs/demo_script.md`](docs/demo_script.md).
 ```
-streamlit run app/fitcheck_app.py
+python -m streamlit run app/fitcheck_app.py
 python -m src.fitcheck live --n 30 --as-of 2026-11-24
 ```
 
