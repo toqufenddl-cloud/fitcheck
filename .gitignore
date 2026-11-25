@@ -14,3 +14,8 @@ docs/regulations/CO-KIS/
 docs/regulations/LAW-FCPA/
 docs/regulations/REG-KOFIA/
 docs/regulations/*.pdf
+
+# 외부용 시연: 비밀번호·ngrok 도메인 (git에 올리지 않는다)
+.streamlit/secrets.toml
+ngrok.yml
+*.ngrok.yml

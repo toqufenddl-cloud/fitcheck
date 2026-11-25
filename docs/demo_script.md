@@ -53,3 +53,29 @@
 - 인터넷 끊김(프록시를 닫힌 포트로 설정): 1단계 접속 실패 → 보관본, 3단계 연속 2번 실패 후 저장값으로 계속, 끝까지 실행
 - Ollama 꺼짐(주소를 닫힌 포트로 설정): 4단계 안내 메시지 후 gold 매핑으로 대체, 끝까지 실행
 - `streamlit run app/fitcheck_app.py --server.headless true`: http://127.0.0.1:8501 응답 200, `/_stcore/health` 200
+
+## 외부용 시연 모드 (휴대폰·다른 컴퓨터에서 볼 때)
+
+로컬 앱(`app/fitcheck_app.py`)은 그대로 두고, 외부에는 `app/fitcheck_public.py`만 연다. 앱은 127.0.0.1:8501에서만 듣고 ngrok 고정 도메인이 그 앞을 잇는다.
+
+| 항목 | 외부용 모드 |
+|---|---|
+| 원문 | 원문 보기 기능 없음 (원문을 읽는 코드 경로 자체가 없다). 상품명·단계 기록·파일 경로·내려받기도 없음 |
+| 화면 출력 | 점수, 판정, 근거 조항, 시행일만 |
+| 접속 | 시작 화면 비밀번호 (`.streamlit/secrets.toml`의 `public_password`, git 제외). 세션당 5번 틀리면 1분 잠금 |
+| 상담 선택 | 시연용 cot_id만: 1547, 2365, 43, 82(모든 항목 이행), 145(필수정보 일부 미확인), 5851(근거 부족으로 성향 확정). 자유 입력·파일 업로드 없음 |
+| 실시간 검색 | 기본은 저장값 결과. '실시간 검색' 버튼은 세션당 1분에 1번, 실패하면 저장값 결과로 대신 |
+| 오류 | 일반 문구만 (`--client.showErrorDetails none`) |
+
+준비 (한 번만):
+
+1. ngrok 설치 (`winget install ngrok.ngrok` 후 `ngrok update`), ngrok 대시보드에서 authtoken 확인 후 `ngrok config add-authtoken <토큰>` (설정 파일은 `%LOCALAPPDATA%\ngrok\ngrok.yml`, 저장소 밖)
+2. `.streamlit/secrets.toml`에 `public_password = "..."`, `ngrok_domain = "<내 고정 도메인>"`
+
+실행 (로컬 앱이 8501을 쓰고 있으면 먼저 끈다):
+
+```
+powershell -ExecutionPolicy Bypass -File .\run_public.ps1
+```
+
+앱을 켜고 응답을 확인한 뒤 `ngrok http 8501 --url=<도메인>`(구버전은 `--domain`)을 연다. Ctrl+C로 터널을 닫으면 앱도 꺼진다.
